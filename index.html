@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand Planning Global Process Standardization</title>
+
+    <style>
+        /* --- 1. 溫暖專業色調變數（白底、沉穩森林綠、亮翠綠） --- */
+        :root {
+            --primary-green: #2E7D32;   /* 主色：專業森林綠（用於文字、主要標題） */
+            --accent-green: #00C853;    /* 點綴綠：亮翠綠（用於滑鼠懸停、按鈕邊框） */
+            --bg-warm-white: #FAF9F6;   /* 底色：溫暖萬那杜白 */
+            --pure-white: #FFFFFF;      /* 卡片與彈出視窗的亮白背景 */
+            --text-dark-green: #1B5E20; /* 內文深草綠 */
+            --border-soft: #E0E4E0;     /* 柔和的綠灰色邊框 */
+        }
+
+        /* --- 2. 基礎初始化設定 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-warm-white);
+            color: var(--primary-green);
+            padding: 60px 20px;
+            min-height: 100vh;
+        }
+
+        /* --- 3. 網頁大標題 --- */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        header h1 {
+            color: var(--primary-green);
+            font-size: 2.4rem;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            line-height: 1.4;
+            text-transform: uppercase;
+        }
+
+        /* --- 4. 20格按鈕 Grid 網格排版 --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* --- 5. 20格按鈕（卡片）樣式 --- */
+        .process-card {
+            background-color: var(--pure-white);
+            border: 2px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.03);
+            min-height: 140px;
+        }
+
+        /* 按鈕滑鼠滑過效果 */
+        .process-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-green);
+            box-shadow: 0 12px 24px rgba(46, 125, 50, 0.08);
+            background-color: #F4FAF4; 
+        }
+
+        .process-card .step-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            line-height: 1.4;
+        }
+
+        /* --- 6. 彈出視窗背景遮罩 --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(27, 94, 32, 0.4); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- 7. 彈出視窗主體主視窗 --- */
+        .modal-content {
+            background-color: var(--pure-white);
+            border: 1px solid var(--border-soft);
+            width: 92%;
+            max-width: 1000px; 
+            height: 85vh;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 24px 50px rgba(0,0,0,0.15);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 24px 35px;
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #F7F9F7;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2.2rem;
+            cursor: pointer;
+            color: #A0A5A0;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-green);
+        }
+
+        /* --- 8. 垂直一條龍排版（字在上、圖在下） --- */
+        .modal-body {
+            padding: 35px;
+            overflow-y: auto; 
+            flex: 1;
+            display: flex;
+            flex-direction: column; 
+            gap: 30px; 
+        }
+
+        /* --- 9. 詳細內文說明與大標題樣式 --- */
+        .process-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-dark-green);
+        }
+        
+        .process-text h4 {
+            color: var(--primary-green);
+            margin: 25px 0 6px 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-bottom: 1px dashed var(--border-soft);
+            padding-bottom: 4px;
+        }
+        
+        /* 讓第一個標題上方不要有過多的空白間距 */
+        .process-text h4:first-child {
+            margin-top: 0;
+        }
+
+        .process-text p {
+            margin-bottom: 10px;
+            font-style: italic;
+            color: #779977; /* 預填文字使用淡色，未來你補齊後可以拿掉 italic */
+        }
+
+        /* 📌 相關連結區塊樣式 */
+        .link-section {
+            margin-top: 10px;
+            padding: 15px 20px;
+            background-color: #F4FAF4;
+            border-left: 4px solid var(--primary-green);
+            border-radius: 4px 8px 8px 4px;
+        }
+
+        .link-section .link-label {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--primary-green);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .link-section a {
+            color: #007B23;
+            text-decoration: none;
+            font-weight: 600;
+            word-break: break-all;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .link-section a:hover {
+            color: var(--accent-green);
+            text-decoration: underline;
+        }
+
+        /* --- 10. 流程圖容器 --- */
+        .image-outer-wrapper {
+            background: #FAFAFA;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        /* 縮放控制按鈕列 */
+        .zoom-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background: var(--pure-white);
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .zoom-control-btn {
+            background-color: transparent;
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .zoom-control-btn:hover {
+            background-color: var(--primary-green);
+            color: var(--pure-white);
+        }
+
+        /* 流程圖專屬滾動檢視區域 */
+        .image-scroll-box {
+            overflow-y: visible;    
+            overflow-x: auto;       
+            background: #FFFFFF;
+            border: 1px solid #EEEEEE;
+            border-radius: 6px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .process-image {
+            width: 100%;            
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.2s ease; 
+            transform-origin: top center;    
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Demand Planning Global Process Standardization</h1>
+    </header>
+
+    <div class="grid-container" id="gridContainer"></div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Process Name</h2>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="process-text" id="modalText"></div>
+                
+                <div class="link-section" id="modalLinkContainer">
+                    <span class="link-label">🔗 Related Reference / Document Link:</span>
+                    <a href="#" id="modalLink" target="_blank">Click here to open reference</a>
+                </div>
+                
+                <div class="image-outer-wrapper" id="imageOuterWrapper">
+                    <div class="zoom-bar">
+                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
+                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
+                        <button class="zoom-control-btn" onclick="resetZoom()">Reset</button>
+                    </div>
+                    <div class="image-scroll-box">
+                        <img src="" alt="Process Map Diagram" class="process-image" id="processImg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // 💡 內文預設模板格式
+        const standardTemplate = "<h4>Purpose</h4><p>[Insert context here...]</p><h4>Definition</h4><p>[Insert context here...]</p><h4>Importance</h4><p>[Insert context here...]</p><h4>Logic</h4><p>[Insert context here...]</p>";
+
+        // 📝 20 個精確指定流程的資料庫
+        const stepsData = [
+            { id: 1, title: "ASP management", desc: standardTemplate, imgSrc: "images/asp_management.png", linkUrl: "" },
+            { id: 2, title: "WOH management", desc: standardTemplate, imgSrc: "images/woh_management.png", linkUrl: "" },
+            { id: 3, title: "Return Rate management", desc: standardTemplate, imgSrc: "images/return_rate.png", linkUrl: "" },
+            { id: 4, title: "DCS/SI carryover", desc: standardTemplate, imgSrc: "images/dcs_si_carryover.png", linkUrl: "" },
+            { id: 5, title: "Channel Correction", desc: standardTemplate, imgSrc: "images/channel_correction.png", linkUrl: "" },
+            { id: 6, title: "Backlog management", desc: standardTemplate, imgSrc: "images/backlog_management.png", linkUrl: "" },
+            { id: 7, title: "NPI", desc: standardTemplate, imgSrc: "images/npi.png", linkUrl: "" },
+            { id: 8, title: "PIPO", desc: standardTemplate, imgSrc: "images/pipo.png", linkUrl: "" },
+            { id: 9, title: "Event Handling", desc: standardTemplate, imgSrc: "images/event_handling.png", linkUrl: "" },
+            { id: 10, title: "Account Level Planning", desc: standardTemplate, imgSrc: "images/account_level_planning.png", linkUrl: "" },
+            { id: 11, title: "Monthly Planning", desc: standardTemplate, imgSrc: "images/monthly_planning.png", linkUrl: "" },
+            { id: 12, title: "Strategy and assumptions documentation", desc: standardTemplate, imgSrc: "images/strategy_documentation.png", linkUrl: "" },
+            { id: 13, title: "Demand Plan Frozen Window", desc: standardTemplate, imgSrc: "images/frozen_window.png", linkUrl: "" },
+            { id: 14, title: "One Page market data analysis", desc: standardTemplate, imgSrc: "images/one_page_analysis.png", linkUrl: "" },
+            { id: 15, title: "Forecast Accy deep dive", desc: standardTemplate, imgSrc: "images/forecast_accuracy.png", linkUrl: "" },
+            { id: 16, title: "Direct Shipment Process", desc: standardTemplate, imgSrc: "images/direct_shipment.png", linkUrl: "" },
+            { id: 17, title: "Plannable flag", desc: standardTemplate, imgSrc: "images/plannable_flag.png", linkUrl: "" },
+            { id: 18, title: "Forecast Consumption management", desc: standardTemplate, imgSrc: "images/forecast_consumption.png", linkUrl: "" },
+            { id: 19, title: "DTX Accessory Planning", desc: standardTemplate, imgSrc: "images/dtx_accessory.png", linkUrl: "" },
+            { id: 20, title: "Accessory Planning Criteria", desc: standardTemplate, imgSrc: "images/accessory_criteria.png", linkUrl: "" }
+        ];
+
+        // --- ⚙️ 【網頁運作核心邏輯】（不需改動） ---
+        const container = document.getElementById('gridContainer');
+        const overlay = document.getElementById('modalOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        const processImg = document.getElementById('processImg');
+        const imgOuterWrapper = document.getElementById('imageOuterWrapper');
+        const modalLinkContainer = document.getElementById('modalLinkContainer');
+        const modalLink = document.getElementById('modalLink');
+        
+        let zoomScale = 1;
+
+        // 生成首頁 20 個格子按鈕
+        stepsData.forEach(step => {
+            const card = document.createElement('div');
+            card.className = 'process-card';
+            card.innerHTML = `<div class="step-title">${step.title}</div>`;
+            card.addEventListener('click', () => openModal(step));
+            container.appendChild(card);
+        });
+
+        // 打開視窗
+        function openModal(step) {
+            modalTitle.innerText = step.title;
+            modalText.innerHTML = step.desc;
+            
+            // 處理參考連結
+            if (step.linkUrl && step.linkUrl.trim() !== "") {
+                modalLink.href = step.linkUrl;
+                modalLink.innerText = step.linkUrl;
+                modalLinkContainer.style.display = 'block';
+            } else {
+                modalLinkContainer.style.display = 'none';
+            }
+
+            // 處理流程圖圖片
+            if (step.imgSrc && step.imgSrc.trim() !== "") {
+                processImg.src = step.imgSrc;
+                imgOuterWrapper.style.display = 'flex';
+            } else {
+                imgOuterWrapper.style.display = 'none'; 
+            }
+
+            resetZoom(); 
+            overlay.classList.add('active');
+            document.querySelector('.modal-body').scrollTop = 0; // 開啟時自動置頂
+        }
+
+        // 放大縮小功能
+        function adjustZoom(amount) {
+            zoomScale += amount;
+            if (zoomScale < 0.5) zoomScale = 0.5;  
+            if (zoomScale > 3.0) zoomScale = 3.0;  
+            processImg.style.transform = `scale(${zoomScale})`;
+            
+            if (zoomScale > 1) {
+                processImg.style.width = 'auto';
+            } else {
+                processImg.style.width = '100%';
+            }
+        }
+
+        function resetZoom() {
+            zoomScale = 1;
+            processImg.style.transform = `scale(${zoomScale})`;
+            processImg.style.width = '100%';
+        }
+
+        closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+        overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
+    </script>
+</body>
+</html>
