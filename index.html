@@ -1,460 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demand Planning Global Process Standardization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demand Planning Global Process Standardization</title>
 
-    <style>
-        :root {
-            --primary-green: #2E7D32;   
-            --accent-green: #00C853;    
-            --bg-warm-white: #FAF9F6;   
-            --pure-white: #FFFFFF;      
-            --text-dark-green: #1B5E20; 
-            --border-soft: #E0E4E0;     
-        }
+    <style>
+        :root {
+            --primary-green: #2E7D32;   
+            --accent-green: #00C853;    
+            --bg-warm-white: #FAF9F6;   
+            --pure-white: #FFFFFF;      
+            --text-dark-green: #1B5E20; 
+            --border-soft: #E0E4E0;     
+        }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+        }
 
-        body {
-            background-color: var(--bg-warm-white);
-            color: var(--primary-green);
-            padding: 60px 20px;
-            min-height: 100vh;
-        }
+        body {
+            background-color: var(--bg-warm-white);
+            color: var(--primary-green);
+            padding: 60px 20px;
+            min-height: 100vh;
+        }
 
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
 
-        header h1 {
-            color: var(--primary-green);
-            font-size: 2.4rem;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            line-height: 1.4;
-            text-transform: uppercase;
-        }
+        header h1 {
+            color: var(--primary-green);
+            font-size: 2.4rem;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            line-height: 1.4;
+            text-transform: uppercase;
+        }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 24px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-        .process-card {
-            background-color: var(--pure-white);
-            border: 2px solid var(--border-soft);
-            border-radius: 14px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.03);
-            min-height: 140px;
-        }
+        .process-card {
+            background-color: var(--pure-white);
+            border: 2px solid var(--border-soft);
+            border-radius: 14px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.03);
+            min-height: 140px;
+        }
 
-        .process-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-green);
-            box-shadow: 0 12px 24px rgba(46, 125, 50, 0.08);
-            background-color: #F4FAF4; 
-        }
+        .process-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-green);
+            box-shadow: 0 12px 24px rgba(46, 125, 50, 0.08);
+            background-color: #F4FAF4; 
+        }
 
-        .process-card .step-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--primary-green);
-            line-height: 1.4;
-        }
+        .process-card .step-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            line-height: 1.4;
+        }
 
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(27, 94, 32, 0.4); 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(27, 94, 32, 0.4); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-        .modal-content {
-            background-color: var(--pure-white);
-            border: 1px solid var(--border-soft);
-            width: 92%;
-            max-width: 1000px; 
-            height: 85vh;
-            border-radius: 18px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 24px 50px rgba(0,0,0,0.15);
-            animation: slideUp 0.3s ease;
-        }
+        .modal-content {
+            background-color: var(--pure-white);
+            border: 1px solid var(--border-soft);
+            width: 92%;
+            max-width: 1000px; 
+            height: 85vh;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 24px 50px rgba(0,0,0,0.15);
+            animation: slideUp 0.3s ease;
+        }
 
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
-        .modal-header {
-            padding: 24px 35px;
-            border-bottom: 1px solid var(--border-soft);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #F7F9F7;
-        }
+        .modal-header {
+            padding: 24px 35px;
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #F7F9F7;
+        }
 
-        .modal-header h2 {
-            color: var(--primary-green);
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
+        .modal-header h2 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
 
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 2.2rem;
-            cursor: pointer;
-            color: #A0A5A0;
-            transition: color 0.2s;
-            line-height: 1;
-        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2.2rem;
+            cursor: pointer;
+            color: #A0A5A0;
+            transition: color 0.2s;
+            line-height: 1;
+        }
 
-        .close-btn:hover {
-            color: var(--accent-green);
-        }
+        .close-btn:hover {
+            color: var(--accent-green);
+        }
 
-        .modal-body {
-            padding: 35px;
-            overflow-y: auto; 
-            flex: 1;
-            display: flex;
-            flex-direction: column; 
-            gap: 30px; 
-        }
+        .modal-body {
+            padding: 35px;
+            overflow-y: auto; 
+            flex: 1;
+            display: flex;
+            flex-direction: column; 
+            gap: 30px; 
+        }
 
-        .process-text {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: var(--text-dark-green);
-        }
-        
-        .process-text h4 {
-            color: var(--primary-green);
-            margin: 25px 0 6px 0;
-            font-size: 1.25rem;
-            font-weight: 700;
-            border-bottom: 1px dashed var(--border-soft);
-            padding-bottom: 4px;
-        }
-        
-        .process-text h4:first-child {
-            margin-top: 0;
-        }
+        .process-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-dark-green);
+        }
+        
+        .process-text h4 {
+            color: var(--primary-green);
+            margin: 25px 0 6px 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-bottom: 1px dashed var(--border-soft);
+            padding-bottom: 4px;
+        }
+        
+        .process-text h4:first-child {
+            margin-top: 0;
+        }
 
-        .process-text p {
-            margin-bottom: 10px;
-        }
+        .process-text p {
+            margin-bottom: 10px;
+        }
 
-        .image-outer-wrapper {
-            background: #FAFAFA;
-            border-radius: 12px;
-            border: 1px solid var(--border-soft);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 10px;
-        }
+        .image-outer-wrapper {
+            background: #FAFAFA;
+            border-radius: 12px;
+            border: 1px solid var(--border-soft);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 10px;
+        }
 
-        .zoom-bar {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            background: var(--pure-white);
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border-soft);
-        }
+        .zoom-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background: var(--pure-white);
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-soft);
+        }
 
-        .zoom-control-btn {
-            background-color: transparent;
-            color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            padding: 6px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-        }
+        .zoom-control-btn {
+            background-color: transparent;
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
 
-        .zoom-control-btn:hover {
-            background-color: var(--primary-green);
-            color: var(--pure-white);
-        }
+        .zoom-control-btn:hover {
+            background-color: var(--primary-green);
+            color: var(--pure-white);
+        }
 
-        .image-scroll-box {
-            overflow-y: visible;    
-            overflow-x: auto;       
-            background: #FFFFFF;
-            border: 1px solid #EEEEEE;
-            border-radius: 6px;
-            padding: 10px;
-            position: relative;
-        }
+        .image-scroll-box {
+            overflow-y: visible;    
+            overflow-x: auto;       
+            background: #FFFFFF;
+            border: 1px solid #EEEEEE;
+            border-radius: 6px;
+            padding: 10px;
+            position: relative;
+        }
 
-        .process-image {
-            width: 100%;            
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            transition: transform 0.2s ease; 
-            transform-origin: top center;    
-        }
-    </style>
+        .process-image {
+            width: 100%;            
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.2s ease; 
+            transform-origin: top center;    
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <h1>Demand Planning Global Process Standardization</h1>
-    </header>
+    <header>
+        <h1>Demand Planning Global Process Standardization</h1>
+    </header>
 
-    <div class="grid-container" id="gridContainer"></div>
+    <div class="grid-container" id="gridContainer"></div>
 
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Process Name</h2>
-                <button class="close-btn" id="closeBtn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="process-text" id="modalText"></div>
-                
-                <div class="image-outer-wrapper" id="imageOuterWrapper">
-                    <div class="zoom-bar">
-                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
-                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
-                        <button class="zoom-control-btn" onclick="resetZoom()">Reset</button>
-                    </div>
-                    <div class="image-scroll-box">
-                        <img src="" alt="Process Map Diagram" class="process-image" id="processImg">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Process Name</h2>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="process-text" id="modalText"></div>
+                
+                <div class="image-outer-wrapper" id="imageOuterWrapper">
+                    <div class="zoom-bar">
+                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
+                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
+                        <button class="zoom-control-btn" onclick="resetZoom()">Reset</button>
+                    </div>
+                    <div class="image-scroll-box">
+                        <img src="" alt="Process Map Diagram" class="process-image" id="processImg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        const stepsData = [
-            {
-                id: 1,
-                title: "ASP management",
-                desc: "<h4>Purpose</h4><p> </p>",
-                imgSrc: "images/asp_management.png"
-            },
-            {
-                id: 2,
-                title: "WOH management",
-                desc: "<h4>Purpose</h4><p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency. </p><h4>Definition</h4><p>WOH (Week on Hand): Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.<br>Supercluster: The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).<br>Customer Group / Subgroup: Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).<br>Product Line(PL) / Product Group (PG): Product-based segmentation (e.g., Gaming, PWS, Canova).<br>ABC Classification: A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</p><h4>Importance</h4><p>Alignment of Financial and Operational Metrics: WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.<br>Market-Tailored Flexibility: Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</p><h4>Logic</h4><p>Multi-Dimensional Flexibility: WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.<br>Market-Practice Driven:<br>NAM: Primarily driven by Customer Group level.<br>APM / GCN: Does not strictly enforce ABC classification; certain \"C items\" may require a higher WOH target due to specific country or customer requirements to avoid stockouts.<br>Emerging Market: Retains ABC Classification as part of the core logic.<br>EURO: Tends to be managed at the Category / Product Line level.</p>",
-                imgSrc: "WOH Management @.png"
-            },
-            {
-                id: 3,
-                title: "Return Rate management",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/return_rate.png"
-            },
-            {
-                id: 4,
-                title: "DCS/SI carryover",
-                desc: "<h4>Purpose</h4><p>To ensure the Weekly Supply Plan aligns with the Quarterly Commercial Commitment by preventing unintentional loss of unfulfilled demand. 
-</p><h4>Definition</h4><p>DCS Carryover is the process of reassigning unconsumed forecasts to future periods. It prevents forecast drop when shipments do not occur as planned in a specific week, ensuring that the total quarterly commitment remains intact. </p><h4>Importance</h4><p>System Disaggregation:Although we input forecasts on a quarterly or monthly basis, the system automatically disaggregates these numbers into weekly plans for supply planning. <br>
-Preventing Forecast Erosion:If actual shipments fall short of the weekly forecast and the system simply discards the unfulfilled portion, the total demand plan will continuously shrink.<br>Example:<br>
-Quarterly Commitment: $10M<br>Situation: Shipments in the early weeks are lower than the weekly forecast.<br>Risk: Without a Carryover mechanism, the total Demand Plan might drop to $7M, even though the Sales/Commercial teams are still committed to the original $10M target.
- </p><h4>Logic</h4><p>desc: "<h4>Purpose</h4><p>DCS Carryover is not an automatic process. It requires a strategic assessment based on the following two criteria:</p><h4>1. Nature of the Demand: Delay vs. Decline</h4><p>We must determine if the unconsumed forecast is a timing issue or a demand loss:</p><ul><li><strong>Case for Carryover (Delay):</strong> If the shortfall is caused by a temporary shift—such as a customer ordering late, supply constraints, or a delayed promotional event—the volume should be carried over.</li><li><strong>Case for Reduction (Decline):</strong> If the market demand is weakening or the product has lost its competitive edge, the forecast should be revised downward instead of being carried over.</li></ul><h4>2. Market Segmentation</h4><p>The logic for Carryover varies depending on the market type:</p><p><strong>● Mature Markets: NAM, Europe, ANZ, Japan</strong></p><p>Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <em>No Carryover by Default</em>.</p><p>If a weekly forecast is 100 but actual shipment is only 50, it is highly probable that the true market demand was only 50. Carrying over the remaining volume without justification risks creating artificial demand and inventory buildup.</p><p><u>Exceptions (Criteria for Carryover):</u> Carryover is only permitted when there is clear evidence that the demand is delayed, not lost. Valid exceptions include:</p><ul><li>Large-scale Events: Significant spikes such as Prime Day or Black Friday.</li><li>Order Timing: Explicit customer delays in placing purchase orders (POs).</li><li>Supply Constraints: Production or allocation issues that prevented fulfillment.</li><li>Logistics/Shipment Delays: Goods are ready but delayed in transit.</li><li>Commercial Validation: Formal confirmation from Sales/Commercial teams that the specific demand will resurface within the quarter.</li></ul><p><strong>● Emerging Markets: APM, Greater China, Latin America, and other Emerging Markets</strong></p><p>These regions are often commitment-driven and operate under a push-based model. In these markets, the quarterly target (e.g. $10M) is a firm commercial promise. Even if shipments are slow in the early weeks, the volume is expected to be recovered through aggressive sales activities toward the end of the period. Therefore, the default logic for these regions is: <em>Carryover is Frequently Required</em>.</p><p>Demand in these markets is often backloaded, meaning it clusters at the end of the month or quarter. If a shortfall occurs early on, it does not necessarily indicate a drop in demand, but rather a delay in execution. To ensure the Quarterly Sizing remains intact, unconsumed forecasts are carried over to future weeks.</p><p><u>Common Scenarios for Carryover:</u></p><ul><li>Month-End / Quarter-End Push: Concentrated shipment efforts to meet financial targets.</li><li>Major Promotional Events: Large-scale campaigns such as the 618 Shopping Festival.</li><li>Phased Fulfillment: Slow starts that are compensated by accelerated shipments in later weeks.</li><li>Commercial Assurance: Formal confirmation that the Quarterly Commitment remains unchanged and achievable.</li></ul>",</p>",
-                imgSrc: "DCS SI Carryover@.png"
-            },
-            {
-                id: 5,
-                title: "Channel Correction",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/channel_correction.png"
-            },
-            {
-                id: 6,
-                title: "Backlog management",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/backlog_management.png"
-            },
-            {
-                id: 7,
-                title: "NPI",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/npi.png"
-            },
-            {
-                id: 8,
-                title: "PIPO",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/pipo.png"
-            },
-            {
-                id: 9,
-                title: "Event Handling",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/event_handling.png"
-            },
-            {
-                id: 10,
-                title: "Account Level Planning",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/account_level_planning.png"
-            },
-            {
-                id: 11,
-                title: "Monthly Planning",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/monthly_planning.png"
-            },
-            {
-                id: 12,
-                title: "Strategy and assumptions documentation",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/strategy_documentation.png"
-            },
-            {
-                id: 13,
-                title: "Demand Plan Frozen Window",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/frozen_window.png"
-            },
-            {
-                id: 14,
-                title: "One Page market data analysis",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/one_page_analysis.png"
-            },
-            {
-                id: 15,
-                title: "Forecast Accy deep dive",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/forecast_accuracy.png"
-            },
-            {
-                id: 16,
-                title: "Direct Shipment Process",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/direct_shipment.png"
-            },
-            {
-                id: 17,
-                title: "Plannable flag",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/plannable_flag.png"
-            },
-            {
-                id: 18,
-                title: "Forecast Consumption management",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/forecast_consumption.png"
-            },
-            {
-                id: 19,
-                title: "DTX Accessory Planning",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/dtx_accessory.png"
-            },
-            {
-                id: 20,
-                title: "Accessory Planning Criteria",
-                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
-                imgSrc: "images/accessory_criteria.png"
-            }
-        ];
+    <script>
+        const stepsData = [
+            {
+                id: 1,
+                title: "ASP management",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/asp_management.png"
+            },
+            {
+                id: 2,
+                title: "WOH management",
+                desc: "<h4>Purpose</h4><p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency. </p><h4>Definition</h4><p>WOH (Week on Hand): Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.<br>Supercluster: The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).<br>Customer Group / Subgroup: Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).<br>Product Line(PL) / Product Group (PG): Product-based segmentation (e.g., Gaming, PWS, Canova).<br>ABC Classification: A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</p><h4>Importance</h4><p>Alignment of Financial and Operational Metrics: WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.<br>Market-Tailored Flexibility: Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</p><h4>Logic</h4><p>Multi-Dimensional Flexibility: WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.<br>Market-Practice Driven:<br>NAM: Primarily driven by Customer Group level.<br>APM / GCN: Does not strictly enforce ABC classification; certain 'C items' may require a higher WOH target due to specific country or customer requirements to avoid stockouts.<br>Emerging Market: Retains ABC Classification as part of the core logic.<br>EURO: Tends to be managed at the Category / Product Line level.</p>",
+                imgSrc: "WOH_Management.png"
+            },
+            {
+                id: 3,
+                title: "Return Rate management",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/return_rate.png"
+            },
+            {
+                id: 4,
+                title: "DCS/SI carryover",
+                desc: "<h4>Purpose</h4><p>To ensure the Weekly Supply Plan aligns with the Quarterly Commercial Commitment by preventing unintentional loss of unfulfilled demand.</p><h4>Definition</h4><p>DCS Carryover is the process of reassigning unconsumed forecasts to future periods. It prevents forecast drop when shipments do not occur as planned in a specific week, ensuring that the total quarterly commitment remains intact.</p><h4>Importance</h4><p>System Disaggregation: Although we input forecasts on a quarterly or monthly basis, the system automatically disaggregates these numbers into weekly plans for supply planning.<br>Preventing Forecast Erosion: If actual shipments fall short of the weekly forecast and the system simply discards the unfulfilled portion, the total demand plan will continuously shrink.<br>Example:<br>Quarterly Commitment: $10M<br>Situation: Shipments in the early weeks are lower than the weekly forecast.<br>Risk: Without a Carryover mechanism, the total Demand Plan might drop to $7M, even though the Sales/Commercial teams are still committed to the original $10M target.</p><h4>Strategic Assessment Criteria</h4><p>DCS Carryover is not an automatic process. It requires a strategic assessment based on the following two criteria:</p><h4>1. Nature of the Demand: Delay vs. Decline</h4><p>We must determine if the unconsumed forecast is a timing issue or a demand loss:</p><ul><li><strong>Case for Carryover (Delay):</strong> If the shortfall is caused by a temporary shift—such as a customer ordering late, supply constraints, or a delayed promotional event—the volume should be carried over.</li><li><strong>Case for Reduction (Decline):</strong> If the market demand is weakening or the product has lost its competitive edge, the forecast should be revised downward instead of being carried over.</li></ul><h4>2. Market Segmentation</h4><p>The logic for Carryover varies depending on the market type:</p><p><strong>● Mature Markets: NAM, Europe, ANZ, Japan</strong></p><p>Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <em>No Carryover by Default</em>.</p><p>If a weekly forecast is 100 but actual shipment is only 50, it is highly probable that the true market demand was only 50. Carrying over the remaining volume without justification risks creating artificial demand and inventory buildup.</p><p><u>Exceptions (Criteria for Carryover):</u> Carryover is only permitted when there is clear evidence that the demand is delayed, not lost. Valid exceptions include:</p><ul><li>Large-scale Events: Significant spikes such as Prime Day or Black Friday.</li><li>Order Timing: Explicit customer delays in placing purchase orders (POs).</li><li>Supply Constraints: Production or allocation issues that prevented fulfillment.</li><li>Logistics/Shipment Delays: Goods are ready but delayed in transit.</li><li>Commercial Validation: Formal confirmation from Sales/Commercial teams that the specific demand will resurface within the quarter.</li></ul><p><strong>● Emerging Markets: APM, Greater China, Latin America, and other Emerging Markets</strong></p><p>These regions are often commitment-driven and operate under a push-based model. In these markets, the quarterly target (e.g. $10M) is a firm commercial promise. Even if shipments are slow in the early weeks, the volume is expected to be recovered through aggressive sales activities toward the end of the period. Therefore, the default logic for these regions is: <em>Carryover is Frequently Required</em>.</p><p>Demand in these markets is often backloaded, meaning it clusters at the end of the month or quarter. If a shortfall occurs early on, it does not necessarily indicate a drop in demand, but rather a delay in execution. To ensure the Quarterly Sizing remains intact, unconsumed forecasts are carried over to future weeks.</p><p><u>Common Scenarios for Carryover:</u></p><ul><li>Month-End / Quarter-End Push: Concentrated shipment efforts to meet financial targets.</li><li>Major Promotional Events: Large-scale campaigns such as the 618 Shopping Festival.</li><li>Phased Fulfillment: Slow starts that are compensated by accelerated shipments in later weeks.</li><li>Commercial Assurance: Formal confirmation that the Quarterly Commitment remains unchanged and achievable.</li></ul>",
+                imgSrc: "DCS_SI_Carryover.png"
+            },
+            {
+                id: 5,
+                title: "Channel Correction",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/channel_correction.png"
+            },
+            {
+                id: 6,
+                title: "Backlog management",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/backlog_management.png"
+            },
+            {
+                id: 7,
+                title: "NPI",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/npi.png"
+            },
+            {
+                id: 8,
+                title: "PIPO",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/pipo.png"
+            },
+            {
+                id: 9,
+                title: "Event Handling",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/event_handling.png"
+            },
+            {
+                id: 10,
+                title: "Account Level Planning",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/account_level_planning.png"
+            },
+            {
+                id: 11,
+                title: "Monthly Planning",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/monthly_planning.png"
+            },
+            {
+                id: 12,
+                title: "Strategy and assumptions documentation",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/strategy_documentation.png"
+            },
+            {
+                id: 13,
+                title: "Demand Plan Frozen Window",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/frozen_window.png"
+            },
+            {
+                id: 14,
+                title: "One Page market data analysis",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/one_page_analysis.png"
+            },
+            {
+                id: 15,
+                title: "Forecast Accy deep dive",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/forecast_accuracy.png"
+            },
+            {
+                id: 16,
+                title: "Direct Shipment Process",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/direct_shipment.png"
+            },
+            {
+                id: 17,
+                title: "Plannable flag",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/plannable_flag.png"
+            },
+            {
+                id: 18,
+                title: "Forecast Consumption management",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/forecast_consumption.png"
+            },
+            {
+                id: 19,
+                title: "DTX Accessory Planning",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/dtx_accessory.png"
+            },
+            {
+                id: 20,
+                title: "Accessory Planning Criteria",
+                desc: "<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>",
+                imgSrc: "images/accessory_criteria.png"
+            }
+        ];
 
-        const container = document.getElementById('gridContainer');
-        const overlay = document.getElementById('modalOverlay');
-        const closeBtn = document.getElementById('closeBtn');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalText = document.getElementById('modalText');
-        const processImg = document.getElementById('processImg');
-        const imgOuterWrapper = document.getElementById('imageOuterWrapper');
-        
-        let zoomScale = 1;
+        const container = document.getElementById('gridContainer');
+        const overlay = document.getElementById('modalOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        const processImg = document.getElementById('processImg');
+        const imgOuterWrapper = document.getElementById('imageOuterWrapper');
+        
+        let zoomScale = 1;
 
-        stepsData.forEach(step => {
-            const card = document.createElement('div');
-            card.className = 'process-card';
-            card.innerHTML = `<div class="step-title">${step.title}</div>`;
-            card.addEventListener('click', () => openModal(step));
-            container.appendChild(card);
-        });
+        stepsData.forEach(step => {
+            const card = document.createElement('div');
+            card.className = 'process-card';
+            card.innerHTML = `<div class="step-title">${step.title}</div>`;
+            card.addEventListener('click', () => openModal(step));
+            container.appendChild(card);
+        });
 
-        function openModal(step) {
-            modalTitle.innerText = step.title;
-            modalText.innerHTML = step.desc;
+        function openModal(step) {
+            modalTitle.innerText = step.title;
+            modalText.innerHTML = step.desc;
 
-            if (step.imgSrc && step.imgSrc.trim() !== "") {
-                processImg.src = step.imgSrc;
-                imgOuterWrapper.style.display = 'flex';
-            } else {
-                imgOuterWrapper.style.display = 'none'; 
-            }
+            if (step.imgSrc && step.imgSrc.trim() !== "") {
+                processImg.src = step.imgSrc;
+                imgOuterWrapper.style.display = 'flex';
+            } else {
+                imgOuterWrapper.style.display = 'none'; 
+            }
 
-            resetZoom(); 
-            overlay.classList.add('active');
-            document.querySelector('.modal-body').scrollTop = 0; 
-        }
+            resetZoom(); 
+            overlay.classList.add('active');
+            document.querySelector('.modal-body').scrollTop = 0; 
+        }
 
-        function adjustZoom(amount) {
-            zoomScale += amount;
-            if (zoomScale < 0.5) zoomScale = 0.5;  
-            if (zoomScale > 3.0) zoomScale = 3.0;  
-            processImg.style.transform = `scale(${zoomScale})`;
-            
-            if (zoomScale > 1) {
-                processImg.style.width = 'auto';
-            } else {
-                processImg.style.width = '100%';
-            }
-        }
+        function adjustZoom(amount) {
+            zoomScale += amount;
+            if (zoomScale < 0.5) zoomScale = 0.5;  
+            if (zoomScale > 3.0) zoomScale = 3.0;  
+            processImg.style.transform = `scale(${zoomScale})`;
+            
+            if (zoomScale > 1) {
+                processImg.style.width = 'auto';
+            } else {
+                processImg.style.width = '100%';
+            }
+        }
 
-        function resetZoom() {
-            zoomScale = 1;
-            processImg.style.transform = `scale(${zoomScale})`;
-            processImg.style.width = '100%';
-        }
+        function resetZoom() {
+            zoomScale = 1;
+            processImg.style.transform = `scale(${zoomScale})`;
+            processImg.style.width = '100%';
+        }
 
-        closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
-        overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
-    </script>
+        closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+        overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
+    </script>
 </body>
-</html>為何又變白了
+</html>
