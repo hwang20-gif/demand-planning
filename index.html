@@ -293,7 +293,6 @@
 
     <div class="grid-container" id="gridContainer"></div>
 
-    <!-- 🤖 一站式內嵌 Logi Q 視窗元件 -->
     <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖</button>
 
     <div class="ai-chat-window" id="aiChatWindow">
@@ -301,7 +300,6 @@
             <span>Logi Q 智慧助理</span>
             <button style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;" onclick="toggleAIChat()">×</button>
         </div>
-        <!-- 成功內嵌你的 Logi Q 專屬安全分享連結 -->
         <iframe src="https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054" style="width: 100%; height: 100%; border: none;"></iframe>
     </div>
 
@@ -507,6 +505,12 @@
 
         closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
         overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
+
+        // 🤖 控制右下角 Logi Q 對話視窗開關的核心函式 (之前漏掉這個，所以點了沒用)
+        function toggleAIChat() {
+            const win = document.getElementById('aiChatWindow');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        }
     </script>
 </body>
 </html>
