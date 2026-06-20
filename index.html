@@ -213,4 +213,294 @@
             border: 1px solid var(--border-soft);
         }
 
-        .zoom-
+        .zoom-control-btn {
+            background-color: transparent;
+            color: var(--primary-green);
+            border: 1px solid var(--primary-green);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .zoom-control-btn:hover {
+            background-color: var(--primary-green);
+            color: var(--pure-white);
+        }
+
+        /* ✏️ 一鍵跳轉後台編輯按鈕 */
+        .edit-doc-btn {
+            background-color: var(--primary-green) !important;
+            color: white !important;
+            border: 1px solid var(--primary-green) !important;
+        }
+        .edit-doc-btn:hover {
+            background-color: #1B5E20 !important;
+        }
+
+        .image-scroll-box {
+            overflow-y: visible;    
+            overflow-x: auto;       
+            background: #FFFFFF;
+            border: 1px solid #EEEEEE;
+            border-radius: 6px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .process-image {
+            width: 100%;            
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            transition: transform 0.2s ease; 
+            transform-origin: top center;    
+        }
+
+        /* 🤖 Logi Q 右下角浮動按鈕樣式 */
+        .ai-chat-trigger {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(46,125,50,0.3);
+            z-index: 2000;
+            transition: transform 0.2s;
+        }
+        .ai-chat-trigger:hover { transform: scale(1.05); }
+
+        /* 💬 GitHub 官方 Q&A 面板容器 */
+        .discussion-box {
+            margin-top: 20px;
+            padding-top: 25px;
+            border-top: 2px solid var(--border-soft);
+        }
+        .discussion-box h3 {
+            font-size: 1.3rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Demand Planning Global Process Standardization</h1>
+    </header>
+
+    <div class="grid-container" id="gridContainer"></div>
+
+    <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖</button>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Process Name</h2>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="modal-toolbar">
+                    <div class="toolbar-group" id="imageZoomTools">
+                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
+                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
+                        <button class="zoom-control-btn" onclick="resetZoom()">Reset View</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button class="zoom-control-btn edit-doc-btn" id="editDocBtn" onclick="openGoogleDocEditor()">✏️ Edit Google Doc</button>
+                    </div>
+                </div>
+
+                <div class="docs-iframe-container" id="docsContainer">
+                    <iframe src="" class="docs-iframe" id="docsIframe"></iframe>
+                </div>
+                
+                <div class="image-outer-wrapper" id="imageOuterWrapper">
+                    <div class="zoom-bar">
+                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
+                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
+                        <button class="zoom-control-btn" onclick="resetZoom()">Reset</button>
+                    </div>
+                    <div class="image-scroll-box">
+                        <img src="" alt="Process Map Diagram" class="process-image" id="processImg">
+                    </div>
+                </div>
+
+                <div class="discussion-box">
+                    <h3>💬 Process Q&A & Threaded Discussions</h3>
+                    <div id="giscusContainer"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stepsData = [
+            { 
+                id: 1, 
+                title: "ASP management", 
+                docUrl: "https://docs.google.com/document/d/e/這裡填入_ASP文件_發布到網路ID/pub", 
+                editUrl: "https://docs.google.com/document/d/這裡填入_ASP文件_原本後台編輯網址/edit", 
+                imgSrc: "ASP management@.png" 
+            },
+            { 
+                id: 2, 
+                title: "WOH management", 
+                docUrl: "https://docs.google.com/document/d/e/這裡填入_WOH文件_發布到網路ID/pub", 
+                editUrl: "https://docs.google.com/document/d/這裡填入_WOH文件_原本後台編輯網址/edit", 
+                imgSrc: "WOH Management @.png" 
+            },
+            { 
+                id: 3, 
+                title: "Return Rate management", 
+                docUrl: "https://docs.google.com/document/d/e/這裡填入文件_發布到網路ID/pub", 
+                editUrl: "https://docs.google.com/document/d/這裡填入文件_原本後台編輯網址/edit", 
+                imgSrc: "Return Rate management@.png" 
+            },
+            { 
+                id: 4, 
+                title: "DCS/SI carryover", 
+                docUrl: "https://docs.google.com/document/d/e/2PACX-1vQykPXV3JyhhhOIMEO1TJhltMCpOqbZ3kjdL8zhoFaaAld9DOE44aU6QBJRjUfLzR2GbOTD0JrSYSCI/pub", 
+                editUrl: "https://docs.google.com/document/d/1V3RCdP_6TSkLc8WPpcx8EM1K7YEAZcO214qX9gRpTcA/edit?usp=sharing", 
+                imgSrc: "DCS SI Carryover@.png" 
+            },
+            { id: 5, title: "Channel Correction", docUrl: "", editUrl: "", imgSrc: "Channel Correction@.png" },
+            { id: 6, title: "Backlog management", docUrl: "", editUrl: "", imgSrc: "Backlog management@.png" },
+            { id: 7, title: "NPI", docUrl: "", editUrl: "", imgSrc: "NPI@.drawio (2).png" },
+            { id: 8, title: "PIPO", docUrl: "", editUrl: "", imgSrc: "PIPO@.drawio (3).png" },
+            { id: 9, title: "Event Handling", docUrl: "", editUrl: "", imgSrc: "Event Handling@.drawio (1).png" },
+            { id: 10, title: "Account Level Planning", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 11, title: "Monthly Planning", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 12, title: "Strategy and assumptions documentation", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 13, title: "Demand Plan Frozen Window", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 14, title: "One Page market data analysis", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 15, title: "Forecast Accy deep dive", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 16, title: "Direct Shipment Process", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 17, title: "Plannable flag", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 18, title: "Forecast Consumption management", docUrl: "", editUrl: "", imgSrc: "" },
+            { id: 19, title: "DTX Accessory Planning", docUrl: "", editUrl: "", imgSrc: "DTX @.drawio (1).png" },
+            { id: 20, title: "Accessory Planning Criteria", docUrl: "", editUrl: "", imgSrc: "" }
+        ];
+
+        const container = document.getElementById('gridContainer');
+        const overlay = document.getElementById('modalOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const docsContainer = document.getElementById('docsContainer');
+        const docsIframe = document.getElementById('docsIframe');
+        const processImg = document.getElementById('processImg');
+        const imgOuterWrapper = document.getElementById('imageOuterWrapper');
+        
+        let zoomScale = 1;
+        let currentActiveEditUrl = ""; 
+
+        stepsData.forEach(step => {
+            const card = document.createElement('div');
+            card.className = 'process-card';
+            card.innerHTML = `<div class="step-title">${step.title}</div>`;
+            card.addEventListener('click', () => openModal(step));
+            container.appendChild(card);
+        });
+
+        function openModal(step) {
+            modalTitle.innerText = step.title;
+            currentActiveEditUrl = step.editUrl; 
+
+            if (step.docUrl && step.docUrl.trim() !== "") {
+                docsIframe.src = step.docUrl;
+                docsContainer.style.display = 'block';
+            } else {
+                docsIframe.src = "about:blank";
+                docsContainer.style.display = 'none';
+            }
+
+            if (step.editUrl && step.editUrl.trim() !== "") {
+                document.getElementById('editDocBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('editDocBtn').style.display = 'none';
+            }
+
+            if (step.imgSrc && step.imgSrc.trim() !== "") {
+                processImg.src = step.imgSrc;
+                imgOuterWrapper.style.display = 'flex';
+                document.getElementById('imageZoomTools').style.display = 'flex';
+            } else {
+                imgOuterWrapper.style.display = 'none'; 
+                document.getElementById('imageZoomTools').style.display = 'none';
+            }
+
+            loadGithubDiscussions(step.title);
+
+            resetZoom(); 
+            overlay.classList.add('active');
+            document.querySelector('.modal-body').scrollTop = 0; 
+        }
+
+        function openGoogleDocEditor() {
+            if (currentActiveEditUrl && currentActiveEditUrl.trim() !== "") {
+                window.open(currentActiveEditUrl, '_blank');
+            } else {
+                alert("No editor link assigned to this process.");
+            }
+        }
+
+        function adjustZoom(amount) {
+            zoomScale += amount;
+            if (zoomScale < 0.5) zoomScale = 0.5;  
+            if (zoomScale > 3.0) zoomScale = 3.0;  
+            processImg.style.transform = `scale(${zoomScale})`;
+            processImg.style.width = (zoomScale > 1) ? 'auto' : '100%';
+        }
+
+        function resetZoom() {
+            zoomScale = 1;
+            processImg.style.transform = `scale(${zoomScale})`;
+            processImg.style.width = '100%';
+        }
+
+        closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+        overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
+
+        function toggleAIChat() {
+            window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
+        }
+
+        function loadGithubDiscussions(processTitle) {
+            const container = document.getElementById('giscusContainer');
+            container.innerHTML = ''; 
+
+            const script = document.createElement('script');
+            script.src = "https://giscus.app/client.js";
+            
+            script.setAttribute("data-repo", "wlee5-design/demand-planning"); 
+            script.setAttribute("data-repo-id", "R_kgDOS99Z8A");
+            script.setAttribute("data-category", "Q&A");
+            script.setAttribute("data-category-id", "DIC_kwDOS99Z8M4C_h01");
+            
+            script.setAttribute("data-mapping", "specific");
+            script.setAttribute("data-term", processTitle);
+            
+            script.setAttribute("data-strict", "1");
+            script.setAttribute("data-reactions-enabled", "1");
+            script.setAttribute("data-emit-metadata", "0");
+            script.setAttribute("data-input-position", "bottom");
+            script.setAttribute("data-theme", "light");
+            script.setAttribute("data-lang", "en");
+            script.crossOrigin = "anonymous";
+            script.async = true;
+
+            container.appendChild(script);
+        }
+    </script>
+</body>
+</html>
