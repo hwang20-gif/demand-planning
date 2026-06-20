@@ -259,7 +259,7 @@
         }
         .ai-chat-trigger:hover { transform: scale(1.05); }
 
-        /* 💬 流程內部專屬討論區樣式 */
+        /* 💬 流程內部專屬討論區樣式 (英文版) */
         .discussion-box {
             margin-top: 20px;
             padding-top: 25px;
@@ -282,8 +282,8 @@
         }
 
         .search-comments-input {
-            flex: 1;
-            padding: 8px 15px;
+            width: 100%;
+            padding: 10px 18px;
             border: 1px solid var(--border-soft);
             border-radius: 20px;
             outline: none;
@@ -345,13 +345,13 @@
 
         .comment-input {
             flex: 1;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border: 1px solid var(--border-soft);
             border-radius: 8px;
             outline: none;
             font-size: 0.95rem;
             resize: none;
-            height: 42px;
+            height: 45px;
         }
 
         .comment-input:focus {
@@ -362,10 +362,11 @@
             background-color: var(--primary-green);
             color: white;
             border: none;
-            padding: 0 20px;
+            padding: 0 24px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 0.95rem;
             transition: background 0.2s;
         }
 
@@ -382,7 +383,6 @@
 
     <div class="grid-container" id="gridContainer"></div>
 
-    <!-- 🤖 點擊按鈕直接外跳開啟 Logitech 內部安全的 Logi Q 官方分頁 -->
     <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖</button>
 
     <div class="modal-overlay" id="modalOverlay">
@@ -405,24 +405,19 @@
                     </div>
                 </div>
 
-                <!-- 💬 每個流程卡片專屬的討論區區塊 -->
                 <div class="discussion-box">
-                    <h3>💬 流程發問與反饋討論區</h3>
+                    <h3>💬 Process Q&A & Feedback Community</h3>
                     
-                    <!-- 搜尋討論欄位 -->
                     <div class="search-comments-bar">
-                        <input type="text" class="search-comments-input" id="commentSearchInput" placeholder="🔍 輸入關鍵字篩選此流程之前的討論歷史..." oninput="filterComments()">
+                        <input type="text" class="search-comments-input" id="commentSearchInput" placeholder="🔍 Search previous discussions or keywords for this process..." oninput="filterComments()">
                     </div>
 
-                    <!-- 歷史留言清單 -->
                     <div class="comments-list" id="commentsList">
-                        <!-- 留言將由 JavaScript 動態渲染到這裡 -->
-                    </div>
+                        </div>
 
-                    <!-- 發表新留言欄位 -->
                     <div class="input-comment-area">
-                        <input type="text" class="comment-input" id="newCommentInput" placeholder="寫下你對此流程的疑問或優化建議..." onkeypress="handleCommentPress(event)">
-                        <button class="comment-submit-btn" onclick="submitComment()">送出</button>
+                        <input type="text" class="comment-input" id="newCommentInput" placeholder="Type your operational questions or process feedback here..." onkeypress="handleCommentPress(event)">
+                        <button class="comment-submit-btn" onclick="submitComment()">Submit</button>
                     </div>
                 </div>
 
@@ -441,7 +436,7 @@
             {
                 id: 2,
                 title: "WOH management",
-                desc: `<h4>Purpose</h4><p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency. </p><h4>Definition</h4><p>WOH (Week on Hand): Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.<br>Supercluster: The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).<br>Customer Group / Subgroup: Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).<br>Product Line(PL) / Product Group (PG): Product-based segmentation (e.g., Gaming, PWS, Canova).<br>ABC Classification: A framework that categorizes products into A, B, or C levels based Dum strategic importance, typically driven by sales volume or value contribution.</p><h4>Importance</h4><p>Alignment of Financial and Operational Metrics: WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.<br>Market-Tailored Flexibility: Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</p><h4>Logic</h4><p>Multi-Dimensional Flexibility: WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.<br>Market-Practice Driven:<br>NAM: Primarily driven by Customer Group level.<br>APM / GCN: Does not strictly enforce ABC classification; certain 'C items' may require a higher WOH target due to specific country or customer requirements to avoid stockouts.<br>Emerging Market: Retains ABC Classification as part of the core logic.<br>EURO: Tends to be managed at the Category / Product Line level.</p>`,
+                desc: `<h4>Purpose</h4><p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency. </p><h4>Definition</h4><p>WOH (Week on Hand): Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.<br>Supercluster: The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).<br>Customer Group / Subgroup: Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).<br>Product Line(PL) / Product Group (PG): Product-based segmentation (e.g., Gaming, PWS, Canova).<br>ABC Classification: A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</p><h4>Importance</h4><p>Alignment of Financial and Operational Metrics: WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.<br>Market-Tailored Flexibility: Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</p><h4>Logic</h4><p>Multi-Dimensional Flexibility: WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.<br>Market-Practice Driven:<br>NAM: Primarily driven by Customer Group level.<br>APM / GCN: Does not strictly enforce ABC classification; certain 'C items' may require a higher WOH target due to specific country or customer requirements to avoid stockouts.<br>Emerging Market: Retains ABC Classification as part of the core logic.<br>EURO: Tends to be managed at the Category / Product Line level.</p>`,
                 imgSrc: "WOH Management @.png"
             },
             {
@@ -568,7 +563,7 @@
         const commentSearchInput = document.getElementById('commentSearchInput');
 
         let zoomScale = 1;
-        let currentActiveStepId = null; // 用來追蹤目前開啟的是哪一個流程卡片
+        let currentActiveStepId = null;
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
@@ -579,7 +574,7 @@
         });
 
         function openModal(step) {
-            currentActiveStepId = step.id; // 記錄當前流程 ID
+            currentActiveStepId = step.id; 
             modalTitle.innerText = step.title;
             modalText.innerHTML = step.desc;
 
@@ -590,7 +585,6 @@
                 imgOuterWrapper.style.display = 'none'; 
             }
 
-            // 清空搜尋欄位並載入該流程的歷史討論內容
             commentSearchInput.value = '';
             loadComments(step.id);
 
@@ -626,33 +620,29 @@
             window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
         }
 
-        /* 💬 討論區核心邏輯 */
+        /* 💬 討論區核心邏輯 (英文版) */
 
-        // 從 localStorage 讀取並渲染留言
         function loadComments(stepId, filterKeyword = '') {
             commentsList.innerHTML = '';
             
-            // 取得對應流程的留言陣列，若無則建立空陣列
             const allStorage = JSON.parse(localStorage.getItem('dp_sop_comments')) || {};
             const stepComments = allStorage[stepId] || [];
 
-            // 根據關鍵字篩選討論內容
             const filtered = stepComments.filter(item => 
                 item.text.toLowerCase().includes(filterKeyword.toLowerCase())
             );
 
             if (filtered.length === 0) {
-                commentsList.innerHTML = `<div class="no-comments">${filterKeyword ? '查無符合關鍵字的討論內容' : '目前尚無討論，建立第一條留言吧！'}</div>`;
+                commentsList.innerHTML = `<div class="no-comments">${filterKeyword ? 'No discussions match your keyword.' : 'No discussions yet. Be the first to start the conversation!'}</div>`;
                 return;
             }
 
-            // 渲染留言清單
             filtered.forEach(comment => {
                 const item = document.createElement('div');
                 item.className = 'comment-item';
                 item.innerHTML = `
                     <div class="comment-meta">
-                        <span>👤 同事 (${comment.market || 'Global Team'})</span>
+                        <span>👤 ${comment.market || 'Logi Team Member'}</span>
                         <span>🕒 ${comment.time}</span>
                     </div>
                     <div class="comment-text">${escapeHTML(comment.text)}</div>
@@ -660,11 +650,9 @@
                 commentsList.appendChild(item);
             });
 
-            // 讓留言區自動滾動到最底部看最新留言
             commentsList.scrollTop = commentsList.scrollHeight;
         }
 
-        // 新增並儲存新留言
         function submitComment() {
             const text = newCommentInput.value.trim();
             if (!text || currentActiveStepId === null) return;
@@ -674,8 +662,8 @@
                 allStorage[currentActiveStepId] = [];
             }
 
-            // 封裝新留言資料
             const now = new Date();
+            // 轉換為標準美式/跨國時間格式 (YYYY-MM-DD HH:MM)
             const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
             
             const newComment = {
@@ -687,26 +675,22 @@
             allStorage[currentActiveStepId].push(newComment);
             localStorage.setItem('dp_sop_comments', JSON.stringify(allStorage));
 
-            // 清空輸入框並重新載入
             newCommentInput.value = '';
             loadComments(currentActiveStepId);
         }
 
-        // 監聽按下 Enter 鍵送出留言
         function handleCommentPress(e) {
             if (e.key === 'Enter') {
                 submitComment();
             }
         }
 
-        // 搜尋篩選歷史討論
         function filterComments() {
             if (currentActiveStepId === null) return;
             const keyword = commentSearchInput.value.trim();
             loadComments(currentActiveStepId, keyword);
         }
 
-        // 防止 HTML 注入的資安處理函式
         function escapeHTML(str) {
             return str.replace(/[&<>'"]/g, 
                 tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
