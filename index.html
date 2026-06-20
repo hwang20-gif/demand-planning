@@ -301,7 +301,7 @@
             height: 60px;
             font-size: 1.8rem;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(46,125,50,0.3);
+            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.3);
             z-index: 2000;
             transition: transform 0.2s;
         }
@@ -407,10 +407,39 @@
             { 
                 id: 2, 
                 title: "WOH management", 
-                editUrl: "", 
-                lucidUrl: "", 
+                editUrl: "https://docs.google.com/document/d/17B6Zf2H1yo3WEMMyjr_P9ufp7ZsYnruQMfWtJkd1F1c/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/14f54d95-586a-419f-a2d2-db04a7a3eab6/edit?viewport_loc=28%2C304%2C1781%2C818%2Ckfud8kSUKrbUF&invitationId=inv_3ccce988-a35f-41c3-8699-9ec60ee64d2e", 
                 imgSrc: "WOH Management @.png",
-                htmlContent: `<h3>1. Purpose</h3><p>請在這裡手動輸入 WOH management 的文字內容...</p>`
+                htmlContent: `
+                    <h3>🎯 Purpose</h3>
+                    <p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency.</p>
+
+                    <h3>📘 Definition & Key Terms</h3>
+                    <ul>
+                        <li><strong>WOH (Week on Hand):</strong> Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.</li>
+                        <li><strong>Supercluster:</strong> The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).</li>
+                        <li><strong>Customer Group / Subgroup:</strong> Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).</li>
+                        <li><strong>Product Line (PL) / Product Group (PG):</strong> Product-based segmentation (e.g., Gaming, PWS, Canova).</li>
+                        <li><strong>ABC Classification:</strong> A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</li>
+                    </ul>
+
+                    <h3>💡 Importance</h3>
+                    <ul>
+                        <li><strong>Alignment of Financial and Operational Metrics:</strong> WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.</li>
+                        <li><strong>Market-Tailored Flexibility:</strong> Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</li>
+                    </ul>
+
+                    <h3>⚙️ Planning Logic</h3>
+                    <p><strong>Multi-Dimensional Flexibility:</strong> WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.</p>
+                    
+                    <p><strong>Market-Practice Driven Constraints:</strong></p>
+                    <ul>
+                        <li><strong>NAM:</strong> Primarily driven by Customer Group level.</li>
+                        <li><strong>APM / GCN:</strong> Does not strictly enforce ABC classification; certain "C items" may require a higher WOH target due to specific country or customer requirements to avoid stockouts.</li>
+                        <li><strong>Emerging Market:</strong> Retains ABC Classification as part of the core logic.</li>
+                        <li><strong>EURO:</strong> Tends to be managed at the Category / Product Line level.</li>
+                    </ul>
+                `
             },
             { 
                 id: 3, 
