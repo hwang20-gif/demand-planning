@@ -259,119 +259,16 @@
         }
         .ai-chat-trigger:hover { transform: scale(1.05); }
 
-        /* 💬 流程內部專屬討論區樣式 (英文版) */
+        /* 💬 GitHub 官方 Q&A 執行緒面板容器 */
         .discussion-box {
             margin-top: 20px;
             padding-top: 25px;
             border-top: 2px solid var(--border-soft);
         }
-
         .discussion-box h3 {
             font-size: 1.3rem;
             color: var(--primary-green);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .search-comments-bar {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-comments-input {
-            width: 100%;
-            padding: 10px 18px;
-            border: 1px solid var(--border-soft);
-            border-radius: 20px;
-            outline: none;
-            font-size: 0.9rem;
-        }
-
-        .search-comments-input:focus {
-            border-color: var(--primary-green);
-        }
-
-        .comments-list {
-            max-height: 250px;
-            overflow-y: auto;
-            background: #FDFDFD;
-            border: 1px solid var(--border-soft);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .comment-item {
-            background: #FFFFFF;
-            border-left: 4px solid var(--primary-green);
-            padding: 10px 14px;
-            border-radius: 0 8px 8px 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-        }
-
-        .comment-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #777;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .comment-text {
-            font-size: 0.95rem;
-            color: #333;
-            line-height: 1.4;
-            word-break: break-all;
-        }
-
-        .no-comments {
-            font-size: 0.9rem;
-            color: #999;
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        .input-comment-area {
-            display: flex;
-            gap: 10px;
-        }
-
-        .comment-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid var(--border-soft);
-            border-radius: 8px;
-            outline: none;
-            font-size: 0.95rem;
-            resize: none;
-            height: 45px;
-        }
-
-        .comment-input:focus {
-            border-color: var(--primary-green);
-        }
-
-        .comment-submit-btn {
-            background-color: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 0 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: background 0.2s;
-        }
-
-        .comment-submit-btn:hover {
-            background-color: var(--text-dark-green);
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -406,19 +303,8 @@
                 </div>
 
                 <div class="discussion-box">
-                    <h3>💬 Process Q&A & Feedback Community</h3>
-                    
-                    <div class="search-comments-bar">
-                        <input type="text" class="search-comments-input" id="commentSearchInput" placeholder="🔍 Search previous discussions or keywords for this process..." oninput="filterComments()">
-                    </div>
-
-                    <div class="comments-list" id="commentsList">
-                        </div>
-
-                    <div class="input-comment-area">
-                        <input type="text" class="comment-input" id="newCommentInput" placeholder="Type your operational questions or process feedback here..." onkeypress="handleCommentPress(event)">
-                        <button class="comment-submit-btn" onclick="submitComment()">Submit</button>
-                    </div>
+                    <h3>💬 Process Q&A & Threaded Discussions</h3>
+                    <div id="giscusContainer"></div>
                 </div>
 
             </div>
@@ -427,126 +313,26 @@
 
     <script>
         const stepsData = [
-            {
-                id: 1,
-                title: "ASP management",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "ASP management@.png"
-            },
-            {
-                id: 2,
-                title: "WOH management",
-                desc: `<h4>Purpose</h4><p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency. </p><h4>Definition</h4><p>WOH (Week on Hand): Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.<br>Supercluster: The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).<br>Customer Group / Subgroup: Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).<br>Product Line(PL) / Product Group (PG): Product-based segmentation (e.g., Gaming, PWS, Canova).<br>ABC Classification: A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</p><h4>Importance</h4><p>Alignment of Financial and Operational Metrics: WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.<br>Market-Tailored Flexibility: Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</p><h4>Logic</h4><p>Multi-Dimensional Flexibility: WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.<br>Market-Practice Driven:<br>NAM: Primarily driven by Customer Group level.<br>APM / GCN: Does not strictly enforce ABC classification; certain 'C items' may require a higher WOH target due to specific country or customer requirements to avoid stockouts.<br>Emerging Market: Retains ABC Classification as part of the core logic.<br>EURO: Tends to be managed at the Category / Product Line level.</p>`,
-                imgSrc: "WOH Management @.png"
-            },
-            {
-                id: 3,
-                title: "Return Rate management",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "Return Rate management@.png"
-            },
-            {
-                id: 4,
-                title: "DCS/SI carryover",
-                desc: `<h4>Purpose</h4><p>To ensure the Weekly Supply Plan aligns with the Quarterly Commercial Commitment by preventing unintentional loss of unfulfilled demand.</p><h4>Definition</h4><p>DCS Carryover is the process of reassigning unconsumed forecasts to future periods. It prevents forecast drop when shipments do not occur as planned in a specific week, ensuring that the total quarterly commitment remains intact.</p><h4>Importance</h4><p>System Disaggregation: Although we input forecasts on a quarterly or monthly basis, the system automatically disaggregates these numbers into weekly plans for supply planning.<br>Preventing Forecast Erosion: If actual shipments fall short of the weekly forecast and the system simply discards the unfulfilled portion, the total demand plan will continuously shrink.<br>Example:<br>Quarterly Commitment: $10M<br>Situation: Shipments in the early weeks are lower than the weekly forecast.<br>Risk: Without a Carryover mechanism, the total Demand Plan might drop to $7M, even though the Sales/Commercial teams are still committed to the original $10M target.</p><h4>Logic</h4><p>DCS Carryover is not an automatic process. It requires a strategic assessment based on the following two criteria:</p><h4>1. Nature of the Demand: Delay vs. Decline</h4><p>We must determine if the unconsumed forecast is a timing issue or a demand loss:</p><ul><li><strong>Case for Carryover (Delay):</strong> If the shortfall is caused by a temporary shift—such as a customer ordering late, supply constraints, or a delayed promotional event—the volume should be carried over.</li><li><strong>Case for Reduction (Decline):</strong> If the market demand is weakening or the product has lost its competitive edge, the forecast should be revised downward instead of being carried over.</li></ul><h4>2. Market Segmentation</h4><p>The logic for Carryover varies depending on the market type:</p><p><strong>● Mature Markets: NAM, Europe, ANZ, Japan</strong></p><p>Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <em>No Carryover by Default</em>.</p><p>If a weekly forecast is 100 but actual shipment is only 50, it is highly probable that the true market demand was only 50. Carrying over the remaining volume without justification risks creating artificial demand and inventory buildup.</p><p><u>Exceptions (Criteria for Carryover):</u> Carryover is only permitted when there is clear evidence that the demand is delayed, not lost. Valid exceptions include:</p><ul><li>Large-scale Events: Significant spikes such as Prime Day or Black Friday.</li><li>Order Timing: Explicit customer delays in placing purchase orders (POs).</li><li>Supply Constraints: Production or allocation issues that prevented fulfillment.</li><li>Logistics/Shipment Delays: Goods are ready but delayed in transit.</li><li>Commercial Validation: Formal confirmation from Sales/Commercial teams that the specific demand will resurface within the quarter.</li></ul><p><strong>● Emerging Markets: APM, Greater China, Latin America, and other Emerging Markets</strong></p><p>These regions are often commitment-driven and operate under a push-based model. In these markets, the quarterly target (e.g. $10M) is a firm commercial promise. Even if shipments are slow in the early weeks, the volume is expected to be recovered through aggressive sales activities toward the end of the period. Therefore, the default logic for these regions is: <em>Carryover is Frequently Required</em>.</p><p>Demand in these markets is often backloaded, meaning it clusters at the end of the month or quarter. If a shortfall occurs early on, it does not necessarily indicate a drop in demand, but rather a delay in execution. To ensure the Quarterly Sizing remains intact, unconsumed forecasts are carried over to future weeks.</p><p><u>Common Scenarios for Carryover:</u></p><ul><li>Month-End / Quarter-End Push: Concentrated shipment efforts to meet financial targets.</li><li>Major Promotional Events: Large-scale campaigns such as the 618 Shopping Festival.</li><li>Phased Fulfillment: Slow starts that are compensated by accelerated shipments in later weeks.</li><li>Commercial Assurance: Formal confirmation that the Quarterly Commitment remains unchanged and achievable.</li></ul>`,
-                imgSrc: "DCS SI Carryover@.png"
-            },
-            {
-                id: 5,
-                title: "Channel Correction",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "Channel Correction@.png"
-            },
-            {
-                id: 6,
-                title: "Backlog management",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "Backlog management@.png"
-            },
-            {
-                id: 7,
-                title: "NPI",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "NPI@.drawio (2).png"
-            },
-            {
-                id: 8,
-                title: "PIPO",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "PIPO@.drawio (3).png"
-            },
-            {
-                id: 9,
-                title: "Event Handling",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "Event Handling@.drawio (1).png"
-            },
-            {
-                id: 10,
-                title: "Account Level Planning",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "" 
-            },
-            {
-                id: 11,
-                title: "Monthly Planning",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 12,
-                title: "Strategy and assumptions documentation",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 13,
-                title: "Demand Plan Frozen Window",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 14,
-                title: "One Page market data analysis",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 15,
-                title: "Forecast Accy deep dive",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 16,
-                title: "Direct Shipment Process",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 17,
-                title: "Plannable flag",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 18,
-                title: "Forecast Consumption management",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            },
-            {
-                id: 19,
-                title: "DTX Accessory Planning",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: "DTX @.drawio (1).png"
-            },
-            {
-                id: 20,
-                title: "Accessory Planning Criteria",
-                desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`,
-                imgSrc: ""
-            }
+            { id: 1, title: "ASP management", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "ASP management@.png" },
+            { id: 2, title: "WOH management", desc: `<h4>Purpose</h4><p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency. </p><h4>Definition</h4><p>WOH (Week on Hand): Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.<br>Supercluster: The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).<br>Customer Group / Subgroup: Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).<br>Product Line(PL) / Product Group (PG): Product-based segmentation (e.g., Gaming, PWS, Canova).<br>ABC Classification: A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</p><h4>Importance</h4><p>Alignment of Financial and Operational Metrics: WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.<br>Market-Tailored Flexibility: Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</p><h4>Logic</h4><p>Multi-Dimensional Flexibility: WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.<br>Market-Practice Driven:<br>NAM: Primarily driven by Customer Group level.<br>APM / GCN: Does not strictly enforce ABC classification; certain 'C items' may require a higher WOH target due to specific country or customer requirements to avoid stockouts.<br>Emerging Market: Retains ABC Classification as part of the core logic.<br>EURO: Tends to be managed at the Category / Product Line level.</p>`, imgSrc: "WOH Management @.png" },
+            { id: 3, title: "Return Rate management", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "Return Rate management@.png" },
+            { id: 4, title: "DCS/SI carryover", desc: `<h4>Purpose</h4><p>To ensure the Weekly Supply Plan aligns with the Quarterly Commercial Commitment by preventing unintentional loss of unfulfilled demand.</p><h4>Definition</h4><p>DCS Carryover is the process of reassigning unconsumed forecasts to future periods. It prevents forecast drop when shipments do not occur as planned in a specific week, ensuring that the total quarterly commitment remains intact.</p><h4>Importance</h4><p>System Disaggregation: Although we input forecasts on a quarterly or monthly basis, the system automatically disaggregates these numbers into weekly plans for supply planning.<br>Preventing Forecast Erosion: If actual shipments fall short of the weekly forecast and the system simply discards the unfulfilled portion, the total demand plan will continuously shrink.<br>Example:<br>Quarterly Commitment: $10M<br>Situation: Shipments in the early weeks are lower than the weekly forecast.<br>Risk: Without a Carryover mechanism, the total Demand Plan might drop to $7M, even though the Sales/Commercial teams are still committed to the original $10M target.</p><h4>Logic</h4><p>DCS Carryover is not an automatic process. It requires a strategic assessment based on the following two criteria:</p><h4>1. Nature of the Demand: Delay vs. Decline</h4><p>We must determine if the unconsumed forecast is a timing issue or a demand loss:</p><ul><li><strong>Case for Carryover (Delay):</strong> If the shortfall is caused by a temporary shift—such as a customer ordering late, supply constraints, or a delayed promotional event—the volume should be carried over.</li><li><strong>Case for Reduction (Decline):</strong> If the market demand is weakening or the product has lost its competitive edge, the forecast should be revised downward instead of being carried over.</li></ul><h4>2. Market Segmentation</h4><p>The logic for Carryover varies depending on the market type:</p><p><strong>● Mature Markets: NAM, Europe, ANZ, Japan</strong></p><p>Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <em>No Carryover by Default</em>.</p><p>If a weekly forecast is 100 but actual shipment is only 50, it is highly probable that the true market demand was only 50. Carrying over the remaining volume without justification risks creating artificial demand and inventory buildup.</p><p><u>Exceptions (Criteria for Carryover):</u> Carryover is only permitted when there is clear evidence that the demand is delayed, not lost. Valid exceptions include:</p><ul><li>Large-scale Events: Significant spikes such as Prime Day or Black Friday.</li><li>Order Timing: Explicit customer delays in placing purchase orders (POs).</li><li>Supply Constraints: Production or allocation issues that prevented fulfillment.</li><li>Logistics/Shipment Delays: Goods are ready but delayed in transit.</li><li>Commercial Validation: Formal confirmation from Sales/Commercial teams that the specific demand will resurface within the quarter.</li></ul><p><strong>● Emerging Markets: APM, Greater China, Latin America, and other Emerging Markets</strong></p><p>These regions are often commitment-driven and operate under a push-based model. In these markets, the quarterly target (e.g. $10M) is a firm commercial promise. Even if shipments are slow in the early weeks, the volume is expected to be recovered through aggressive sales activities toward the end of the period. Therefore, the default logic for these regions is: <em>Carryover is Frequently Required</em>.</p><p>Demand in these markets is often backloaded, meaning it clusters at the end of the month or quarter. If a shortfall occurs early on, it does not necessarily indicate a drop in demand, but rather a delay in execution. To ensure the Quarterly Sizing remains intact, unconsumed forecasts are carried over to future weeks.</p><p><u>Common Scenarios for Carryover:</u></p><ul><li>Month-End / Quarter-End Push: Concentrated shipment efforts to meet financial targets.</li><li>Major Promotional Events: Large-scale campaigns such as the 618 Shopping Festival.</li><li>Phased Fulfillment: Slow starts that are compensated by accelerated shipments in later weeks.</li><li>Commercial Assurance: Formal confirmation that the Quarterly Commitment remains unchanged and achievable.</li></ul>`, imgSrc: "DCS SI Carryover@.png" },
+            { id: 5, title: "Channel Correction", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "Channel Correction@.png" },
+            { id: 6, title: "Backlog management", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "Backlog management@.png" },
+            { id: 7, title: "NPI", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "NPI@.drawio (2).png" },
+            { id: 8, title: "PIPO", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "PIPO@.drawio (3).png" },
+            { id: 9, title: "Event Handling", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "Event Handling@.drawio (1).png" },
+            { id: 10, title: "Account Level Planning", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 11, title: "Monthly Planning", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 12, title: "Strategy and assumptions documentation", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 13, title: "Demand Plan Frozen Window", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 14, title: "One Page market data analysis", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 15, title: "Forecast Accy deep dive", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 16, title: "Direct Shipment Process", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 17, title: "Plannable flag", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 18, title: "Forecast Consumption management", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" },
+            { id: 19, title: "DTX Accessory Planning", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "DTX @.drawio (1).png" },
+            { id: 20, title: "Accessory Planning Criteria", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "" }
         ];
 
         const container = document.getElementById('gridContainer');
@@ -557,13 +343,7 @@
         const processImg = document.getElementById('processImg');
         const imgOuterWrapper = document.getElementById('imageOuterWrapper');
         
-        // 討論區相關元素
-        const commentsList = document.getElementById('commentsList');
-        const newCommentInput = document.getElementById('newCommentInput');
-        const commentSearchInput = document.getElementById('commentSearchInput');
-
         let zoomScale = 1;
-        let currentActiveStepId = null;
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
@@ -574,7 +354,6 @@
         });
 
         function openModal(step) {
-            currentActiveStepId = step.id; 
             modalTitle.innerText = step.title;
             modalText.innerHTML = step.desc;
 
@@ -585,8 +364,8 @@
                 imgOuterWrapper.style.display = 'none'; 
             }
 
-            commentSearchInput.value = '';
-            loadComments(step.id);
+            // ⚡ 核心動態載入：點開卡片時，自動帶入該 SOP 卡片的名稱作為 data-term 隔離討論
+            loadGithubDiscussions(step.title);
 
             resetZoom(); 
             overlay.classList.add('active');
@@ -598,12 +377,7 @@
             if (zoomScale < 0.5) zoomScale = 0.5;  
             if (zoomScale > 3.0) zoomScale = 3.0;  
             processImg.style.transform = `scale(${zoomScale})`;
-            
-            if (zoomScale > 1) {
-                processImg.style.width = 'auto';
-            } else {
-                processImg.style.width = '100%';
-            }
+            processImg.style.width = (zoomScale > 1) ? 'auto' : '100%';
         }
 
         function resetZoom() {
@@ -615,86 +389,38 @@
         closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
         overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
 
-        // 🤖 點擊 🤖 圖示時外跳 Logi Q 官方分頁
         function toggleAIChat() {
             window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
         }
 
-        /* 💬 討論區核心邏輯 (英文版) */
+        /* 🤖 呼叫 GitHub 官方通道，精準分流並渲染 Q&A 執行緒 */
+        function loadGithubDiscussions(processTitle) {
+            const container = document.getElementById('giscusContainer');
+            container.innerHTML = ''; // 清空舊視窗
 
-        function loadComments(stepId, filterKeyword = '') {
-            commentsList.innerHTML = '';
+            const script = document.createElement('script');
+            script.src = "https://giscus.app/client.js";
             
-            const allStorage = JSON.parse(localStorage.getItem('dp_sop_comments')) || {};
-            const stepComments = allStorage[stepId] || [];
-
-            const filtered = stepComments.filter(item => 
-                item.text.toLowerCase().includes(filterKeyword.toLowerCase())
-            );
-
-            if (filtered.length === 0) {
-                commentsList.innerHTML = `<div class="no-comments">${filterKeyword ? 'No discussions match your keyword.' : 'No discussions yet. Be the first to start the conversation!'}</div>`;
-                return;
-            }
-
-            filtered.forEach(comment => {
-                const item = document.createElement('div');
-                item.className = 'comment-item';
-                item.innerHTML = `
-                    <div class="comment-meta">
-                        <span>👤 ${comment.market || 'Logi Team Member'}</span>
-                        <span>🕒 ${comment.time}</span>
-                    </div>
-                    <div class="comment-text">${escapeHTML(comment.text)}</div>
-                `;
-                commentsList.appendChild(item);
-            });
-
-            commentsList.scrollTop = commentsList.scrollHeight;
-        }
-
-        function submitComment() {
-            const text = newCommentInput.value.trim();
-            if (!text || currentActiveStepId === null) return;
-
-            const allStorage = JSON.parse(localStorage.getItem('dp_sop_comments')) || {};
-            if (!allStorage[currentActiveStepId]) {
-                allStorage[currentActiveStepId] = [];
-            }
-
-            const now = new Date();
-            // 轉換為標準美式/跨國時間格式 (YYYY-MM-DD HH:MM)
-            const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            // 🎯 已完美對接你專屬的 wlee5-design 儲存庫參數
+            script.setAttribute("data-repo", "wlee5-design/demand-planning"); 
+            script.setAttribute("data-repo-id", "R_kgDOS99Z8A");
+            script.setAttribute("data-category", "Q&A");
+            script.setAttribute("data-category-id", "DIC_kwDOS99Z8M4C_h01");
             
-            const newComment = {
-                text: text,
-                time: timeString,
-                market: 'Logi Member'
-            };
+            // 自動將當前的「SOP 卡片名稱」綁定為唯一討論主題
+            script.setAttribute("data-mapping", "specific");
+            script.setAttribute("data-term", processTitle);
+            
+            script.setAttribute("data-strict", "1");
+            script.setAttribute("data-reactions-enabled", "1");
+            script.setAttribute("data-emit-metadata", "0");
+            script.setAttribute("data-input-position", "bottom");
+            script.setAttribute("data-theme", "light");
+            script.setAttribute("data-lang", "en");
+            script.crossOrigin = "anonymous";
+            script.async = true;
 
-            allStorage[currentActiveStepId].push(newComment);
-            localStorage.setItem('dp_sop_comments', JSON.stringify(allStorage));
-
-            newCommentInput.value = '';
-            loadComments(currentActiveStepId);
-        }
-
-        function handleCommentPress(e) {
-            if (e.key === 'Enter') {
-                submitComment();
-            }
-        }
-
-        function filterComments() {
-            if (currentActiveStepId === null) return;
-            const keyword = commentSearchInput.value.trim();
-            loadComments(currentActiveStepId, keyword);
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
+            container.appendChild(script);
         }
     </script>
 </body>
