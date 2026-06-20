@@ -346,7 +346,6 @@
 
     <script>
         const stepsData = [
-            // 🚨🚨🚨 請在下方引號中填入各流程對應的 Google Docs 連結（docUrl = 發布到網路網址，editUrl = 後台原本直接打字修改的網址） 🚨🚨🚨
             { 
                 id: 1, 
                 title: "ASP management", 
@@ -371,8 +370,8 @@
             { 
                 id: 4, 
                 title: "DCS/SI carryover", 
-                docUrl: "https://docs.google.com/document/d/e/這裡填入_DCS文件_發布到網路ID/pub", 
-                editUrl: "https://docs.google.com/document/d/這裡填入_DCS文件_原本後台編輯網址/edit", 
+                docUrl: "https://docs.google.com/document/d/e/1V3RCdP_6TSkLc8WPpcx8EM1K7YEAZcO214qX9gRpTcA/pub", 
+                editUrl: "https://docs.google.com/document/d/1V3RCdP_6TSkLc8WPpcx8EM1K7YEAZcO214qX9gRpTcA/edit?usp=sharing", 
                 imgSrc: "DCS SI Carryover@.png" 
             },
             { id: 5, title: "Channel Correction", docUrl: "", editUrl: "", imgSrc: "Channel Correction@.png" },
@@ -403,7 +402,7 @@
         const imgOuterWrapper = document.getElementById('imageOuterWrapper');
         
         let zoomScale = 1;
-        let currentActiveEditUrl = ""; // 用於暫存被點開流程的 Google Doc 後台改字網址
+        let currentActiveEditUrl = ""; 
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
@@ -415,9 +414,8 @@
 
         function openModal(step) {
             modalTitle.innerText = step.title;
-            currentActiveEditUrl = step.editUrl; // 儲存該流程的編輯連結
+            currentActiveEditUrl = step.editUrl; 
 
-            // 📄 1. 處理 Google Docs 的內嵌動態渲染
             if (step.docUrl && step.docUrl.trim() !== "") {
                 docsIframe.src = step.docUrl;
                 docsContainer.style.display = 'block';
@@ -426,14 +424,12 @@
                 docsContainer.style.display = 'none';
             }
 
-            // ✏️ 2. 控制「Edit Google Doc 按鈕」隱現 (沒填後台連結就不顯示按鈕)
             if (step.editUrl && step.editUrl.trim() !== "") {
                 document.getElementById('editDocBtn').style.display = 'inline-block';
             } else {
                 document.getElementById('editDocBtn').style.display = 'none';
             }
 
-            // 🖼️ 3. 處理卡片內流程圖圖片與縮放
             if (step.imgSrc && step.imgSrc.trim() !== "") {
                 processImg.src = step.imgSrc;
                 imgOuterWrapper.style.display = 'flex';
@@ -443,7 +439,6 @@
                 document.getElementById('imageZoomTools').style.display = 'none';
             }
 
-            // ⚡ 4. 呼叫 GitHub 官方安全通道，自動依卡片名稱載入 Q&A 獨立對話串
             loadGithubDiscussions(step.title);
 
             resetZoom(); 
@@ -451,7 +446,6 @@
             document.querySelector('.modal-body').scrollTop = 0; 
         }
 
-        /* 💡 快捷鍵核心跳轉：另開分頁直接開啟 Google Doc 編輯後台 */
         function openGoogleDocEditor() {
             if (currentActiveEditUrl && currentActiveEditUrl.trim() !== "") {
                 window.open(currentActiveEditUrl, '_blank');
@@ -481,7 +475,6 @@
             window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
         }
 
-        /* 🤖 呼叫 GitHub 官方通道，精準分流並渲染 Q&A 執行緒 */
         function loadGithubDiscussions(processTitle) {
             const container = document.getElementById('giscusContainer');
             container.innerHTML = ''; 
@@ -489,13 +482,11 @@
             const script = document.createElement('script');
             script.src = "https://giscus.app/client.js";
             
-            // 🎯 已完美綁定你專屬的 wlee5-design 儲存庫配置參數
             script.setAttribute("data-repo", "wlee5-design/demand-planning"); 
             script.setAttribute("data-repo-id", "R_kgDOS99Z8A");
             script.setAttribute("data-category", "Q&A");
             script.setAttribute("data-category-id", "DIC_kwDOS99Z8M4C_h01");
             
-            // 讓討論串以卡片名稱 (processTitle) 作為唯一分流 term
             script.setAttribute("data-mapping", "specific");
             script.setAttribute("data-term", processTitle);
             
