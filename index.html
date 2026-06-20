@@ -240,7 +240,7 @@
             transform-origin: top center;    
         }
 
-        /* 🤖 Logi Q 內嵌視窗與右下角按鈕樣式 */
+        /* 🤖 Logi Q 右下角浮動按鈕樣式 */
         .ai-chat-trigger {
             position: fixed;
             bottom: 30px;
@@ -258,31 +258,6 @@
             transition: transform 0.2s;
         }
         .ai-chat-trigger:hover { transform: scale(1.05); }
-
-        .ai-chat-window {
-            position: fixed;
-            bottom: 105px;
-            right: 30px;
-            width: 400px;
-            height: 550px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-            border: 1px solid var(--border-soft);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 2000;
-        }
-        .ai-chat-header {
-            background-color: var(--primary-green);
-            color: white;
-            padding: 15px 20px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
     </style>
 </head>
 <body>
@@ -293,15 +268,8 @@
 
     <div class="grid-container" id="gridContainer"></div>
 
+    <!-- 🤖 點擊按鈕直接外跳開啟 Logitech 內部安全的 Logi Q 官方分頁 -->
     <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖</button>
-
-    <div class="ai-chat-window" id="aiChatWindow">
-        <div class="ai-chat-header">
-            <span>Logi Q 智慧助理</span>
-            <button style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;" onclick="toggleAIChat()">×</button>
-        </div>
-        <iframe src="https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054" style="width: 100%; height: 100%; border: none;"></iframe>
-    </div>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
@@ -506,10 +474,9 @@
         closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
         overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
 
-        // 🤖 控制右下角 Logi Q 對話視窗開關的核心函式 (之前漏掉這個，所以點了沒用)
+        // 🤖 點擊 🤖 圖示時，直接幫同事外跳新分頁開啟具有員工驗證權限的 Logi Q 官方網頁
         function toggleAIChat() {
-            const win = document.getElementById('aiChatWindow');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
         }
     </script>
 </body>
