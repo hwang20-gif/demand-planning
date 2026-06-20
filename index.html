@@ -13,6 +13,7 @@
             --pure-white: #FFFFFF;      
             --text-dark-green: #1B5E20; 
             --border-soft: #E0E4E0;     
+            --lucid-blue: #2979FF; 
         }
 
         * {
@@ -160,7 +161,6 @@
             gap: 30px; 
         }
 
-        /* 📝 頂部多功能工具列 */
         .modal-toolbar {
             display: flex;
             justify-content: space-between;
@@ -176,20 +176,37 @@
             gap: 10px;
         }
 
-        /* 📄 Google Docs 內嵌網頁展示區容器 */
-        .docs-iframe-container {
-            width: 100%;
-            height: 520px; 
-            border: 1px solid var(--border-soft);
-            border-radius: 8px;
+        .text-content-area {
+            color: #333333;
+            line-height: 1.6;
+            font-size: 1.05rem;
             background: #FFFFFF;
-            overflow: hidden;
+            padding: 10px 5px;
         }
 
-        .docs-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .text-content-area h3 {
+            color: var(--primary-green);
+            margin: 20px 0 10px 0;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #E8EBE8;
+            padding-bottom: 5px;
+        }
+
+        .text-content-area h3:first-child {
+            margin-top: 0;
+        }
+
+        .text-content-area p {
+            margin-bottom: 12px;
+        }
+
+        .text-content-area ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .text-content-area li {
+            margin-bottom: 6px;
         }
 
         .image-outer-wrapper {
@@ -205,12 +222,17 @@
 
         .zoom-bar {
             display: flex;
-            justify-content: center;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
             background: var(--pure-white);
-            padding: 8px;
+            padding: 8px 15px;
             border-radius: 6px;
             border: 1px solid var(--border-soft);
+        }
+
+        .zoom-btn-group {
+            display: flex;
+            gap: 10px;
         }
 
         .zoom-control-btn {
@@ -230,7 +252,6 @@
             color: var(--pure-white);
         }
 
-        /* ✏️ 一鍵跳轉後台編輯按鈕 */
         .edit-doc-btn {
             background-color: var(--primary-green) !important;
             color: white !important;
@@ -238,6 +259,15 @@
         }
         .edit-doc-btn:hover {
             background-color: #1B5E20 !important;
+        }
+
+        .lucid-link-btn {
+            background-color: var(--lucid-blue) !important;
+            color: white !important;
+            border: 1px solid var(--lucid-blue) !important;
+        }
+        .lucid-link-btn:hover {
+            background-color: #1565C0 !important;
         }
 
         .image-scroll-box {
@@ -259,7 +289,6 @@
             transform-origin: top center;    
         }
 
-        /* 🤖 Logi Q 右下角浮動按鈕樣式 */
         .ai-chat-trigger {
             position: fixed;
             bottom: 30px;
@@ -278,7 +307,6 @@
         }
         .ai-chat-trigger:hover { transform: scale(1.05); }
 
-        /* 💬 GitHub 官方 Q&A 面板容器 */
         .discussion-box {
             margin-top: 20px;
             padding-top: 25px;
@@ -310,25 +338,26 @@
             <div class="modal-body">
                 
                 <div class="modal-toolbar">
-                    <div class="toolbar-group" id="imageZoomTools">
-                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
-                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
-                        <button class="zoom-control-btn" onclick="resetZoom()">Reset View</button>
+                    <div class="toolbar-group">
+                        <span style="font-size: 0.9rem; color: #666; font-weight: 600;">📝 Document Context</span>
                     </div>
                     <div class="toolbar-group">
                         <button class="zoom-control-btn edit-doc-btn" id="editDocBtn" onclick="openGoogleDocEditor()">✏️ Edit Google Doc</button>
                     </div>
                 </div>
 
-                <div class="docs-iframe-container" id="docsContainer">
-                    <iframe src="" class="docs-iframe" id="docsIframe"></iframe>
-                </div>
+                <div class="text-content-area" id="textContentArea"></div>
                 
                 <div class="image-outer-wrapper" id="imageOuterWrapper">
                     <div class="zoom-bar">
-                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
-                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
-                        <button class="zoom-control-btn" onclick="resetZoom()">Reset</button>
+                        <div class="zoom-btn-group">
+                            <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
+                            <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
+                            <button class="zoom-control-btn" onclick="resetZoom()">Reset</button>
+                        </div>
+                        <div>
+                            <button class="zoom-control-btn lucid-link-btn" id="lucidLinkBtn" onclick="openLucidchartLink()">📊 Open Lucidchart</button>
+                        </div>
                     </div>
                     <div class="image-scroll-box">
                         <img src="" alt="Process Map Diagram" class="process-image" id="processImg">
@@ -349,60 +378,96 @@
             { 
                 id: 1, 
                 title: "ASP management", 
-                docUrl: "https://docs.google.com/document/d/e/這裡填入_ASP文件_發布到網路ID/pub", 
-                editUrl: "https://docs.google.com/document/d/這裡填入_ASP文件_原本後台編輯網址/edit", 
-                imgSrc: "ASP management@.png" 
+                editUrl: "https://docs.google.com/document/d/1G3Soa58AG3H-IbX6xaDrlLJq1mg5dRRFubhCcTdRCTI/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/680b898a-5f3b-4c4b-9209-b582c8e9a1d1/edit?viewport_loc=105%2C-72%2C3517%2C1615%2Ct5f0BNooez5S3&invitationId=inv_269e195c-87ce-4f8a-9f89-c40413f9da37", 
+                imgSrc: "ASP management@.png",
+                htmlContent: `
+                    <h3>📌 ASP Guideline</h3>
+                    <p>Using proposed ASP with only below exceptions:</p>
+                    <ul>
+                        <li><strong>1) NPI:</strong> Use bottom up forecast ASP until runrate has been established.</li>
+                        <li><strong>2) ASP Permanent Change Communication:</strong> From Finance/GCO until proposed ASP is reflected. Likely for price actions towards competition / FX / specific situations in the market, or phase-out price.</li>
+                        <li><strong>3) CN / TW / Aus / JP:</strong> Using logimap ASP due to FX / forward expected ASP consideration.</li>
+                        <li><strong>4) Big Event ASP (Europe):</strong> From event input Verified 28th Aug. All our SOA will be sell out. DCS ASP will not be impacted.</li>
+                    </ul>
+
+                    <h3>🔍 Regular Review and Validation</h3>
+                    <ul>
+                        <li><strong>1st Week of Quarter:</strong> To be reviewed and validated before the formal demand review.</li>
+                        <li><strong>Leverage Maestro ASP Workbook Exceptions:</strong> Identify any override ASP with a <strong>&gt;5% gap</strong> to proposed ASP and fix if any.</li>
+                    </ul>
+
+                    <h3>❓ Open Questions</h3>
+                    <ul>
+                        <li>Europe using Euros ASP? — <strong>Yes</strong></li>
+                        <li>AMECA using USD ASP? — <strong>Yes</strong></li>
+                    </ul>
+                `
             },
             { 
                 id: 2, 
                 title: "WOH management", 
-                docUrl: "https://docs.google.com/document/d/e/這裡填入_WOH文件_發布到網路ID/pub", 
-                editUrl: "https://docs.google.com/document/d/這裡填入_WOH文件_原本後台編輯網址/edit", 
-                imgSrc: "WOH Management @.png" 
+                editUrl: "", 
+                lucidUrl: "", 
+                imgSrc: "WOH Management @.png",
+                htmlContent: `<h3>1. Purpose</h3><p>請在這裡手動輸入 WOH management 的文字內容...</p>`
             },
             { 
                 id: 3, 
                 title: "Return Rate management", 
-                docUrl: "https://docs.google.com/document/d/e/這裡填入文件_發布到網路ID/pub", 
-                editUrl: "https://docs.google.com/document/d/這裡填入文件_原本後台編輯網址/edit", 
-                imgSrc: "Return Rate management@.png" 
+                editUrl: "", 
+                lucidUrl: "", 
+                imgSrc: "Return Rate management@.png",
+                htmlContent: `<h3>1. Purpose</h3><p>請在這裡手動輸入 Return Rate management 的文字內容...</p>`
             },
             { 
                 id: 4, 
                 title: "DCS/SI carryover", 
-                docUrl: "https://docs.google.com/document/d/e/2PACX-1vQykPXV3JyhhhOIMEO1TJhltMCpOqbZ3kjdL8zhoFaaAld9DOE44aU6QBJRjUfLzR2GbOTD0JrSYSCI/pub", 
                 editUrl: "https://docs.google.com/document/d/1V3RCdP_6TSkLc8WPpcx8EM1K7YEAZcO214qX9gRpTcA/edit?usp=sharing", 
-                imgSrc: "DCS SI Carryover@.png" 
+                lucidUrl: "", 
+                imgSrc: "DCS SI Carryover@.png",
+                htmlContent: `
+                    <h3>1. Purpose</h3>
+                    <p>To ensure the Weekly Supply Plan aligns with the latest demand requirements by managing DCS (Demand Consensus Stage) and SI (Supply Input) carryover parameters effectively.</p>
+                    <h3>2. Definition & Key Terms</h3>
+                    <p><strong>DCS Carryover:</strong> The process of rolling over unconsumed or unfulfilled demand from previous weeks into the active planning horizon.</p>
+                    <p><strong>Mature Markets:</strong> Regions with stable, high-volume demand configurations (e.g., NAM, Europe, ANZ, Japan) requiring specific standardized synchronization.</p>
+                    <h3>3. Key Rules & Constraints</h3>
+                    <ul>
+                        <li>All carryover adjustments must be locked by Thursday end of day before the weekly supply planning cycle begins.</li>
+                        <li>Historical backlogs exceeding 4 weeks must be reviewed manually rather than automatically carried forward.</li>
+                    </ul>
+                `
             },
-            { id: 5, title: "Channel Correction", docUrl: "", editUrl: "", imgSrc: "Channel Correction@.png" },
-            { id: 6, title: "Backlog management", docUrl: "", editUrl: "", imgSrc: "Backlog management@.png" },
-            { id: 7, title: "NPI", docUrl: "", editUrl: "", imgSrc: "NPI@.drawio (2).png" },
-            { id: 8, title: "PIPO", docUrl: "", editUrl: "", imgSrc: "PIPO@.drawio (3).png" },
-            { id: 9, title: "Event Handling", docUrl: "", editUrl: "", imgSrc: "Event Handling@.drawio (1).png" },
-            { id: 10, title: "Account Level Planning", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 11, title: "Monthly Planning", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 12, title: "Strategy and assumptions documentation", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 13, title: "Demand Plan Frozen Window", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 14, title: "One Page market data analysis", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 15, title: "Forecast Accy deep dive", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 16, title: "Direct Shipment Process", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 17, title: "Plannable flag", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 18, title: "Forecast Consumption management", docUrl: "", editUrl: "", imgSrc: "" },
-            { id: 19, title: "DTX Accessory Planning", docUrl: "", editUrl: "", imgSrc: "DTX @.drawio (1).png" },
-            { id: 20, title: "Accessory Planning Criteria", docUrl: "", editUrl: "", imgSrc: "" }
+            { id: 5, title: "Channel Correction", editUrl: "", lucidUrl: "", imgSrc: "Channel Correction@.png", htmlContent: "" },
+            { id: 6, title: "Backlog management", editUrl: "", lucidUrl: "", imgSrc: "Backlog management@.png", htmlContent: "" },
+            { id: 7, title: "NPI", editUrl: "", lucidUrl: "", imgSrc: "NPI@.drawio (2).png", htmlContent: "" },
+            { id: 8, title: "PIPO", editUrl: "", lucidUrl: "", imgSrc: "PIPO@.drawio (3).png", htmlContent: "" },
+            { id: 9, title: "Event Handling", editUrl: "", lucidUrl: "", imgSrc: "Event Handling@.drawio (1).png", htmlContent: "" },
+            { id: 10, title: "Account Level Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 11, title: "Monthly Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 12, title: "Strategy and assumptions documentation", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 13, title: "Demand Plan Frozen Window", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 14, title: "One Page market data analysis", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 15, title: "Forecast Accy deep dive", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 16, title: "Direct Shipment Process", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 17, title: "Plannable flag", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 18, title: "Forecast Consumption management", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            { id: 19, title: "DTX Accessory Planning", editUrl: "", lucidUrl: "", imgSrc: "DTX @.drawio (1).png", htmlContent: "" },
+            { id: 20, title: "Accessory Planning Criteria", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" }
         ];
 
         const container = document.getElementById('gridContainer');
         const overlay = document.getElementById('modalOverlay');
         const closeBtn = document.getElementById('closeBtn');
         const modalTitle = document.getElementById('modalTitle');
-        const docsContainer = document.getElementById('docsContainer');
-        const docsIframe = document.getElementById('docsIframe');
+        const textContentArea = document.getElementById('textContentArea');
         const processImg = document.getElementById('processImg');
         const imgOuterWrapper = document.getElementById('imageOuterWrapper');
         
         let zoomScale = 1;
         let currentActiveEditUrl = ""; 
+        let currentActiveLucidUrl = ""; 
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
@@ -415,13 +480,14 @@
         function openModal(step) {
             modalTitle.innerText = step.title;
             currentActiveEditUrl = step.editUrl; 
+            currentActiveLucidUrl = step.lucidUrl; 
 
-            if (step.docUrl && step.docUrl.trim() !== "") {
-                docsIframe.src = step.docUrl;
-                docsContainer.style.display = 'block';
+            if (step.htmlContent && step.htmlContent.trim() !== "") {
+                textContentArea.innerHTML = step.htmlContent;
+                textContentArea.style.display = 'block';
             } else {
-                docsIframe.src = "about:blank";
-                docsContainer.style.display = 'none';
+                textContentArea.innerHTML = "<p style='color:#999;'>No content details provided yet.</p>";
+                textContentArea.style.display = 'block';
             }
 
             if (step.editUrl && step.editUrl.trim() !== "") {
@@ -430,17 +496,20 @@
                 document.getElementById('editDocBtn').style.display = 'none';
             }
 
+            if (step.lucidUrl && step.lucidUrl.trim() !== "") {
+                document.getElementById('lucidLinkBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('lucidLinkBtn').style.display = 'none';
+            }
+
             if (step.imgSrc && step.imgSrc.trim() !== "") {
                 processImg.src = step.imgSrc;
                 imgOuterWrapper.style.display = 'flex';
-                document.getElementById('imageZoomTools').style.display = 'flex';
             } else {
                 imgOuterWrapper.style.display = 'none'; 
-                document.getElementById('imageZoomTools').style.display = 'none';
             }
 
             loadGithubDiscussions(step.title);
-
             resetZoom(); 
             overlay.classList.add('active');
             document.querySelector('.modal-body').scrollTop = 0; 
@@ -451,6 +520,14 @@
                 window.open(currentActiveEditUrl, '_blank');
             } else {
                 alert("No editor link assigned to this process.");
+            }
+        }
+
+        function openLucidchartLink() {
+            if (currentActiveLucidUrl && currentActiveLucidUrl.trim() !== "") {
+                window.open(currentActiveLucidUrl, '_blank');
+            } else {
+                alert("No Lucidchart link assigned to this process diagram.");
             }
         }
 
