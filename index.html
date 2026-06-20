@@ -183,6 +183,22 @@
             margin-bottom: 10px;
         }
 
+        /* 📝 頂部工具列樣式 (包含縮放與編輯按鈕) */
+        .modal-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FAFAFA;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 10px;
+        }
+
         .image-outer-wrapper {
             background: #FAFAFA;
             border-radius: 12px;
@@ -192,16 +208,6 @@
             flex-direction: column;
             gap: 15px;
             margin-top: 10px;
-        }
-
-        .zoom-bar {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            background: var(--pure-white);
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border-soft);
         }
 
         .zoom-control-btn {
@@ -259,7 +265,6 @@
         }
         .ai-chat-trigger:hover { transform: scale(1.05); }
 
-        /* 💬 GitHub 官方 Q&A 執行緒面板容器 */
         .discussion-box {
             margin-top: 20px;
             padding-top: 25px;
@@ -269,6 +274,20 @@
             font-size: 1.3rem;
             color: var(--primary-green);
             margin-bottom: 20px;
+        }
+
+        /* ✏️ 網頁編輯輸入框外觀 */
+        .edit-textarea {
+            width: 100%;
+            height: 350px;
+            padding: 15px;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            border: 2px solid var(--primary-green);
+            border-radius: 8px;
+            color: #333;
+            outline: none;
         }
     </style>
 </head>
@@ -289,14 +308,22 @@
                 <button class="close-btn" id="closeBtn">&times;</button>
             </div>
             <div class="modal-body">
+                
+                <div class="modal-toolbar">
+                    <div class="toolbar-group" id="imageZoomTools">
+                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
+                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
+                        <button class="zoom-control-btn" onclick="resetZoom()">Reset View</button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button class="zoom-control-btn" id="editContentBtn" onclick="toggleEditContentMode()">✏️ Edit Content</button>
+                        <button class="zoom-control-btn" id="saveContentBtn" style="display: none; background-color: var(--primary-green); color: white;" onclick="saveContentChanges()">💾 Save Changes</button>
+                    </div>
+                </div>
+
                 <div class="process-text" id="modalText"></div>
                 
                 <div class="image-outer-wrapper" id="imageOuterWrapper">
-                    <div class="zoom-bar">
-                        <button class="zoom-control-btn" onclick="adjustZoom(0.2)">Zoom In +</button>
-                        <button class="zoom-control-btn" onclick="adjustZoom(-0.2)">Zoom Out -</button>
-                        <button class="zoom-control-btn" onclick="resetZoom()">Reset</button>
-                    </div>
                     <div class="image-scroll-box">
                         <img src="" alt="Process Map Diagram" class="process-image" id="processImg">
                     </div>
@@ -312,7 +339,8 @@
     </div>
 
     <script>
-        const stepsData = [
+        // 初始化：優先讀取先前在瀏覽器修改過的資料，若無則採用初始設定值
+        let localStepsData = JSON.parse(localStorage.getItem('dp_sop_editable_data')) || [
             { id: 1, title: "ASP management", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "ASP management@.png" },
             { id: 2, title: "WOH management", desc: `<h4>Purpose</h4><p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency. </p><h4>Definition</h4><p>WOH (Week on Hand): Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.<br>Supercluster: The highest level of regional segmentation within Logitech (e.g., APM, GCN, NAM, LAT, EURO).<br>Customer Group / Subgroup: Customer-based segmentation (e.g., specific key account categories, or specific countries/markets like Taiwan, Hong Kong, Japan).<br>Product Line(PL) / Product Group (PG): Product-based segmentation (e.g., Gaming, PWS, Canova).<br>ABC Classification: A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</p><h4>Importance</h4><p>Alignment of Financial and Operational Metrics: WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.<br>Market-Tailored Flexibility: Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</p><h4>Logic</h4><p>Multi-Dimensional Flexibility: WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.<br>Market-Practice Driven:<br>NAM: Primarily driven by Customer Group level.<br>APM / GCN: Does not strictly enforce ABC classification; certain 'C items' may require a higher WOH target due to specific country or customer requirements to avoid stockouts.<br>Emerging Market: Retains ABC Classification as part of the core logic.<br>EURO: Tends to be managed at the Category / Product Line level.</p>`, imgSrc: "WOH Management @.png" },
             { id: 3, title: "Return Rate management", desc: `<h4>Purpose</h4><p>[Insert Purpose here...]</p><h4>Definition</h4><p>[Insert Definition here...]</p><h4>Importance</h4><p>[Insert Importance here...]</p><h4>Logic</h4><p>[Insert Logic here...]</p>`, imgSrc: "Return Rate management@.png" },
@@ -344,8 +372,11 @@
         const imgOuterWrapper = document.getElementById('imageOuterWrapper');
         
         let zoomScale = 1;
+        let currentActiveStepId = null;
+        let isContentEditMode = false; // 追蹤是否處於網頁編輯狀態
 
-        stepsData.forEach(step => {
+        // 渲染主面板卡片
+        localStepsData.forEach(step => {
             const card = document.createElement('div');
             card.className = 'process-card';
             card.innerHTML = `<div class="step-title">${step.title}</div>`;
@@ -354,22 +385,73 @@
         });
 
         function openModal(step) {
+            currentActiveStepId = step.id;
             modalTitle.innerText = step.title;
             modalText.innerHTML = step.desc;
 
             if (step.imgSrc && step.imgSrc.trim() !== "") {
                 processImg.src = step.imgSrc;
                 imgOuterWrapper.style.display = 'flex';
+                document.getElementById('imageZoomTools').style.display = 'flex';
             } else {
                 imgOuterWrapper.style.display = 'none'; 
+                document.getElementById('imageZoomTools').style.display = 'none';
             }
 
-            // ⚡ 核心動態載入：點開卡片時，自動帶入該 SOP 卡片的名稱作為 data-term 隔離討論
+            // 強制關閉先前的編輯模式狀態
+            isContentEditMode = false;
+            document.getElementById('editContentBtn').innerText = "✏️ Edit Content";
+            document.getElementById('saveContentBtn').style.display = "none";
+
+            // 載入該流程卡片專屬的 GitHub 執行緒問答
             loadGithubDiscussions(step.title);
 
             resetZoom(); 
             overlay.classList.add('active');
             document.querySelector('.modal-body').scrollTop = 0; 
+        }
+
+        /* ✏️ 網頁端直接編輯文字的核心邏輯 */
+        function toggleEditContentMode() {
+            const textContainer = document.getElementById('modalText');
+            const targetStep = localStepsData.find(s => s.id === currentActiveStepId);
+
+            if (!isContentEditMode) {
+                // 切換為：可輸入的編輯區塊 (保留原本的 HTML 語法結構讓管理者微調)
+                textContainer.innerHTML = `
+                    <textarea id="contentTextArea" class="edit-textarea">${targetStep.desc}</textarea>
+                `;
+                document.getElementById('editContentBtn').innerText = "❌ Cancel";
+                document.getElementById('saveContentBtn').style.display = "inline-block";
+                isContentEditMode = true;
+            } else {
+                // 取消編輯：還原原本純顯示的 HTML 內容
+                textContainer.innerHTML = targetStep.desc;
+                document.getElementById('editContentBtn').innerText = "✏️ Edit Content";
+                document.getElementById('saveContentBtn').style.display = "none";
+                isContentEditMode = false;
+            }
+        }
+
+        // 儲存修改內容
+        function saveContentChanges() {
+            const updatedText = document.getElementById('contentTextArea').value;
+            const targetIndex = localStepsData.findIndex(s => s.id === currentActiveStepId);
+            
+            // 1. 同步更新記憶體資料
+            localStepsData[targetIndex].desc = updatedText;
+            
+            // 2. 存入瀏覽器快取
+            localStorage.setItem('dp_sop_editable_data', JSON.stringify(localStepsData));
+            
+            // 3. 恢復正常顯示模式
+            isContentEditMode = false;
+            document.getElementById('editContentBtn').innerText = "✏️ Edit Content";
+            document.getElementById('saveContentBtn').style.display = "none";
+            document.getElementById('modalText').innerHTML = updatedText;
+            
+            // 💡 提示：目前已成功在你的瀏覽器中完成變更！
+            alert("Process text successfully updated on your browser!\n(To sync this changes permanently for global team and Logi Q AI agent, remember to paste the updated stepsData array back to your index.html in VS Code and push to GitHub!)");
         }
 
         function adjustZoom(amount) {
@@ -393,21 +475,19 @@
             window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
         }
 
-        /* 🤖 呼叫 GitHub 官方通道，精準分流並渲染 Q&A 執行緒 */
+        /* 🤖 呼叫 GitHub 官方通道問答組件 */
         function loadGithubDiscussions(processTitle) {
             const container = document.getElementById('giscusContainer');
-            container.innerHTML = ''; // 清空舊視窗
+            container.innerHTML = ''; 
 
             const script = document.createElement('script');
             script.src = "https://giscus.app/client.js";
             
-            // 🎯 已完美對接你專屬的 wlee5-design 儲存庫參數
             script.setAttribute("data-repo", "wlee5-design/demand-planning"); 
             script.setAttribute("data-repo-id", "R_kgDOS99Z8A");
             script.setAttribute("data-category", "Q&A");
             script.setAttribute("data-category-id", "DIC_kwDOS99Z8M4C_h01");
             
-            // 自動將當前的「SOP 卡片名稱」綁定為唯一討論主題
             script.setAttribute("data-mapping", "specific");
             script.setAttribute("data-term", processTitle);
             
