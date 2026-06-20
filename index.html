@@ -11,6 +11,7 @@
             --accent-green: #00C853;    
             --bg-warm-white: #FAF9F6;   
             --pure-white: #FFFFFF;      
+            --card-has-img: #E0E4E0;    /* Grey for cards WITH process maps */
             --text-dark-green: #1B5E20; 
             --border-soft: #E0E4E0;     
             --lucid-blue: #2979FF; 
@@ -53,7 +54,6 @@
         }
 
         .process-card {
-            background-color: var(--pure-white);
             border: 2px solid var(--border-soft);
             border-radius: 14px;
             padding: 30px 20px;
@@ -66,6 +66,16 @@
             align-items: center;
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.03);
             min-height: 140px;
+        }
+
+        /* White base style for cards WITHOUT images */
+        .process-card.no-image {
+            background-color: var(--pure-white);
+        }
+
+        /* Grey base style for cards WITH images */
+        .process-card.has-image {
+            background-color: var(--card-has-img);
         }
 
         .process-card:hover {
@@ -506,8 +516,7 @@
 
                     <h4>2. Market Segmentation</h4>
                     <p><strong>● Mature Markets (NAM, Europe, ANZ, Japan):</strong><br>
-                    Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <strong>No Carryover by Default</strong>.<br>
-                    If a weekly forecast is 100 but actual shipment is only 50, it is highly probable that the true market demand was only 50. Carrying over the remaining volume without justification risks creating artificial demand and inventory buildup.</p>
+                    Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <strong>No Carryover by Default</strong>.</p>
                     <p><u>Exceptions (Criteria for Carryover):</u> permitted only when clear evidence proves the demand is delayed, not lost:</p>
                     <ul>
                         <li>Large-scale Events: Significant spikes such as Prime Day or Black Friday.</li>
@@ -529,11 +538,188 @@
                     </ul>
                 `
             },
-            { id: 5, title: "Channel Correction", editUrl: "", lucidUrl: "", imgSrc: "Channel Correction@.png", htmlContent: "" },
-            { id: 6, title: "Backlog management", editUrl: "", lucidUrl: "", imgSrc: "Backlog management@.png", htmlContent: "" },
-            { id: 7, title: "NPI", editUrl: "", lucidUrl: "", imgSrc: "NPI@.drawio (2).png", htmlContent: "" },
-            { id: 8, title: "PIPO", editUrl: "", lucidUrl: "", imgSrc: "PIPO@.drawio (3).png", htmlContent: "" },
-            { id: 9, title: "Event Handling", editUrl: "", lucidUrl: "", imgSrc: "Event Handling@.drawio (1).png", htmlContent: "" },
+            { 
+                id: 5, 
+                title: "Channel Correction", 
+                editUrl: "https://docs.google.com/document/d/1hpaGN1-y2VfXsAxq63jd_QFNQorttk9afXzEY-JqzWo/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/7414911c-0d77-45e6-a1f7-123e049e2ea3/edit?viewport_loc=358%2C225%2C2682%2C1231%2CocMggXGJ3kdmr&invitationId=inv_2144b9a8-54c1-408e-9116-8905e7d2f61f", 
+                imgSrc: "Channel Correction@.png", 
+                htmlContent: `
+                    <h3>🎯 Purpose</h3>
+                    <p>To maintain a healthy T1 channel inventory (Weeks on Hand, WOH) and ensure the Sell-in Plan accurately reflects both market demand and actual inventory status.</p>
+                    <p><strong>The Sell-in Plan objectives:</strong></p>
+                    <ul>
+                        <li>Support target inventory levels and maintain healthy channel stock levels.</li>
+                        <li>Avoid shortages and overstocking.</li>
+                        <li>Smooth out shipment fluctuations.</li>
+                    </ul>
+
+                    <h3>📘 Definition & Key Terms</h3>
+                    <ul>
+                        <li><strong>Channel Correction:</strong> The process of adjusting the Sell-in Plan based on the gap between current inventory and target inventory to calibrate inventory levels and restore channel health.</li>
+                        <li><strong>Close the Gap Pacing:</strong> Defines the speed of the inventory correction. Instead of simply changing shipment volumes, it manages how fast inventory returns to its target level (e.g., over 2 weeks vs. 4 weeks) to avoid market shock.</li>
+                    </ul>
+
+                    <h3>💡 Importance</h3>
+                    <p>Without Channel Correction, critical supply chain issues arise:</p>
+                    <ul>
+                        <li><strong>Excess Inventory:</strong> Buildup leading to aging/obsolescence risks, cash flow pressure, and warehouse capacity strain.</li>
+                        <li><strong>Deficit Inventory:</strong> Severe shortages/stockouts, missed shipments, lost revenue, inability to fulfill customer pull-ins, and order backlog accumulation.</li>
+                        <li><strong>Extreme Shipment Volatility:</strong> Missing or overly aggressive corrections cause huge supply spikes, severe shipment fluctuations, factory loading instability, and production bottlenecks.</li>
+                    </ul>
+
+                    <h3>⚙️ Calculation Logic & Pacing</h3>
+                    <p>Sell-in does not equal DCS. The core formula is:</p>
+                    <p style="background:#F4FAF4; padding:10px; border-left:4px solid var(--primary-green); font-weight:bold; margin-bottom:12px;">
+                        Sell-in = DCS + Target Inventory - Current Inventory
+                    </p>
+                    <p><strong>Example Scenario:</strong><br>
+                    • DCS: 1,000 | Target Inventory: 800 | Current Inventory: 500<br>
+                    • <strong>Sell-in Calculation:</strong> 1,000 + 800 - 500 = 1,300 units.</p>
+
+                    <h4>Smoothing Mechanism: Global Default Close Gap = 30%</h4>
+                    <p>It represents the <em>correction speed (pacing rate)</em>, taking approximately 8 weeks to return to target levels gradually to minimize supply chain shock.</p>
+                    <ul>
+                        <li><strong>30% (Global Default):</strong> Gradual correction to smooth shipment volumes and stabilize factory loading.</li>
+                        <li><strong>50% (Moderate Speed):</strong> A balanced approach weighing correction urgency against shipment stability.</li>
+                        <li><strong>80% (Aggressive Pacing):</strong> Rapid adjustment typically used for urgent inventory imbalances.</li>
+                        <li><strong>100% (Immediate Realignment):</strong> Gap closed instantly, forcing target inventory alignment by the very next week (Risks huge factory shipment spikes/drops).</li>
+                    </ul>
+
+                    <h3>📋 Planner Decision Logic</h3>
+                    <p>The system provides a baseline; final validation rests with the planner based on:</p>
+                    <ul>
+                        <li><strong>DCS Demand & Current Inventory:</strong> Verifying true market demand and exact stocks held in T1 channels.</li>
+                        <li><strong>Product Importance:</strong> For Strategic SKUs, Class A, or Exclusive items, planners may hold a higher buffer (e.g., increasing WOH from 8 to 10 weeks).</li>
+                        <li><strong>Market Trend & Promotions:</strong> Front-loading shipments during launch/promotion periods, or slowing down if market sell-through softens.</li>
+                        <li><strong>Customer Ordering Behavior:</strong> Managing distinct regional patterns (Quarterly ordering in TW/KR vs Monthly ordering in JP/HK/ANZ).</li>
+                    </ul>
+                `
+            },
+            { 
+                id: 6, 
+                title: "Backlog management", 
+                editUrl: "https://docs.google.com/document/d/1jLRZ_X9qbXQ70LBaU24BE7CKIAZYkkHwRH6A9YHMIvs/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/9832cc5a-e8f6-4543-bb54-23ed982dcc88/edit?viewport_loc=222%2C223%2C2647%2C1215%2ChIdtkivSAJbAd&invitationId=inv_368f83ee-d5ca-41dc-bcf7-a61b9d251677", 
+                imgSrc: "Backlog management@.png", 
+                htmlContent: `
+                    <h3>🎯 Purpose</h3>
+                    <ul>
+                        <li><strong>Manage Real Signals:</strong> To manage the relationship between actual demand signals and the original forecast, rather than just managing raw orders.</li>
+                        <li><strong>Reallocate Demand Visibility:</strong> Consumption fundamentally reallocates demand visibility horizontally instead of artificially increasing total demand volume.</li>
+                        <li><strong>Avoid Double Counting:</strong> Consume forecasts with actual orders to prevent system double counting.</li>
+                    </ul>
+
+                    <h3>📘 Definition & Key Terms</h3>
+                    <ul>
+                        <li><strong>Backlog:</strong> Official sell-in orders placed by T1 customers but not yet fully fulfilled by the factory. Backlog represents an <em>"already materialized real demand signal,"</em> while a forecast is just a <em>"planning assumption."</em></li>
+                        <li><strong>Forecast Consumption:</strong> A system calculation logic where actual orders replace (consume)—rather than stack onto—the forecast.</li>
+                    </ul>
+                    <p><strong>System Demand Formula:</strong></p>
+                    <p style="background:#F4FAF4; padding:10px; border-left:4px solid var(--primary-green); font-weight:bold;">
+                        Total System Demand = Actual Orders + Remaining Forecast
+                    </p>
+
+                    <h3>💡 Importance</h3>
+                    <p>If Forecast Consumption is skipped, the system treats bulk orders as incremental demand, stacking them onto the original forecast and causing severe issues:</p>
+                    <ul>
+                        <li><strong>Supply Overestimated:</strong> e.g., Forecast (1k) + Order (1k) = System mistaken demand (2k).</li>
+                        <li><strong>Factory Loading Distortion:</strong> Triggers factory overproduction and capacity saturation.</li>
+                        <li><strong>Inventory Risk:</strong> Leads to excess inventory and unhealthy Weeks of Supply.</li>
+                    </ul>
+
+                    <h3>⚙️ Forecast Consumption Window Logic</h3>
+                    <ul>
+                        <li><strong>NPI (New Product Introduction):</strong> <strong>Disabled for the first 3 months</strong> due to volatile initial demand patterns.</li>
+                        <li><strong>TW & KR (Taiwan & Korea):</strong> <strong>Quarterly Consumption.</strong> Customers heavily front-load full-quarter orders right at the quarter-start.</li>
+                        <li><strong>Japan, HK, ANZ:</strong> <strong>Monthly Rolling Window (-1 to +3 weeks).</strong> Ordering pattern is monthly/bi-weekly rolling orders.</li>
+                        <li><strong>China (CN):</strong> <strong>Generally Disabled.</strong> Regional behavior is inventory replenishment. <em>Rule: Class C only</em> (Class A/B disabled).</li>
+                    </ul>
+                `
+            },
+            { 
+                id: 7, 
+                title: "NPI", 
+                editUrl: "https://docs.google.com/document/d/1NmUAM8uwIgWhnU9eaUl1npf26h8GMMe5bv79pdVV_xA/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/bdba74dc-e553-420d-a4a3-46ae280101ab/edit?viewport_loc=64%2C-93%2C6115%2C2808%2C1eaPQgkh9kd2u&invitationId=inv_8b51bacc-dcd3-493d-bcd6-ac7675d4a852", 
+                imgSrc: "NPI@.drawio (2).png", 
+                htmlContent: `
+                    <h3>🎯 Purpose</h3>
+                    <p>This process outlines the overall workflow for New Product Introduction (NPI), specifically defining when the Demand Planning department should engage, which discussions they need to participate in, and the system configurations and forecast upload tasks they must complete.</p>
+
+                    <h3>📘 Definition</h3>
+                    <p>The specific workflow relevant to DP is defined as the <strong>complete cycle spanning from SKU enablement, pre-release, bottom-up forecast engagement, and forecast upload, all the way through to post-Gate 2 change control</strong>.</p>
+
+                    <h3>💡 Importance & Pain Points Resolved</h3>
+                    <ul>
+                        <li><strong>Early Preparation Activation:</strong> The new process integrates DP into the discussions as soon as Commercial / CCM begins establishing the forecast. Instead of waiting idly for final approvals, DP can now complete SKU enablement, data preparation, and assumption alignment ahead of time.</li>
+                        <li><strong>Enhancing Forecast Credibility:</strong> By providing historical data, look-alike product data, and phase-in/phase-out information, DP can help verify whether the Initial Loading Quantity (ILQ) is sufficient.</li>
+                    </ul>
+
+                    <h3>⚙️ Core Planning Logic</h3>
+                    <h4>1. Forecast Loading Granularity Level</h4>
+                    <ul>
+                        <li><strong>NAM (North America):</strong> Loaded by specific key customer (e.g., Walmart, Best Buy).</li>
+                        <li><strong>Europe:</strong> Loaded by forecast stream (e.g., Amazon, CD, Europe Others).</li>
+                        <li><strong>AP / GCN / LATAM:</strong> Typically loaded by country level.</li>
+                    </ul>
+
+                    <h4>2. Timeline & Offset Logic (OSD / DCS / Sell-in Offset)</h4>
+                    <ul>
+                        <li><strong>OSD (On-Shelf Date):</strong> The actual product launch date in store or online.</li>
+                        <li><strong>DCS Window:</strong> Typically set around <strong>two weeks prior to OSD</strong>.</li>
+                    </ul>
+
+                    <h4>3. Statistical Forecast vs. Manual Override Rules</h4>
+                    <p>During the initial NPI phase, <strong>Manual Overrides must be used</strong> due to a lack of historical baseline data. After approximately 3 to 6 months post-launch, evaluate transitioning control to the system by gradually removing the overrides.</p>
+                `
+            },
+            { 
+                id: 8, 
+                title: "PIPO", 
+                editUrl: "https://docs.google.com/document/d/1_g24nECB_6t0iS1bmEhtFJKBhCyRn0bHWpiC4Urh410/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/eda2e3e8-20b5-4a9b-ad07-0baeff29bb1c/edit?viewport_loc=187%2C187%2C2972%2C1365%2C7oy5SD2QaNaMp&invitationId=inv_7c076807-f33c-4810-97da-e4f441c5b593", 
+                imgSrc: "PIPO@.drawio (3).png", 
+                htmlContent: `
+                    <h3>🎯 Purpose</h3>
+                    <ul>
+                        <li><strong>Portfolio Optimization & Rigorous Supply Control:</strong> Define clear phase-in/out strategies per product line/SKU and lock LTB quantities in the system to prevent any production overrun beyond the authorized cap.</li>
+                    </ul>
+
+                    <h3>📘 Definition & Key Terms</h3>
+                    <ul>
+                        <li><strong>PIPO (Phase-In Phase-Out):</strong> This is the process of defining and driving which product lines or SKUs should be phased out of the portfolio and which should be phased in. This global strategy is defined and spearheaded by the BG/GCO unit.</li>
+                        <li><strong>LTB (Last Time Buy):</strong> The final production or purchase order issued by the global planning department to the manufacturing side. Once confirmed, the total product supply is capped and locked.</li>
+                    </ul>
+
+                    <h3>⚙️ Core Planning Logic</h3>
+                    <ul>
+                        <li><strong>Strategic Definition & Alignment:</strong> Once the headquarters (BG/GCO) determines the entry and exit strategies and execution methods (Hard/Soft) for specific SKUs, DP must act as the gatekeeper to verify that the LTB demands submitted by the regions are fully aligned with this global portfolio strategy.</li>
+                        <li><strong>Fixed Supply & Exception Management:</strong> Once the phase-out strategy is activated and the LTB quantity is confirmed, the system logic must <strong>"turn off forecast consumption."</strong></li>
+                    </ul>
+                `
+            },
+            { 
+                id: 9, 
+                title: "Event Handling", 
+                editUrl: "https://docs.google.com/document/d/1XyJhZ6-BH1EDDYUfQx_ffmU_ymdI1KOCJ0NZIAFzcwM/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/b7653921-ee34-48b8-95ee-f9d74290562c/edit?viewport_loc=216%2C-509%2C6494%2C2982%2CWNXwqeS0xBqxg&invitationId=inv_8ec9dbbe-40be-466d-ae0d-ab541169c133", 
+                imgSrc: "Event Handling@.drawio (1).png", 
+                htmlContent: `
+                    <h3>🎯 Purpose</h3>
+                    <p>To address the inconsistencies in how regional planners manage events and to enhance cross-functional visibility, we are establishing a standardized global process.</p>
+
+                    <h3>📘 Definition</h3>
+                    <p>The term <strong>'Events'</strong> refers not only to standard marketing and promotional activities (such as Prime Day and Black Friday) but also encompasses all critical process milestones affecting the demand planning horizon, including Demand Reviews, Forecast Reviews, and Regional S&OP meetings.</p>
+
+                    <h3>⚙️ Core Event Logic</h3>
+                    <ul>
+                        <li><strong>Always Incremental (Additive):</strong> Event demand is treated as strictly additive (<em>Final Forecast = Baseline + Event Qty</em>). If the baseline already mathematically includes the promotional event, planners must manually deduct that volume from the baseline to avoid double counting.</li>
+                        <li><strong>Link & Offset Lead Time:</strong> CSC or KAM must provide the exact lead time offset from Event DCS to Sell-in. The Maestro system then automatically projects the Sell-in Forecast based on this offset.</li>
+                        <li><strong>Strict 1:1 Ratio:</strong> Maintain an exact 1:1 link between Event DCS and Sell-in; no additional safety stocks or tactical inventory buffers should ever be layered on top of confirmed events.</li>
+                    </ul>
+                `
+            },
             { id: 10, title: "Account Level Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
             { id: 11, title: "Monthly Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
             { id: 12, title: "Strategy and assumptions documentation", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
@@ -543,7 +729,35 @@
             { id: 16, title: "Direct Shipment Process", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
             { id: 17, title: "Plannable flag", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
             { id: 18, title: "Forecast Consumption management", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 19, title: "DTX Accessory Planning", editUrl: "", lucidUrl: "", imgSrc: "DTX @.drawio (1).png", htmlContent: "" },
+            { 
+                id: 19, 
+                title: "DTX Accessory Planning", 
+                editUrl: "https://docs.google.com/document/d/1_XeOAPVKRv9ghKRI6mhcox2aQGbrn9kbMzCB-xSD34A/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/de7e8bb2-6acc-4c5b-81d9-86156df4516f/edit?viewport_loc=240%2C131%2C3222%2C1479%2CsqRktaucYBbup&invitationId=inv_213e1178-775b-4572-a8f2-fd87e1ef9fab", 
+                imgSrc: "DTX @.drawio (1).png", 
+                htmlContent: `
+                    <h3>🎯 Purpose</h3>
+                    <p>To establish a clear workflow for accessory roadmap creation, simplified commercial approval, lifecycle alignment, and forecast updates.</p>
+
+                    <h3>⚙️ Ownership & Portfolio Setup</h3>
+                    <ul>
+                        <li><strong>Owner Initiative:</strong> The DTX Global Team is the official owner to initiate the right accessories required to drive DTX sales.</li>
+                        <li><strong>BG Sponsorship Requirements:</strong> They secure explicit BG sponsorship with sign-off to add it into portfolio and assigned LPM to help create SKU.</li>
+                        <li><strong>Roadmap Visibility:</strong> Across all BGs, approximately <strong>5 to 10 accessories are expected to be created every year</strong>.</li>
+                    </ul>
+
+                    <h3>💰 Finance Alignment & Business Case</h3>
+                    <ul>
+                        <li><strong>Streamlined Approval:</strong> Finance has agreed to simplify the standard business case approval process by using a **one-pager template in email** instead of full BCF.</li>
+                        <li><strong>Approver Realignment:</strong> The **Channel Finance Lead** will act as the final approver instead of BG Finance.</li>
+                    </ul>
+
+                    <h3>📌 ASP Guideline</h3>
+                    <ul>
+                        <li><strong>Plan Selection Rule:</strong> In the vast majority of cases, accessories are ultimately sold to the market at the **Discounted ASP**. Therefore, the **Discounted ASP must be used in our Demand Plan**.</li>
+                    </ul>
+                `
+            },
             { id: 20, title: "Accessory Planning Criteria", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" }
         ];
 
@@ -561,7 +775,14 @@
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
-            card.className = 'process-card';
+            
+            // 🚨 Check if process map image exists to assign background color classes
+            if (step.imgSrc && step.imgSrc.trim() !== "") {
+                card.className = 'process-card has-image'; // Grey Background
+            } else {
+                card.className = 'process-card no-image';  // White Background
+            }
+            
             card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
             container.appendChild(card);
