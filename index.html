@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demand Planning Global Process Standardization</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <style>
         :root {
             --primary-green: #2E7D32;   
@@ -396,8 +398,8 @@
     </div>
 
     <script>
-        // GitHub 儲存庫路徑
-        const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/contents/";
+        // 💡 調整：因為直接放在最外層根目錄，路徑後方不加 contents/
+        const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/";
 
         const stepsData = [
             { 
@@ -406,7 +408,7 @@
                 editUrl: "https://docs.google.com/document/d/1G3Soa58AG3H-IbX6xaDrlLJq1mg5dRRFubhCcTdRCTI/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/680b898a-5f3b-4c4b-9209-b582c8e9a1d1/edit?viewport_loc=105%2C-72%2C3517%2C1615%2Ct5f0BNooez5S3&invitationId=inv_269e195c-87ce-4f8a-9f89-c40413f9da37", 
                 imgSrc: "ASP management@.png",
-                contentFile: "ASP Management words.html",  // 💡 檔名已成功修改為 ASP Management words.html
+                contentFile: "ASP management.md",  // 💡 指定你剛剛下載並上傳的檔案名稱
             },
             { 
                 id: 2, 
@@ -746,12 +748,11 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            // 混合邏輯：如果該步驟有設定 contentFile，就去 GitHub 抓取檔案
+            // 如果該步驟有設定 contentFile，就去 GitHub 根目錄抓取檔案
             if (step.contentFile && step.contentFile.trim() !== "") {
                 textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
                 textContentArea.style.display = 'block';
 
-                // 將檔名進行網址安全編碼 (例如將空格轉為 %20)
                 const safeFileName = encodeURIComponent(step.contentFile);
                 const targetUrl = githubRawBaseUrl + safeFileName;
                 
@@ -760,15 +761,16 @@
                         if (!response.ok) throw new Error("GitHub file not found");
                         return response.text();
                     })
-                    .then(htmlData => {
-                        textContentArea.innerHTML = htmlData.trim() !== "" ? htmlData : "<p style='color:#999;'>No content details found in file.</p>";
+                    .then(markdownData => {
+                        // 利用 marked.parse() 把 Markdown 文字轉換成 HTML
+                        textContentArea.innerHTML = marked.parse(markdownData);
                     })
                     .catch(error => {
                         console.error(error);
-                        textContentArea.innerHTML = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>contents/ASP Management words.html</strong> exists in your repo.</small></p>`;
+                        textContentArea.innerHTML = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>${step.contentFile}</strong> exists in your repo根目錄.</small></p>`;
                     });
 
-            // 否則就讀取原本舊有的內嵌 htmlContent
+            // 否則讀取內嵌的舊 htmlContent
             } else if (step.htmlContent && step.htmlContent.trim() !== "") {
                 textContentArea.innerHTML = step.htmlContent;
                 textContentArea.style.display = 'block';
