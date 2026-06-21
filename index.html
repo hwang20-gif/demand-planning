@@ -45,6 +45,30 @@
             text-transform: uppercase;
         }
 
+        /* 💡 重新設計後的 AI 助理按鈕樣式 */
+        .ai-chat-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 28px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(46, 125, 50, 0.2);
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .ai-chat-trigger:hover { 
+            transform: translateY(-2px); 
+            background-color: #1B5E20;
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -306,24 +330,6 @@
             transform-origin: top center;    
         }
 
-        .ai-chat-trigger {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--primary-green);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.3);
-            z-index: 2000;
-            transition: transform 0.2s;
-        }
-        .ai-chat-trigger:hover { transform: scale(1.05); }
-
         .discussion-box {
             margin-top: 20px;
             padding-top: 25px;
@@ -340,11 +346,10 @@
 
     <header>
         <h1>Demand Planning Global Process Standardization</h1>
+        <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖 SOP AI Assistant</button>
     </header>
 
     <div class="grid-container" id="gridContainer"></div>
-
-    <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖</button>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
