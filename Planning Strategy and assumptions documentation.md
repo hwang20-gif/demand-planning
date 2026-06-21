@@ -1,30 +1,29 @@
-Planning Strategy and assumptions documentation 
+# **Planning Strategy and assumptions documentation**
 
-Global Consensus
+**Global Consensus**
 
-Break down our DP into building blocks (major assumptions \- NPI/events/bets)by leveraging AOP guidance, Q+ guidance, revisit all building blocks post-qtr and make learnings which building block works and not works 
+Break down our DP into building blocks (major assumptions - NPI/events/bets)by leveraging AOP guidance, Q+ guidance, revisit all building blocks post-qtr and make learnings which building block works and not works
 
-NAM
+**NAM**
 
-No set plan currently, Manager rveiews the demand to explain in S\&OP| DP is aligned based on AOP+buffer alignment 
+No set plan currently, Manager rveiews the demand to explain in S&OP| DP is aligned based on AOP+buffer alignment
 
-LAT
+**LAT**
 
-AOP is our initial strategy baseline \+ 5% gap allowance 
+AOP is our initial strategy baseline + 5% gap allowance
 
-Europe
+**Europe**
 
-AOP is our initial strategy baseline 
+AOP is our initial strategy baseline
 
-EM
+**EM**
 
-AOP is our initial strategy baseline 
+AOP is our initial strategy baseline
 
-GCN
+**GCN**
 
-Q+ & Q++ : Record in demand review file for quarterly planning assumption. AOP : Long term planning guidance 
+Q+ & Q++ : Record in demand review file for quarterly planning assumption. AOP : Long term planning guidance
 
-APM
+**APM**
 
-Q+ & Q++ : Record in demand review file for quarterly planning assumption. AOP : Long term planning guidance 
-
+Q+ & Q++ : Record in demand review file for quarterly planning assumption. AOP : Long term planning guidance
