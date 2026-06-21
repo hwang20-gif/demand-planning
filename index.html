@@ -607,11 +607,8 @@
                         return response.text();
                     })
                     .then(markdownData => {
-                        // 解析 Markdown 內容
                         let parsedHtml = marked.parse(markdownData);
                         
-                        // 💡 關鍵改動：如果該項目沒有流程圖 (imgSrc 為空) 但有提供 editUrl 連結 (例如 B2B Forecast)
-                        // 就直接在文字區塊最上方加上一個醒目的點擊按鈕
                         if ((!step.imgSrc || step.imgSrc.trim() === "") && step.editUrl && step.editUrl.trim() !== "") {
                             const actionButtonHtml = `
                                 <div style="margin-bottom: 20px;">
@@ -629,7 +626,6 @@
                     .catch(error => {
                         console.error(error);
                         
-                        // 💡 如果 GitHub 還沒建立 B2B Forecast.md，抓不到檔案時，一樣提供可以直接點擊前往連結的按鈕
                         let fallbackHtml = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>${step.contentFile}</strong> exists in your repository root.</small></p>`;
                         if ((!step.imgSrc || step.imgSrc.trim() === "") && step.editUrl && step.editUrl.trim() !== "") {
                             fallbackHtml = `
