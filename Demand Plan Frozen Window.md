@@ -1,30 +1,31 @@
-Demand Plan Frozen Window 
+### 🎯 Purpose & Global Consensus
+* **Standardize Order Locking:** Define a unified framework for the demand plan frozen window to stabilize factory loading and streamline supply chains.
+* **Global Implementation:** Circulate and align the frozen window guidelines with all regional planning teams to ensure cross-functional execution.
 
-Global Consensus
+---
 
-Define the demand plan frozen window and start to circulate it with region 
+### 🌐 Regional Frozen Window Guidelines
 
-NAM
+#### 📦 NAM (North America)
+* **Frozen Period:** Suggested **6-week** frozen period.
+* **Action Item:** Requires further discussion on *forecast vs. expedites* under this scenario. A comprehensive revamp of the expedite process and ladder alignment is mandatory.
 
-Suggested 6 Wk frozen period- Need discusison on forecast vs expedites in that case- revamp of expedite process and ladder laignment required 
+#### 🌎 LAT (Latin America)
+* **Frozen Period:** Strict **13-week** frozen window specifically for **B2B deals**.
+* **Exception Rule:** Regional planners will verify supply availability with GPP (Global Production Planning). If approved, an expedite window of **2 to 3 weeks** will be applied.
 
-LAT
+#### 🇪🇺 Europe
+* **Frozen Period:** Strict **8-week** frozen window.
+* **Flexibility Rule:** Limited flexibility is allowed for weeks **9 to 13**.
 
-13 wk frozen For B2B deals, will check supply availability with GPP and if approved will use expedite (2 \- 3 Wks) 
+#### 🌏 EM (Emerging Markets)
+* **Frozen Period:** Strict **8-week** frozen window.
+* **Flexibility Rule:** Limited flexibility is allowed for weeks **9 to 13**.
 
-Europe
+#### 🇨🇳 GCN (Greater China)
+* **Frozen Period:** Formula-based window derived from Lead Time (L/T).
+* **Calculation:** `4 weeks Production L/T + In-transit L/T` tailored for different destination countries.
 
-8 wk frozen, 9-13 wks limited flexibility 
-
-EM
-
-8 wk frozen, 9-13 wks limited flexibility 
-
-GCN
-
-4wks production L/T \+ intransit L/T for diff. country 
-
-APM
-
-4wks production L/T \+ intransit L/T for diff. country 
-
+#### 🌏 APM (Asia Pacific Markets)
+* **Frozen Period:** Formula-based window derived from Lead Time (L/T).
+* **Calculation:** `4 weeks Production L/T + In-transit L/T` tailored for different destination countries.
