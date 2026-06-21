@@ -1,20 +1,19 @@
-Plannable flag 
+# **Plannable flag**
 
-Global Consensus
+**Global Consensus**
 
-To define when and what criteria to turn it from plannable to non-plannable 
+To define when and what criteria to turn it from plannable to non-plannable
 
-NAM
+**NAM**
 
-Non-Plannable includes EOL items. Need for a filter inDP module based on SKU status 
+Non-Plannable includes EOL items. Need for a filter inDP module based on SKU status
 
-LAT
+**LAT**
 
-Europe
+**Europe**
 
-EM
+**EM**
 
-GCN
+**GCN**
 
-APM
-
+**APM**
