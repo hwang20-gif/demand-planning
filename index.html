@@ -425,7 +425,7 @@
                 editUrl: "https://docs.google.com/document/d/1OP1Rp0VF4pVpvj7cIlMXDXHEP6bJcYMhs-mXPAle6fE/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/e20529ab-eda4-483f-b733-7606bf152c6f/edit?viewport_loc=-111%2C139%2C2159%2C991%2C7pF14CYle6Yij&invitationId=inv_afb404d8-41b5-4b7a-9a58-def3c8263ee6", 
                 imgSrc: "Return Rate management@.png",
-                contentFile: "Return Rate management.md", // 💡 調整：此步驟也改為讀取根目錄的外部 Markdown 檔
+                contentFile: "Return Rate management.md", 
             },
             { 
                 id: 4, 
@@ -433,49 +433,7 @@
                 editUrl: "https://docs.google.com/document/d/1V3RCdP_6TSkLc8WPpcx8EM1K7YEAZcO214qX9gRpTcA/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/773793f6-4abd-441c-bbf4-2d8cc1e5620c/edit?viewport_loc=240%2C305%2C3476%2C1596%2C5rtcIwgxVf2ml&invitationId=inv_304f2d92-3fc7-48f4-9b33-ab0e2a77fec1", 
                 imgSrc: "DCS SI Carryover@.png",
-                htmlContent: `
-                    <h3>🎯 Purpose</h3>
-                    <p>To ensure the Weekly Supply Plan aligns with the Quarterly Commercial Commitment by preventing unintentional loss of unfulfilled demand.</p>
-                    <h3>📘 Definition</h3>
-                    <p><strong>DCS Carryover</strong> is the process of reassigning unconsumed forecasts to future periods. It prevents forecast drop when shipments do not occur as planned in a specific week, ensuring that the total quarterly commitment remains intact.</p>
-                    <h3>💡 Importance</h3>
-                    <ul>
-                        <li><strong>System Disaggregation:</strong> Although we input forecasts on a quarterly or monthly basis, the system automatically disaggregates these numbers into weekly plans for supply planning.</li>
-                        <li><strong>Preventing Forecast Erosion:</strong> If actual shipments fall short of the weekly forecast and the system simply discards the unfulfilled portion, the total demand plan will continuously shrink.</li>
-                    </ul>
-                    <p><strong>Example Scenario:</strong><br>
-                    • Quarterly Commitment: $10M<br>
-                    • Situation: Shipments in the early weeks are lower than the weekly forecast.<br>
-                    • Risk: Without a Carryover mechanism, the total Demand Plan might drop to $7M, even though the Sales/Commercial teams are still committed to the original $10M target.</p>
-                    <h3>⚙️ Logic & Strategic Assessment</h3>
-                    <p>DCS Carryover is not an automatic process. It requires a strategic assessment based on the following two criteria:</p>
-                    <h4>1. Nature of the Demand: Delay vs. Decline</h4>
-                    <ul>
-                        <li><strong>Case for Carryover (Delay):</strong> If the shortfall is caused by a temporary shift—such as a customer ordering late, supply constraints, or a delayed promotional event—the volume should be carried over.</li>
-                        <li><strong>Case for Reduction (Decline):</strong> If the market demand is weakening or the product has lost its competitive edge, the forecast should be revised downward instead of being carried over.</li>
-                    </ul>
-                    <h4>2. Market Segmentation</h4>
-                    <p><strong>● Mature Markets (NAM, Europe, ANZ, Japan):</strong><br>
-                    Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <strong>No Carryover by Default</strong>.</p>
-                    <p><u>Exceptions (Criteria for Carryover):</u> permitted only when clear evidence proves the demand is delayed, not lost:</p>
-                    <ul>
-                        <li>Large-scale Events: Significant spikes such as Prime Day or Black Friday.</li>
-                        <li>Order Timing: Explicit customer delays in placing purchase orders (POs).</li>
-                        <li>Supply Constraints: Production or allocation issues that prevented fulfillment.</li>
-                        <li>Logistics/Shipment Delays: Goods are ready but delayed in transit.</li>
-                        <li>Commercial Validation: Formal confirmation from Sales/Commercial teams that the specific demand will resurface within the quarter.</li>
-                    </ul>
-                    <p><strong>● Emerging Markets (APM, Greater China, Latin America, and others):</strong><br>
-                    These regions are often commitment-driven and operate under a push-based model. In these markets, the quarterly target (e.g. $10M) is a firm commercial promise. Even if shipments are slow in the early weeks, the volume is expected to be recovered through aggressive sales activities toward the end of the period. Therefore, the default logic for these regions is: <strong>Carryover is Frequently Required</strong>.</p>
-                    <p>Demand in these markets is often backloaded (clustering at the end of the month/quarter). If a shortfall occurs early on, it indicates a delay in execution rather than a drop in demand. To ensure the Quarterly Sizing remains intact, unconsumed forecasts are carried over to future weeks.</p>
-                    <p><u>Common Scenarios for Carryover:</u></p>
-                    <ul>
-                        <li>Month-End / Quarter-End Push: Concentrated shipment efforts to meet financial targets.</li>
-                        <li>Major Promotional Events: Large-scale campaigns such as the 618 Shopping Festival.</li>
-                        <li>Phased Fulfillment: Slow starts compensated by accelerated shipments in later weeks.</li>
-                        <li>Commercial Assurance: Formal confirmation that the Quarterly Commitment remains unchanged and achievable.</li>
-                    </ul>
-                `
+                contentFile: "DCS SI carryover.md", // 💡 調整：此步驟也改為讀取根目錄的外部 Markdown 檔
             },
             { 
                 id: 5, 
@@ -725,7 +683,7 @@
                         return response.text();
                     })
                     .then(markdownData => {
-                        // 利用 marked.parse() 把下載下來的 Markdown 文字動態解析成網頁 HTML 丟上去
+                        // 利用 marked.parse() 把 Markdown 文字動態解析成網頁 HTML 丟上去
                         textContentArea.innerHTML = marked.parse(markdownData);
                     })
                     .catch(error => {
