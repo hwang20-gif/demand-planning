@@ -1,25 +1,25 @@
-One Page market data analysis 
+# **One Page market data analysis**
 
-Global Consensus
+**Global Consensus**
 
-Base on the market data update every month, planner to indicate if anything in DP with material impact and required attention/adjustment 
+Base on the market data update every month, planner to indicate if anything in DP with material impact and required attention/adjustment
 
-NAM
+**NAM**
 
-Need to incorporate as part of planning calendar, no formal review currently 
+Need to incorporate as part of planning calendar, no formal review currently
 
-LAT
+**LAT**
 
-Need to incorporate as part of planning calendar, no formal review currently 
+Need to incorporate as part of planning calendar, no formal review currently
 
-Europe
+**Europe**
 
-EM
+**EM**
 
-GCN
+**GCN**
 
-Working on the China SO dashboard 
+Working on the China SO dashboard
 
-APM  
-Already consider market data into planning but not yet set the format of one page. TBD 
+**APM**
 
+Already consider market data into planning but not yet set the format of one page. TBD
