@@ -45,7 +45,7 @@
             text-transform: uppercase;
         }
 
-        /* 💡 重新設計後的 AI 助理按鈕樣式 */
+        /* AI 助理按鈕樣式 */
         .ai-chat-trigger {
             display: inline-flex;
             align-items: center;
@@ -396,6 +396,9 @@
     </div>
 
     <script>
+        // 💡 GitHub 測試路徑設定 (指向你的內容資料夾)
+        const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/contents/";
+
         const stepsData = [
             { 
                 id: 1, 
@@ -403,28 +406,7 @@
                 editUrl: "https://docs.google.com/document/d/1G3Soa58AG3H-IbX6xaDrlLJq1mg5dRRFubhCcTdRCTI/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/680b898a-5f3b-4c4b-9209-b582c8e9a1d1/edit?viewport_loc=105%2C-72%2C3517%2C1615%2Ct5f0BNooez5S3&invitationId=inv_269e195c-87ce-4f8a-9f89-c40413f9da37", 
                 imgSrc: "ASP management@.png",
-                htmlContent: `
-                    <h3>📌 ASP Guideline</h3>
-                    <p>Using proposed ASP with only below exceptions:</p>
-                    <ul>
-                        <li><strong>1) NPI:</strong> Use bottom up forecast ASP until runrate has been established.</li>
-                        <li><strong>2) ASP Permanent Change Communication:</strong> From Finance/GCO until proposed ASP is reflected. Likely for price actions towards competition / FX / specific situations in the market, or phase-out price.</li>
-                        <li><strong>3) CN / TW / Aus / JP:</strong> Using logimap ASP due to FX / forward expected ASP consideration.</li>
-                        <li><strong>4) Big Event ASP (Europe):</strong> From event input Verified 28th Aug. All our SOA will be sell out. DCS ASP will not be impacted.</li>
-                    </ul>
-
-                    <h3>🔍 Regular Review and Validation</h3>
-                    <ul>
-                        <li><strong>1st Week of Quarter:</strong> To be reviewed and validated before the formal demand review.</li>
-                        <li><strong>Leverage Maestro ASP Workbook Exceptions:</strong> Identify any override ASP with a <strong>&gt;5% gap</strong> to proposed ASP and fix if any.</li>
-                    </ul>
-
-                    <h3>❓ Open Questions</h3>
-                    <ul>
-                        <li>Europe using Euros ASP? — <strong>Yes</strong></li>
-                        <li>AMECA using USD ASP? — <strong>Yes</strong></li>
-                    </ul>
-                `
+                contentFile: "step1.html",  // 💡 測試：改為指定外部檔案，不內嵌 htmlContent
             },
             { 
                 id: 2, 
@@ -435,7 +417,6 @@
                 htmlContent: `
                     <h3>🎯 Purpose</h3>
                     <p>To establish a standardized, cross-functional collaboration mechanism for defining, aligning, and executing Week on Hand (WOH) Targets across markets. This ensures full synchronization among Demand Planning (DP), Finance, and Customer Supply Chain (CSC), grounding Finance's Gross Revenue(GR) Plan and CSC's Order Fulfillment in a unified inventory target to maximize operational and financial efficiency.</p>
-
                     <h3>📘 Definition & Key Terms</h3>
                     <ul>
                         <li><strong>WOH (Week on Hand):</strong> Inventory target measured in weeks, indicating how many weeks of future demand the current inventory level can sustain.</li>
@@ -444,16 +425,13 @@
                         <li><strong>Product Line (PL) / Product Group (PG):</strong> Product-based segmentation (e.g., Gaming, PWS, Canova).</li>
                         <li><strong>ABC Classification:</strong> A framework that categorizes products into A, B, or C levels based on their strategic importance, typically driven by sales volume or value contribution.</li>
                     </ul>
-
                     <h3>💡 Importance</h3>
                     <ul>
                         <li><strong>Alignment of Financial and Operational Metrics:</strong> WOH targets directly influence Finance’s financial targets, inventory targets, and the GR Plan, as well as CSC’s replenishment and order execution. Failing to align upfront results in a disconnect between financial budgeting and actual supply chain operations.</li>
                         <li><strong>Market-Tailored Flexibility:</strong> Because planning logic varies across global markets (e.g., North America focuses heavily on major retailers, while Asia-Pacific focuses on country-specific dynamics and strategic products), the WOH framework must support multi-dimensional configurations to prevent one-size-fits-all stockouts or inventory piles.</li>
                     </ul>
-
                     <h3>⚙️ Planning Logic</h3>
                     <p><strong>Multi-Dimensional Flexibility:</strong> WOH targets should be defined at the most appropriate granularity depending on business needs (ranging broadly from the Supercluster level down to a specific Customer like Best Buy or an individual SKU), rather than sequentially passing through every single level.</p>
-                    
                     <p><strong>Market-Practice Driven Constraints:</strong></p>
                     <ul>
                         <li><strong>NAM:</strong> Primarily driven by Customer Group level.</li>
@@ -472,16 +450,13 @@
                 htmlContent: `
                     <h3>🎯 Purpose</h3>
                     <p>To align product return parameters between Demand Planning and Finance/CCM, establishing unified data rules to drive precise Gross Revenue (GR) planning and supply tracking cycles.</p>
-
                     <h3>⚙️ Alignment Guideline</h3>
                     <p><strong>Return Rate Alignment made with Finance/CCM:</strong> Ensure Finance uses the exact same Return Rate figures to drive the GR Plan calculation, avoiding alignment discrepancies across teams.</p>
-                    
                     <h3>🔍 Review and Update Frequency</h3>
                     <ul>
                         <li><strong>Standard Cycle:</strong> Reviewed and updated in <strong>Week 1 of each Quarter</strong>.</li>
                         <li><strong>AOP Exception Note:</strong> Finance typically defines it once a year in the Annual Operational Plan (AOP)—normally setting higher return rates during Q3 and Q4 cycles.</li>
                     </ul>
-
                     <h3>❓ Open Questions</h3>
                     <p><strong>Q:</strong> Current Return Rate is applied in SI DP starting via conversion, but return is applicable to total shipment units out of Logitech to the customer. Should it be stacked on top of SI DP consensus (including SI DP overrides and events)?</p>
                     <p><strong>A: Yes.</strong></p>
@@ -496,10 +471,8 @@
                 htmlContent: `
                     <h3>🎯 Purpose</h3>
                     <p>To ensure the Weekly Supply Plan aligns with the Quarterly Commercial Commitment by preventing unintentional loss of unfulfilled demand.</p>
-
                     <h3>📘 Definition</h3>
                     <p><strong>DCS Carryover</strong> is the process of reassigning unconsumed forecasts to future periods. It prevents forecast drop when shipments do not occur as planned in a specific week, ensuring that the total quarterly commitment remains intact.</p>
-
                     <h3>💡 Importance</h3>
                     <ul>
                         <li><strong>System Disaggregation:</strong> Although we input forecasts on a quarterly or monthly basis, the system automatically disaggregates these numbers into weekly plans for supply planning.</li>
@@ -509,16 +482,13 @@
                     • Quarterly Commitment: $10M<br>
                     • Situation: Shipments in the early weeks are lower than the weekly forecast.<br>
                     • Risk: Without a Carryover mechanism, the total Demand Plan might drop to $7M, even though the Sales/Commercial teams are still committed to the original $10M target.</p>
-
                     <h3>⚙️ Logic & Strategic Assessment</h3>
                     <p>DCS Carryover is not an automatic process. It requires a strategic assessment based on the following two criteria:</p>
-                    
                     <h4>1. Nature of the Demand: Delay vs. Decline</h4>
                     <ul>
                         <li><strong>Case for Carryover (Delay):</strong> If the shortfall is caused by a temporary shift—such as a customer ordering late, supply constraints, or a delayed promotional event—the volume should be carried over.</li>
                         <li><strong>Case for Reduction (Decline):</strong> If the market demand is weakening or the product has lost its competitive edge, the forecast should be revised downward instead of being carried over.</li>
                     </ul>
-
                     <h4>2. Market Segmentation</h4>
                     <p><strong>● Mature Markets (NAM, Europe, ANZ, Japan):</strong><br>
                     Mature markets are primarily market-driven, meaning consumption patterns closely reflect actual end-user demand. Therefore, the default rule for these regions is: <strong>No Carryover by Default</strong>.</p>
@@ -530,7 +500,6 @@
                         <li>Logistics/Shipment Delays: Goods are ready but delayed in transit.</li>
                         <li>Commercial Validation: Formal confirmation from Sales/Commercial teams that the specific demand will resurface within the quarter.</li>
                     </ul>
-
                     <p><strong>● Emerging Markets (APM, Greater China, Latin America, and others):</strong><br>
                     These regions are often commitment-driven and operate under a push-based model. In these markets, the quarterly target (e.g. $10M) is a firm commercial promise. Even if shipments are slow in the early weeks, the volume is expected to be recovered through aggressive sales activities toward the end of the period. Therefore, the default logic for these regions is: <strong>Carryover is Frequently Required</strong>.</p>
                     <p>Demand in these markets is often backloaded (clustering at the end of the month/quarter). If a shortfall occurs early on, it indicates a delay in execution rather than a drop in demand. To ensure the Quarterly Sizing remains intact, unconsumed forecasts are carried over to future weeks.</p>
@@ -558,13 +527,11 @@
                         <li>Avoid shortages and overstocking.</li>
                         <li>Smooth out shipment fluctuations.</li>
                     </ul>
-
                     <h3>📘 Definition & Key Terms</h3>
                     <ul>
                         <li><strong>Channel Correction:</strong> The process of adjusting the Sell-in Plan based on the gap between current inventory and target inventory to calibrate inventory levels and restore channel health.</li>
                         <li><strong>Close the Gap Pacing:</strong> Defines the speed of the inventory correction. Instead of simply changing shipment volumes, it manages how fast inventory returns to its target level (e.g., over 2 weeks vs. 4 weeks) to avoid market shock.</li>
                     </ul>
-
                     <h3>💡 Importance</h3>
                     <p>Without Channel Correction, critical supply chain issues arise:</p>
                     <ul>
@@ -572,7 +539,6 @@
                         <li><strong>Deficit Inventory:</strong> Severe shortages/stockouts, missed shipments, lost revenue, inability to fulfill customer pull-ins, and order backlog accumulation.</li>
                         <li><strong>Extreme Shipment Volatility:</strong> Missing or overly aggressive corrections cause huge supply spikes, severe shipment fluctuations, factory loading instability, and production bottlenecks.</li>
                     </ul>
-
                     <h3>⚙️ Calculation Logic & Pacing</h3>
                     <p>Sell-in does not equal DCS. The core formula is:</p>
                     <p style="background:#F4FAF4; padding:10px; border-left:4px solid var(--primary-green); font-weight:bold; margin-bottom:12px;">
@@ -581,7 +547,6 @@
                     <p><strong>Example Scenario:</strong><br>
                     • DCS: 1,000 | Target Inventory: 800 | Current Inventory: 500<br>
                     • <strong>Sell-in Calculation:</strong> 1,000 + 800 - 500 = 1,300 units.</p>
-
                     <h4>Smoothing Mechanism: Global Default Close Gap = 30%</h4>
                     <p>It represents the <em>correction speed (pacing rate)</em>, taking approximately 8 weeks to return to target levels gradually to minimize supply chain shock.</p>
                     <ul>
@@ -590,7 +555,6 @@
                         <li><strong>80% (Aggressive Pacing):</strong> Rapid adjustment typically used for urgent inventory imbalances.</li>
                         <li><strong>100% (Immediate Realignment):</strong> Gap closed instantly, forcing target inventory alignment by the very next week (Risks huge factory shipment spikes/drops).</li>
                     </ul>
-
                     <h3>📋 Planner Decision Logic</h3>
                     <p>The system provides a baseline; final validation rests with the planner based on:</p>
                     <ul>
@@ -614,7 +578,6 @@
                         <li><strong>Reallocate Demand Visibility:</strong> Consumption fundamentally reallocates demand visibility horizontally instead of artificially increasing total demand volume.</li>
                         <li><strong>Avoid Double Counting:</strong> Consume forecasts with actual orders to prevent system double counting.</li>
                     </ul>
-
                     <h3>📘 Definition & Key Terms</h3>
                     <ul>
                         <li><strong>Backlog:</strong> Official sell-in orders placed by T1 customers but not yet fully fulfilled by the factory. Backlog represents an <em>"already materialized real demand signal,"</em> while a forecast is just a <em>"planning assumption."</em></li>
@@ -624,15 +587,13 @@
                     <p style="background:#F4FAF4; padding:10px; border-left:4px solid var(--primary-green); font-weight:bold;">
                         Total System Demand = Actual Orders + Remaining Forecast
                     </p>
-
                     <h3>💡 Importance</h3>
-                    <p>If Forecast Consumption is skipped, the system treats bulk orders as incremental demand, stacking them onto the original forecast and causing severe issues:</p>
+                    <p> If Forecast Consumption is skipped, the system treats bulk orders as incremental demand, stacking them onto the original forecast and causing severe issues:</p>
                     <ul>
                         <li><strong>Supply Overestimated:</strong> e.g., Forecast (1k) + Order (1k) = System mistaken demand (2k).</li>
                         <li><strong>Factory Loading Distortion:</strong> Triggers factory overproduction and capacity saturation.</li>
                         <li><strong>Inventory Risk:</strong> Leads to excess inventory and unhealthy Weeks of Supply.</li>
                     </ul>
-
                     <h3>⚙️ Forecast Consumption Window Logic</h3>
                     <ul>
                         <li><strong>NPI (New Product Introduction):</strong> <strong>Disabled for the first 3 months</strong> due to volatile initial demand patterns.</li>
@@ -651,16 +612,13 @@
                 htmlContent: `
                     <h3>🎯 Purpose</h3>
                     <p>This process outlines the overall workflow for New Product Introduction (NPI), specifically defining when the Demand Planning department should engage, which discussions they need to participate in, and the system configurations and forecast upload tasks they must complete.</p>
-
                     <h3>📘 Definition</h3>
                     <p>The specific workflow relevant to DP is defined as the <strong>complete cycle spanning from SKU enablement, pre-release, bottom-up forecast engagement, and forecast upload, all the way through to post-Gate 2 change control</strong>.</p>
-
                     <h3>💡 Importance & Pain Points Resolved</h3>
                     <ul>
                         <li><strong>Early Preparation Activation:</strong> The new process integrates DP into the discussions as soon as Commercial / CCM begins establishing the forecast. Instead of waiting idly for final approvals, DP can now complete SKU enablement, data preparation, and assumption alignment ahead of time.</li>
                         <li><strong>Enhancing Forecast Credibility:</strong> By providing historical data, look-alike product data, and phase-in/phase-out information, DP can help verify whether the Initial Loading Quantity (ILQ) is sufficient.</li>
                     </ul>
-
                     <h3>⚙️ Core Planning Logic</h3>
                     <h4>1. Forecast Loading Granularity Level</h4>
                     <ul>
@@ -668,13 +626,11 @@
                         <li><strong>Europe:</strong> Loaded by forecast stream (e.g., Amazon, CD, Europe Others).</li>
                         <li><strong>AP / GCN / LATAM:</strong> Typically loaded by country level.</li>
                     </ul>
-
                     <h4>2. Timeline & Offset Logic (OSD / DCS / Sell-in Offset)</h4>
                     <ul>
                         <li><strong>OSD (On-Shelf Date):</strong> The actual product launch date in store or online.</li>
                         <li><strong>DCS Window:</strong> Typically set around <strong>two weeks prior to OSD</strong>.</li>
                     </ul>
-
                     <h4>3. Statistical Forecast vs. Manual Override Rules</h4>
                     <p>During the initial NPI phase, <strong>Manual Overrides must be used</strong> due to a lack of historical baseline data. After approximately 3 to 6 months post-launch, evaluate transitioning control to the system by gradually removing the overrides.</p>
                 `
@@ -690,13 +646,11 @@
                     <ul>
                         <li><strong>Portfolio Optimization & Rigorous Supply Control:</strong> Define clear phase-in/out strategies per product line/SKU and lock LTB quantities in the system to prevent any production overrun beyond the authorized cap.</li>
                     </ul>
-
                     <h3>📘 Definition & Key Terms</h3>
                     <ul>
                         <li><strong>PIPO (Phase-In Phase-Out):</strong> This is the process of defining and driving which product lines or SKUs should be phased out of the portfolio and which should be phased in. This global strategy is defined and spearheaded by the BG/GCO unit.</li>
                         <li><strong>LTB (Last Time Buy):</strong> The final production or purchase order issued by the global planning department to the manufacturing side. Once confirmed, the total product supply is capped and locked.</li>
                     </ul>
-
                     <h3>⚙️ Core Planning Logic</h3>
                     <ul>
                         <li><strong>Strategic Definition & Alignment:</strong> Once the headquarters (BG/GCO) determines the entry and exit strategies and execution methods (Hard/Soft) for specific SKUs, DP must act as the gatekeeper to verify that the LTB demands submitted by the regions are fully aligned with this global portfolio strategy.</li>
@@ -713,10 +667,8 @@
                 htmlContent: `
                     <h3>🎯 Purpose</h3>
                     <p>To address the inconsistencies in how regional planners manage events and to enhance cross-functional visibility, we are establishing a standardized global process.</p>
-
                     <h3>📘 Definition</h3>
                     <p>The term <strong>'Events'</strong> refers not only to standard marketing and promotional activities (such as Prime Day and Black Friday) but also encompasses all critical process milestones affecting the demand planning horizon, including Demand Reviews, Forecast Reviews, and Regional S&OP meetings.</p>
-
                     <h3>⚙️ Core Event Logic</h3>
                     <ul>
                         <li><strong>Always Incremental (Additive):</strong> Event demand is treated as strictly additive (<em>Final Forecast = Baseline + Event Qty</em>). If the baseline already mathematically includes the promotional event, planners must manually deduct that volume from the baseline to avoid double counting.</li>
@@ -743,20 +695,17 @@
                 htmlContent: `
                     <h3>🎯 Purpose</h3>
                     <p>To establish a clear workflow for accessory roadmap creation, simplified commercial approval, lifecycle alignment, and forecast updates.</p>
-
                     <h3>⚙️ Ownership & Portfolio Setup</h3>
                     <ul>
                         <li><strong>Owner Initiative:</strong> The DTX Global Team is the official owner to initiate the right accessories required to drive DTX sales.</li>
                         <li><strong>BG Sponsorship Requirements:</strong> They secure explicit BG sponsorship with sign-off to add it into portfolio and assigned LPM to help create SKU.</li>
                         <li><strong>Roadmap Visibility:</strong> Across all BGs, approximately <strong>5 to 10 accessories are expected to be created every year</strong>.</li>
                     </ul>
-
                     <h3>💰 Finance Alignment & Business Case</h3>
                     <ul>
                         <li><strong>Streamlined Approval:</strong> Finance has agreed to simplify the standard business case approval process by using a **one-pager template in email** instead of full BCF.</li>
                         <li><strong>Approver Realignment:</strong> The **Channel Finance Lead** will act as the final approver instead of BG Finance.</li>
                     </ul>
-
                     <h3>📌 ASP Guideline</h3>
                     <ul>
                         <li><strong>Plan Selection Rule:</strong> In the vast majority of cases, accessories are ultimately sold to the market at the **Discounted ASP**. Therefore, the **Discounted ASP must be used in our Demand Plan**.</li>
@@ -781,11 +730,10 @@
         stepsData.forEach(step => {
             const card = document.createElement('div');
             
-            // 🚨 Check if process map image exists to assign background color classes
             if (step.imgSrc && step.imgSrc.trim() !== "") {
-                card.className = 'process-card has-image'; // Grey Background
+                card.className = 'process-card has-image'; 
             } else {
-                card.className = 'process-card no-image';  // White Background
+                card.className = 'process-card no-image';  
             }
             
             card.innerHTML = `<div class="step-title">${step.title}</div>`;
@@ -798,7 +746,28 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            if (step.htmlContent && step.htmlContent.trim() !== "") {
+            // 💡 混合邏輯：如果該步驟有設定 contentFile，就去 GitHub 抓取檔案
+            if (step.contentFile && step.contentFile.trim() !== "") {
+                textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
+                textContentArea.style.display = 'block';
+
+                const targetUrl = githubRawBaseUrl + step.contentFile;
+                
+                fetch(targetUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error("GitHub file not found");
+                        return response.text();
+                    })
+                    .then(htmlData => {
+                        textContentArea.innerHTML = htmlData.trim() !== "" ? htmlData : "<p style='color:#999;'>No content details found in file.</p>";
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        textContentArea.innerHTML = "<p style='color:#cc0000;'>❌ Failed to load content from GitHub. (Please verify file 'contents/step1.html' exists in repo)</p>";
+                    });
+
+            // 💡 否則就讀取原本舊有的內嵌 htmlContent
+            } else if (step.htmlContent && step.htmlContent.trim() !== "") {
                 textContentArea.innerHTML = step.htmlContent;
                 textContentArea.style.display = 'block';
             } else {
