@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demand Planning Global Process Standardization</title>
 
+    <!-- 💡 引入 Marked.js 套件，負責把 Markdown 轉成網頁 HTML -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
@@ -29,7 +30,7 @@
         body {
             background-color: var(--bg-warm-white);
             color: var(--primary-green);
-            padding: 40px 20px 60px 20px; /* 稍微減少上方內邊距以平衡維護按鈕 */
+            padding: 40px 20px 60px 20px; 
             min-height: 100vh;
         }
 
@@ -41,12 +42,10 @@
             align-items: center;
         }
 
-        /* 🛠️ 新增：頂部「網站維護」按鈕容器 */
         .top-maintenance-container {
             margin-bottom: 25px;
         }
 
-        /* 🛠️ 新增：頂部「網站維護」按鈕樣式（低調灰色風格，不搶戲） */
         .maintenance-btn {
             background-color: transparent;
             color: #757575;
@@ -76,17 +75,15 @@
             text-transform: uppercase;
         }
 
-        /* 按鈕容器：讓三顆功能按鈕水平並排、置中 */
         .header-btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
             margin-top: 25px;
-            flex-wrap: wrap; /* 確保在小螢幕上會自動換行 */
+            flex-wrap: wrap; 
         }
 
-        /* 📊 功能按鈕的共同基礎樣式（確保高度、字級、圓角完全一致） */
         .ai-chat-trigger, .ops-guide-btn, .dp-folder-btn {
             display: inline-flex;
             align-items: center;
@@ -98,11 +95,10 @@
             font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
-            min-width: 160px; /* 確保按鈕寬度有基本一致性 */
+            min-width: 160px; 
             transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* AI 助理按鈕特有樣式（滿版綠色） */
         .ai-chat-trigger {
             background-color: var(--primary-green);
             color: white;
@@ -115,7 +111,6 @@
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
         }
 
-        /* OPS Guide 按鈕特有樣式（綠框白底） */
         .ops-guide-btn {
             background-color: var(--pure-white);
             color: var(--primary-green);
@@ -129,7 +124,6 @@
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
         }
 
-        /* 📂 新增：DP Folder 按鈕特有樣式（維持與 OPS Guide 一樣大、一樣的綠框白底設計） */
         .dp-folder-btn {
             background-color: var(--pure-white);
             color: var(--primary-green);
@@ -166,12 +160,10 @@
             min-height: 140px;
         }
 
-        /* White base style for cards WITHOUT images */
         .process-card.no-image {
             background-color: var(--pure-white);
         }
 
-        /* Grey base style for cards WITH images */
         .process-card.has-image {
             background-color: var(--card-has-img);
         }
@@ -427,9 +419,7 @@
         
         <div class="header-btn-container">
             <button class="ops-guide-btn" onclick="openOpsGuide()">📊 OPS Guide</button>
-            
             <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖 Demand Planning SOP Assistant</button>
-            
             <button class="dp-folder-btn" onclick="openDpFolder()">📂 DP Folder</button>
         </div>
     </header>
@@ -557,15 +547,16 @@
                 imgSrc: "Event Handling@.drawio (1).png", 
                 contentFile: "Event Handling.md"
             },
-            { id: 10, title: "Account Level Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 11, title: "Monthly Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 12, title: "Strategy and assumptions documentation", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 13, title: "Demand Plan Frozen Window", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 14, title: "One Page market data analysis", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 15, title: "Forecast Accy deep dive", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 16, title: "Direct Shipment Process", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 17, title: "Plannable flag", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
-            { id: 18, title: "Forecast Consumption management", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
+            /* 💡 以下已成功綁定對應的外部項目 Markdown 檔案 */
+            { id: 10, title: "Account Level Planning", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Account Level Planning.md" },
+            { id: 11, title: "Monthly Planning", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Monthly Planning.md" },
+            { id: 12, title: "Strategy and assumptions documentation", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Planning Strategy and assumptions documentation.md" },
+            { id: 13, title: "Demand Plan Frozen Window", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Demand Plan Frozen Window.md" },
+            { id: 14, title: "One Page market data analysis", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "One Page market data analysis.md" },
+            { id: 15, title: "Forecast Accy deep dive", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Forecast Accy deep dive.md" },
+            { id: 16, title: "Direct Shipment Process", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Direct Shipment Process.md" },
+            { id: 17, title: "Plannable flag", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Plannable flag.md" },
+            { id: 18, title: "Forecast Consumption management", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Forecast Consumption management.md" },
             { 
                 id: 19, 
                 title: "DTX Accessory Planning", 
@@ -574,7 +565,7 @@
                 imgSrc: "DTX @.drawio (1).png", 
                 contentFile: "DTX Accessory Planning.md"
             },
-            { id: 20, title: "Accessory Planning Criteria", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" }
+            { id: 20, title: "Accessory Planning Criteria", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Accessory Planning Criteria.md" }
         ];
 
         const container = document.getElementById('gridContainer');
@@ -685,12 +676,10 @@
             window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
         }
 
-        /* 💡 新增：開啟 DP Folder 試算表連結的函式 */
         function openDpFolder() {
             window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank');
         }
 
-        /* 🛠️ 新增：開啟頂部 Maintenance Guide 文件的函式 */
         function openMaintenanceGuide() {
             window.open('https://docs.google.com/document/d/1HPZrHHa6LvUJQd0qnfNl8XM_Yde1LeWn9j0M2hWoedw/edit?usp=sharing', '_blank');
         }
