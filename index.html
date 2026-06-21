@@ -531,7 +531,14 @@
                 contentFile: "DTX Accessory Planning.md"
             },
             { id: 20, title: "Accessory Planning Criteria", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "Accessory Planning Criteria.md" },
-            { id: 21, title: "B2B Forecast", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "B2B Forecast.md" }
+            { 
+                id: 21, 
+                title: "B2B Forecast", 
+                editUrl: "https://docs.google.com/presentation/d/1he0yDqRn6HRhAFRvcjPq57xdoZBhILhvSm_KB4wBadQ/edit?usp=sharing", 
+                lucidUrl: "", 
+                imgSrc: "", 
+                contentFile: "B2B Forecast.md" 
+            }
         ];
 
         const container = document.getElementById('gridContainer');
@@ -621,6 +628,8 @@
                 alert("No Lucidchart link assigned to this process diagram.");
             }
         }
+
+        // 如果想為有 editUrl 但沒有流程圖的卡片（如簡報）提供另一個直接打開的按鈕，可在 HTML 擴充。目前邏輯中會將其作為 currentActiveEditUrl 儲存。
 
         function openOpsGuide() {
             window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank');
