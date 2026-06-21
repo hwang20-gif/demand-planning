@@ -1,0 +1,2 @@
+Account Level Planning   
+Still learning and under evaluation among fcst accy change, CI imbalance handling less, more maintenance work, better collaboration with customer/CSC ( Maxime and Mansi comes up evaluation from learnings) Need to formulate the decision tree Need to have demand review per customer subgroup and consensus with CCM Open Questions: Do we need to have all skus by customer subgroup or only some top selected items? what is the benefit to customers? improved supply ? reservation of stock ? 
