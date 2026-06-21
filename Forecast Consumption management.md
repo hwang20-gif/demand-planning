@@ -1,22 +1,21 @@
-Forecast Consumption management 
+# **Forecast Consumption management**
 
-Global Consensus
+**Global Consensus**
 
-To define approver of the consumption window change, and criteria to enable sku for consumption 
+To define approver of the consumption window change, and criteria to enable sku for consumption
 
-NAM
+**NAM**
 
-LAT
+**LAT**
 
-Europe
+**Europe**
 
-EM
+**EM**
 
-GCN
+**GCN**
 
-Currently open for all skus except for China and NPI (followed by the fcst comsumption process above), NPI will open 3 months after the launch 
+Currently open for all skus except for China and NPI (followed by the fcst comsumption process above), NPI will open 3 months after the launch
 
-APM
+**APM**
 
-Currently open for all skus except for NPI which will open 3 months later after launch 
-
+Currently open for all skus except for NPI which will open 3 months later after launch
