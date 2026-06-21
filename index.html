@@ -396,7 +396,7 @@
     </div>
 
     <script>
-        // 💡 GitHub 測試路徑設定 (指向你的內容資料夾)
+        // GitHub 儲存庫路徑
         const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/contents/";
 
         const stepsData = [
@@ -406,7 +406,7 @@
                 editUrl: "https://docs.google.com/document/d/1G3Soa58AG3H-IbX6xaDrlLJq1mg5dRRFubhCcTdRCTI/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/680b898a-5f3b-4c4b-9209-b582c8e9a1d1/edit?viewport_loc=105%2C-72%2C3517%2C1615%2Ct5f0BNooez5S3&invitationId=inv_269e195c-87ce-4f8a-9f89-c40413f9da37", 
                 imgSrc: "ASP management@.png",
-                contentFile: "step1.html",  // 💡 測試：改為指定外部檔案，不內嵌 htmlContent
+                contentFile: "ASP Management words.html",  // 💡 檔名已成功修改為 ASP Management words.html
             },
             { 
                 id: 2, 
@@ -588,7 +588,7 @@
                         Total System Demand = Actual Orders + Remaining Forecast
                     </p>
                     <h3>💡 Importance</h3>
-                    <p> If Forecast Consumption is skipped, the system treats bulk orders as incremental demand, stacking them onto the original forecast and causing severe issues:</p>
+                    <p>If Forecast Consumption is skipped, the system treats bulk orders as incremental demand, stacking them onto the original forecast and causing severe issues:</p>
                     <ul>
                         <li><strong>Supply Overestimated:</strong> e.g., Forecast (1k) + Order (1k) = System mistaken demand (2k).</li>
                         <li><strong>Factory Loading Distortion:</strong> Triggers factory overproduction and capacity saturation.</li>
@@ -746,12 +746,14 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            // 💡 混合邏輯：如果該步驟有設定 contentFile，就去 GitHub 抓取檔案
+            // 混合邏輯：如果該步驟有設定 contentFile，就去 GitHub 抓取檔案
             if (step.contentFile && step.contentFile.trim() !== "") {
                 textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
                 textContentArea.style.display = 'block';
 
-                const targetUrl = githubRawBaseUrl + step.contentFile;
+                // 將檔名進行網址安全編碼 (例如將空格轉為 %20)
+                const safeFileName = encodeURIComponent(step.contentFile);
+                const targetUrl = githubRawBaseUrl + safeFileName;
                 
                 fetch(targetUrl)
                     .then(response => {
@@ -763,10 +765,10 @@
                     })
                     .catch(error => {
                         console.error(error);
-                        textContentArea.innerHTML = "<p style='color:#cc0000;'>❌ Failed to load content from GitHub. (Please verify file 'contents/step1.html' exists in repo)</p>";
+                        textContentArea.innerHTML = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>contents/ASP Management words.html</strong> exists in your repo.</small></p>`;
                     });
 
-            // 💡 否則就讀取原本舊有的內嵌 htmlContent
+            // 否則就讀取原本舊有的內嵌 htmlContent
             } else if (step.htmlContent && step.htmlContent.trim() !== "") {
                 textContentArea.innerHTML = step.htmlContent;
                 textContentArea.style.display = 'block';
