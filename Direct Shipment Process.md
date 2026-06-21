@@ -1,18 +1,17 @@
-Direct Shipment Process 
+# **Direct Shipment Process**
 
-Global Consensus
+**Global Consensus**
 
-NAM
+**NAM**
 
-Very Manual- DP is entered based on aligned Cistomer receipt date, LT is managed by the system for xfactory dates. Need to manage and move manually till customer order is received. Actual SI needs to be maintained manually till the receipt happens to avoid sudden drop in SI 
+Very Manual - DP is entered based on aligned Customer receipt date, LT is managed by the system for xfactory dates. Need to manage and move manually till customer order is received. Actual SI needs to be maintained manually till the receipt happens to avoid sudden drop in SI
 
-LAT
+**LAT**
 
-Europe
+**Europe**
 
-EM
+**EM**
 
-GCN
+**GCN**
 
-APM
-
+**APM**
