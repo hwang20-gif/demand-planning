@@ -417,7 +417,7 @@
                 editUrl: "https://docs.google.com/document/d/17B6Zf2H1yo3WEMMyjr_P9ufp7ZsYnruQMfWtJkd1F1c/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/14f54d95-586a-419f-a2d2-db04a7a3eab6/edit?viewport_loc=28%2C304%2C1781%2C818%2Ckfud8kSUKrbUF&invitationId=inv_3ccce988-a35f-41c3-8699-9ec60ee64d2e", 
                 imgSrc: "WOH Management @.png",
-                contentFile: "WOH management.md", // 💡 調整：此步驟也改為讀取根目錄的外部 Markdown 檔
+                contentFile: "WOH management.md", 
             },
             { 
                 id: 3, 
@@ -425,20 +425,7 @@
                 editUrl: "https://docs.google.com/document/d/1OP1Rp0VF4pVpvj7cIlMXDXHEP6bJcYMhs-mXPAle6fE/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/e20529ab-eda4-483f-b733-7606bf152c6f/edit?viewport_loc=-111%2C139%2C2159%2C991%2C7pF14CYle6Yij&invitationId=inv_afb404d8-41b5-4b7a-9a58-def3c8263ee6", 
                 imgSrc: "Return Rate management@.png",
-                htmlContent: `
-                    <h3>🎯 Purpose</h3>
-                    <p>To align product return parameters between Demand Planning and Finance/CCM, establishing unified data rules to drive precise Gross Revenue (GR) planning and supply tracking cycles.</p>
-                    <h3>⚙️ Alignment Guideline</h3>
-                    <p><strong>Return Rate Alignment made with Finance/CCM:</strong> Ensure Finance uses the exact same Return Rate figures to drive the GR Plan calculation, avoiding alignment discrepancies across teams.</p>
-                    <h3>🔍 Review and Update Frequency</h3>
-                    <ul>
-                        <li><strong>Standard Cycle:</strong> Reviewed and updated in <strong>Week 1 of each Quarter</strong>.</li>
-                        <li><strong>AOP Exception Note:</strong> Finance typically defines it once a year in the Annual Operational Plan (AOP)—normally setting higher return rates during Q3 and Q4 cycles.</li>
-                    </ul>
-                    <h3>❓ Open Questions</h3>
-                    <p><strong>Q:</strong> Current Return Rate is applied in SI DP starting via conversion, but return is applicable to total shipment units out of Logitech to the customer. Should it be stacked on top of SI DP consensus (including SI DP overrides and events)?</p>
-                    <p><strong>A: Yes.</strong></p>
-                `
+                contentFile: "Return Rate management.md", // 💡 調整：此步驟也改為讀取根目錄的外部 Markdown 檔
             },
             { 
                 id: 4, 
@@ -724,7 +711,7 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            // 💡 讀取邏輯：如果該步驟有指定 contentFile，就去 GitHub 根目錄抓取 Markdown 檔案
+            // 如果該步驟有指定 contentFile，就去 GitHub 根目錄抓取 Markdown 檔案
             if (step.contentFile && step.contentFile.trim() !== "") {
                 textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
                 textContentArea.style.display = 'block';
