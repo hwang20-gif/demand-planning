@@ -609,8 +609,8 @@
                     .then(markdownData => {
                         let parsedHtml = marked.parse(markdownData);
                         
-                        // 💡 這裡做了調整：只要該項目有設定 editUrl，無論有沒有圖片，都在文字區塊上方強制保留橘色的連結大按鈕
-                        if (step.editUrl && step.editUrl.trim() !== "") {
+                        // 💡 只有當標題為 "B2B Forecast" 且有 editUrl 時，才在文字區塊上方插入橘色大按鈕
+                        if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
                             const actionButtonHtml = `
                                 <div style="margin-bottom: 20px;">
                                     <button class="inline-action-btn" onclick="openGoogleDocEditor()">
@@ -628,7 +628,9 @@
                         console.error(error);
                         
                         let fallbackHtml = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>${step.contentFile}</strong> exists in your repository root.</small></p>`;
-                        if (step.editUrl && step.editUrl.trim() !== "") {
+                        
+                        // 💡 錯誤回包同樣限制只有 "B2B Forecast" 才顯示橘色大按鈕
+                        if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
                             fallbackHtml = `
                                 <div style="margin-bottom: 20px;">
                                     <button class="inline-action-btn" onclick="openGoogleDocEditor()">
