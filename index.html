@@ -29,13 +29,42 @@
         body {
             background-color: var(--bg-warm-white);
             color: var(--primary-green);
-            padding: 60px 20px;
+            padding: 40px 20px 60px 20px; /* 稍微減少上方內邊距以平衡維護按鈕 */
             min-height: 100vh;
         }
 
         header {
             text-align: center;
             margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 🛠️ 新增：頂部「網站維護」按鈕容器 */
+        .top-maintenance-container {
+            margin-bottom: 25px;
+        }
+
+        /* 🛠️ 新增：頂部「網站維護」按鈕樣式（低調灰色風格，不搶戲） */
+        .maintenance-btn {
+            background-color: transparent;
+            color: #757575;
+            border: 1px solid #CCCCCC;
+            border-radius: 20px;
+            padding: 6px 18px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .maintenance-btn:hover {
+            background-color: #EEEEEE;
+            color: #424242;
+            border-color: #9E9E9E;
         }
 
         header h1 {
@@ -47,19 +76,21 @@
             text-transform: uppercase;
         }
 
-        /* 按鈕容器：讓 OPS Guide 與 AI 助理並排 */
+        /* 按鈕容器：讓三顆功能按鈕水平並排、置中 */
         .header-btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap; /* 確保在小螢幕上會自動換行 */
         }
 
-        /* 📊 OPS Guide 按鈕與 AI 助理的共同基礎樣式 */
-        .ai-chat-trigger, .ops-guide-btn {
+        /* 📊 功能按鈕的共同基礎樣式（確保高度、字級、圓角完全一致） */
+        .ai-chat-trigger, .ops-guide-btn, .dp-folder-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             border: none;
             border-radius: 30px;
@@ -67,10 +98,11 @@
             font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
+            min-width: 160px; /* 確保按鈕寬度有基本一致性 */
             transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* AI 助理按鈕特有樣式 */
+        /* AI 助理按鈕特有樣式（滿版綠色） */
         .ai-chat-trigger {
             background-color: var(--primary-green);
             color: white;
@@ -83,7 +115,7 @@
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
         }
 
-        /* 📊 OPS Guide 按鈕特有樣式（走清爽的綠色邊框風格，與 AI 按鈕做出視覺區隔） */
+        /* OPS Guide 按鈕特有樣式（綠框白底） */
         .ops-guide-btn {
             background-color: var(--pure-white);
             color: var(--primary-green);
@@ -93,7 +125,21 @@
 
         .ops-guide-btn:hover {
             transform: translateY(-2px);
-            background-color: #E8F5E9; /* 輕微的綠色提亮背景 */
+            background-color: #E8F5E9;
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
+        }
+
+        /* 📂 新增：DP Folder 按鈕特有樣式（維持與 OPS Guide 一樣大、一樣的綠框白底設計） */
+        .dp-folder-btn {
+            background-color: var(--pure-white);
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+        }
+
+        .dp-folder-btn:hover {
+            transform: translateY(-2px);
+            background-color: #E8F5E9;
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
         }
 
@@ -373,10 +419,18 @@
 <body>
 
     <header>
+        <div class="top-maintenance-container">
+            <button class="maintenance-btn" onclick="openMaintenanceGuide()">Maintenance Guide</button>
+        </div>
+        
         <h1>Demand Planning Global Process Standardization</h1>
+        
         <div class="header-btn-container">
             <button class="ops-guide-btn" onclick="openOpsGuide()">📊 OPS Guide</button>
+            
             <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖 Demand Planning SOP Assistant</button>
+            
+            <button class="dp-folder-btn" onclick="openDpFolder()">📂 DP Folder</button>
         </div>
     </header>
 
@@ -623,13 +677,22 @@
             }
         }
 
-        /* 💡 新增：開啟 OPS Guide 簡報連結的函式 */
         function openOpsGuide() {
             window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank');
         }
 
         function toggleAIChat() {
             window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
+        }
+
+        /* 💡 新增：開啟 DP Folder 試算表連結的函式 */
+        function openDpFolder() {
+            window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank');
+        }
+
+        /* 🛠️ 新增：開啟頂部 Maintenance Guide 文件的函式 */
+        function openMaintenanceGuide() {
+            window.open('https://docs.google.com/document/d/1HPZrHHa6LvUJQd0qnfNl8XM_Yde1LeWn9j0M2hWoedw/edit?usp=sharing', '_blank');
         }
 
         function adjustZoom(amount) {
