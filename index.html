@@ -47,28 +47,54 @@
             text-transform: uppercase;
         }
 
-        /* AI 助理按鈕樣式 */
-        .ai-chat-trigger {
+        /* 按鈕容器：讓 OPS Guide 與 AI 助理並排 */
+        .header-btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* 📊 OPS Guide 按鈕與 AI 助理的共同基礎樣式 */
+        .ai-chat-trigger, .ops-guide-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 20px;
-            background-color: var(--primary-green);
-            color: white;
             border: none;
             border-radius: 30px;
             padding: 12px 28px;
             font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(46, 125, 50, 0.2);
             transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* AI 助理按鈕特有樣式 */
+        .ai-chat-trigger {
+            background-color: var(--primary-green);
+            color: white;
+            box-shadow: 0 4px 14px rgba(46, 125, 50, 0.2);
         }
         
         .ai-chat-trigger:hover { 
             transform: translateY(-2px); 
             background-color: #1B5E20;
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        /* 📊 OPS Guide 按鈕特有樣式（走清爽的綠色邊框風格，與 AI 按鈕做出視覺區隔） */
+        .ops-guide-btn {
+            background-color: var(--pure-white);
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+        }
+
+        .ops-guide-btn:hover {
+            transform: translateY(-2px);
+            background-color: #E8F5E9; /* 輕微的綠色提亮背景 */
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
         }
 
         .grid-container {
@@ -348,7 +374,10 @@
 
     <header>
         <h1>Demand Planning Global Process Standardization</h1>
-        <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖 Demand Planning SOP Assistant</button>
+        <div class="header-btn-container">
+            <button class="ops-guide-btn" onclick="openOpsGuide()">📊 OPS Guide</button>
+            <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖 Demand Planning SOP Assistant</button>
+        </div>
     </header>
 
     <div class="grid-container" id="gridContainer"></div>
@@ -401,7 +430,6 @@
         // 指向 GitHub 儲存庫的最外層（根目錄）
         const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/";
 
-        // 💡 所有的核心流程皆已成功配對外部 Markdown 檔 (.md)
         const stepsData = [
             { 
                 id: 1, 
@@ -475,7 +503,6 @@
                 imgSrc: "Event Handling@.drawio (1).png", 
                 contentFile: "Event Handling.md"
             },
-            // 下方為目前尚未寫入資料的欄位，維持原樣
             { id: 10, title: "Account Level Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
             { id: 11, title: "Monthly Planning", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
             { id: 12, title: "Strategy and assumptions documentation", editUrl: "", lucidUrl: "", imgSrc: "", htmlContent: "" },
@@ -527,7 +554,6 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            // 讀取邏輯：如果該步驟有指定 contentFile，就去 GitHub 根目錄抓取 Markdown 檔案
             if (step.contentFile && step.contentFile.trim() !== "") {
                 textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
                 textContentArea.style.display = 'block';
@@ -541,7 +567,6 @@
                         return response.text();
                     })
                     .then(markdownData => {
-                        // 利用 marked.parse() 把下載下來的 Markdown 文字動態解析成網頁 HTML 丟上去
                         textContentArea.innerHTML = marked.parse(markdownData);
                     })
                     .catch(error => {
@@ -549,7 +574,6 @@
                         textContentArea.innerHTML = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>${step.contentFile}</strong> exists in your repository root.</small></p>`;
                     });
 
-            // 否則就讀取原本舊有的內嵌 htmlContent 數據
             } else if (step.htmlContent && step.htmlContent.trim() !== "") {
                 textContentArea.innerHTML = step.htmlContent;
                 textContentArea.style.display = 'block';
@@ -599,6 +623,15 @@
             }
         }
 
+        /* 💡 新增：開啟 OPS Guide 簡報連結的函式 */
+        function openOpsGuide() {
+            window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank');
+        }
+
+        function toggleAIChat() {
+            window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
+        }
+
         function adjustZoom(amount) {
             zoomScale += amount;
             if (zoomScale < 0.5) zoomScale = 0.5;  
@@ -615,10 +648,6 @@
 
         closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
         overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
-
-        function toggleAIChat() {
-            window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
-        }
 
         function loadGithubDiscussions(processTitle) {
             const container = document.getElementById('giscusContainer');
