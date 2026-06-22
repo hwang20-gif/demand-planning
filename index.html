@@ -74,7 +74,7 @@
             text-transform: uppercase;
         }
 
-        /* 💡 最外層（首頁）按鈕維持乾淨的高級白底風格 */
+        /* 最外層（首頁）按鈕維持乾淨的高級白底風格 */
         .header-btn-container {
             display: flex;
             justify-content: center;
@@ -99,7 +99,6 @@
             transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* 🤖 只有 AI 助手保持顯眼的亮綠底色 */
         .ai-chat-trigger {
             background-color: var(--primary-green);
             color: white;
@@ -112,7 +111,6 @@
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
         }
 
-        /* 📊 OPS Guide 與 📂 DP Folder 完全遵照要求，維持白色底色樣式 */
         .ops-guide-btn, .dp-folder-btn {
             background-color: var(--pure-white);
             color: var(--primary-green);
@@ -134,7 +132,7 @@
             margin: 0 auto;
         }
 
-        /* 💡 遵照指令：最外層的所有卡片統一維持乾淨奢華的「純白底色」，移除灰色混雜 */
+        /* 最外層的所有卡片統一維持純白底色 */
         .process-card {
             border: 2px solid var(--border-soft);
             border-radius: 14px;
@@ -206,7 +204,7 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* 標頭導覽列結構：標題固定在左側，叉叉關閉按鈕完美固定在右側 */
+        /* 標頭導覽列結構 */
         .modal-header {
             padding: 24px 35px;
             border-bottom: 1px solid var(--border-soft);
@@ -286,12 +284,11 @@
             background-color: #FFFFFF;
         }
 
-        /* 格式大對稱：全域 Edit 按鈕尺寸樣式完全一致 */
+        /* 格式大對稱：全域 Edit 按鈕基礎樣式 */
         .uniform-edit-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background-color: var(--primary-green) !important; 
             color: white !important; 
             border: none !important;
             border-radius: 6px;
@@ -299,14 +296,29 @@
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(46, 125, 50, 0.15) !important;
             transition: all 0.2s ease;
         }
-        
-        .uniform-edit-btn:hover {
+
+        /* 🟢 標準已定案流程：經典羅技綠 */
+        .uniform-edit-btn.status-finalized {
+            background-color: var(--primary-green) !important;
+            box-shadow: 0 2px 6px rgba(46, 125, 50, 0.15) !important;
+        }
+        .uniform-edit-btn.status-finalized:hover {
             background-color: #1B5E20 !important; 
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25) !important;
+        }
+
+        /* 🔴 11~18 待討論流程：工業灰底色 */
+        .uniform-edit-btn.status-discussing {
+            background-color: #9E9E9E !important;
+            box-shadow: 0 2px 6px rgba(158, 158, 158, 0.15) !important;
+        }
+        .uniform-edit-btn.status-discussing:hover {
+            background-color: #757575 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(158, 158, 158, 0.25) !important;
         }
 
         .image-scroll-box {
@@ -366,13 +378,15 @@
             </div>
             <div class="modal-body">
 
+                <!-- SOP 文字外框區塊 -->
                 <div class="text-container-wrapper" id="textContainerWrapper">
                     <div class="text-header-bar" id="textHeaderBar">
-                        <button class="uniform-edit-btn" onclick="openGoogleDocEditor()">✏️ Edit</button>
+                        <button class="uniform-edit-btn" id="textEditBtn" onclick="openGoogleDocEditor()">✏️ Edit</button>
                     </div>
                     <div class="text-content-area" id="textContentArea"></div>
                 </div>
                 
+                <!-- 流程圖大外框區塊 -->
                 <div class="image-outer-wrapper" id="imageOuterWrapper">
                     <div class="zoom-bar">
                         <div>
@@ -479,15 +493,6 @@
                 docId: "2PACX-1vRg4Qff3Ofz2TaHir9zpSC6AxACDga4FSvfw_UUV900ER5eFvqlUUgHskX8-RYebXO0Fy-KXziZz8X_"
             },
             { 
-                id: 10, 
-                title: "Account Level Planning", 
-                editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", 
-                lucidUrl: "https://lucid.app/lucidchart/05860c7c-17f1-463c-bd8d-2f0c6a1409fe/edit?viewport_loc=-2806%2C-1100%2C4179%2C1919%2C0_0&invitationId=inv_7c9df0f9-f82e-4dac-9e53-6a29748cdf94", 
-                imgSrc: "https://lucid.app/publicSegments/view/f8248f5a-ca6a-4a18-b399-1e50e0f9d8b7/image.png", 
-                contentFile: "GOOGLE_DOC", 
-                docId: "2PACX-1vQA5sS7omFN-x9A_0XeBWRFpRQxUP-DHfIJ0fd3CqMxztJd7_GC34OfQM-XWnZp6x_rOyzVORExCC42" 
-            },
-            { 
                 id: 11, 
                 title: "Monthly Planning", 
                 editUrl: "https://docs.google.com/document/d/1P8qYKKs-FYGwQmCDoNuLOPx5gzD30zxRFuzjwDRqwd8/edit?usp=sharing", 
@@ -560,6 +565,15 @@
                 docId: "2PACX-1vRo8A1fctMUu8NWyS-5hBKskGFHccwt1hOYa7JeclwFXXNB1pZN0cTCutjaAbAfX_6pYkJBiIzYhtWY" 
             },
             { 
+                id: 10, // 💡 移動順序，與主畫面網格流暢排序保持絕對一致
+                title: "Account Level Planning", 
+                editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/05860c7c-17f1-463c-bd8d-2f0c6a1409fe/edit?viewport_loc=-2806%2C-1100%2C4179%2C1919%2C0_0&invitationId=inv_7c9df0f9-f82e-4dac-9e53-6a29748cdf94", 
+                imgSrc: "https://lucid.app/publicSegments/view/f8248f5a-ca6a-4a18-b399-1e50e0f9d8b7/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vQA5sS7omFN-x9A_0XeBWRFpRQxUP-DHfIJ0fd3CqMxztJd7_GC34OfQM-XWnZp6x_rOyzVORExCC42" 
+            },
+            { 
                 id: 19, 
                 title: "DTX Accessory Planning", 
                 editUrl: "https://docs.google.com/document/d/1_XeOAPVKRv9ghKRI6mhcox2aQGbrn9kbMzCB-xSD34A/edit?usp=sharing", 
@@ -569,7 +583,7 @@
                 docId: "2PACX-1vQRr9ss96M0cD_WIkiYAB515Q-pzxYVQTEN3HXYK_3LUe23ltIRvsfmSS1SV84k4X5IrybjoLZsSliF"
             },
             { 
-                id: 100, // 💡 使用獨立 id 以免衝突
+                id: 100, 
                 id_original: 20, 
                 title: "Accessory Planning Criteria", 
                 editUrl: "https://docs.google.com/document/d/1P3PBN-86Taj0ql6HKza_Gu4IttjCHAT-boxiIYWisWY/edit?usp=sharing", 
@@ -584,8 +598,8 @@
                 editUrl: "https://docs.google.com/presentation/d/1he0yDqRn6HRhAFRvcjPq57xdoZBhILhvSm_KB4wBadQ/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/52383a36-7bbe-42c6-a795-4a72801fc0ec/edit?viewport_loc=-2467%2C-889%2C3964%2C1820%2C0_0&invitationId=inv_8b211fd7-0330-47bf-8107-3266773f2af9", 
                 imgSrc: "https://lucid.app/publicSegments/view/9f7d59b7-1f87-488e-8d87-ac40f21c037f/image.png", 
-                contentFile: "GOOGLE_DOC",
-                docId: "2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw" // 💡 暫時共用同一個發布驗證
+                contentFile: "B2B_NO_TEXT", 
+                docId: "" 
             }
         ];
 
@@ -598,6 +612,8 @@
         const imgOuterWrapper = document.getElementById('imageOuterWrapper');
         const textHeaderBar = document.getElementById('textHeaderBar');
         const textContainerWrapper = document.getElementById('textContainerWrapper');
+        const textEditBtn = document.getElementById('textEditBtn');
+        const lucidLinkBtn = document.getElementById('lucidLinkBtn');
         
         let zoomScale = 1;
         let currentActiveEditUrl = ""; 
@@ -605,10 +621,7 @@
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
-            
-            // 💡 依照指令：最外層的所有卡片統一渲染為白底，移除視覺上的灰色雜質
             card.className = 'process-card no-image';  
-            
             card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
             container.appendChild(card);
@@ -619,19 +632,29 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            if ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === "")) {
+            // 💡 判斷是否為 11~18 的待討論流程，自動切換按鈕底色
+            const isDiscussing = (step.id >= 11 && step.id <= 18);
+            if (isDiscussing) {
+                textEditBtn.className = "uniform-edit-btn status-discussing";
+                lucidLinkBtn.className = "uniform-edit-btn status-discussing";
+            } else {
+                textEditBtn.className = "uniform-edit-btn status-finalized";
+                lucidLinkBtn.className = "uniform-edit-btn status-finalized";
+            }
+
+            if (step.contentFile === "B2B_NO_TEXT" || ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === ""))) {
                 textContainerWrapper.style.display = 'none';
             } else {
                 textContainerWrapper.style.display = 'flex';
             }
 
-            if (step.editUrl && step.editUrl.trim() !== "") {
+            if (step.editUrl && step.editUrl.trim() !== "" && step.contentFile !== "B2B_NO_TEXT") {
                 textHeaderBar.style.display = 'flex';
             } else {
                 textHeaderBar.style.display = 'none';
             }
 
-            if (step.contentFile && step.contentFile.trim() !== "") {
+            if (step.contentFile && step.contentFile.trim() !== "" && step.contentFile !== "B2B_NO_TEXT") {
                 textContentArea.style.display = 'block';
 
                 if (step.contentFile === "GOOGLE_DOC") {
@@ -643,28 +666,9 @@
                             <iframe src="${dynamicUrl}" class="gdoc-iframe" loading="lazy"></iframe>
                         `;
                     }
-                } else {
-                    textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
-                    const safeFileName = encodeURIComponent(step.contentFile);
-                    const targetUrl = githubRawBaseUrl + safeFileName;
-
-                    fetch(targetUrl)
-                        .then(response => {
-                            if (!response.ok) throw new Error("GitHub file not found");
-                            return response.text();
-                        })
-                        .then(markdownData => {
-                            textContentArea.innerHTML = marked.parse(markdownData);
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            textContentArea.innerHTML = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>${step.contentFile}</strong> exists in your repository root.</small></p>`;
-                        });
                 }
-
             } else {
-                textContentArea.innerHTML = "<p style='color:#999;'>No content details provided yet.</p>";
-                textContentArea.style.display = 'block';
+                textContentArea.innerHTML = "";
             }
 
             if (step.imgSrc && step.imgSrc.trim() !== "") {
