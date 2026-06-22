@@ -502,6 +502,15 @@
                 docId: "2PACX-1vRg4Qff3Ofz2TaHir9zpSC6AxACDga4FSvfw_UUV900ER5eFvqlUUgHskX8-RYebXO0Fy-KXziZz8X_"
             },
             { 
+                id: 10, 
+                title: "Account Level Planning", 
+                editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/05860c7c-17f1-463c-bd8d-2f0c6a1409fe/edit?viewport_loc=-2806%2C-1100%2C4179%2C1919%2C0_0&invitationId=inv_7c9df0f9-f82e-4dac-9e53-6a29748cdf94", 
+                imgSrc: "https://lucid.app/publicSegments/view/f8248f5a-ca6a-4a18-b399-1e50e0f9d8b7/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vQA5sS7omFN-x9A_0XeBWRFpRQxUP-DHfIJ0fd3CqMxztJd7_GC34OfQM-XWnZp6x_rOyzVORExCC42" 
+            },
+            { 
                 id: 11, 
                 title: "Monthly Planning", 
                 editUrl: "https://docs.google.com/document/d/1P8qYKKs-FYGwQmCDoNuLOPx5gzD30zxRFuzjwDRqwd8/edit?usp=sharing", 
@@ -574,15 +583,6 @@
                 docId: "2PACX-1vRo8A1fctMUu8NWyS-5hBKskGFHccwt1hOYa7JeclwFXXNB1pZN0cTCutjaAbAfX_6pYkJBiIzYhtWY" 
             },
             { 
-                id: 10, 
-                title: "Account Level Planning", 
-                editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", 
-                lucidUrl: "https://lucid.app/lucidchart/05860c7c-17f1-463c-bd8d-2f0c6a1409fe/edit?viewport_loc=-2806%2C-1100%2C4179%2C1919%2C0_0&invitationId=inv_7c9df0f9-f82e-4dac-9e53-6a29748cdf94", 
-                imgSrc: "https://lucid.app/publicSegments/view/f8248f5a-ca6a-4a18-b399-1e50e0f9d8b7/image.png", 
-                contentFile: "GOOGLE_DOC", 
-                docId: "2PACX-1vQA5sS7omFN-x9A_0XeBWRFpRQxUP-DHfIJ0fd3CqMxztJd7_GC34OfQM-XWnZp6x_rOyzVORExCC42" 
-            },
-            { 
                 id: 19, 
                 title: "DTX Accessory Planning", 
                 editUrl: "https://docs.google.com/document/d/1_XeOAPVKRv9ghKRI6mhcox2aQGbrn9kbMzCB-xSD34A/edit?usp=sharing", 
@@ -631,10 +631,8 @@
         stepsData.forEach(step => {
             const card = document.createElement('div');
             
-            // 💡 核心邏輯：在生成首頁卡片時，判斷是否為 11~18 的流程
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
-                // 如果是 11~18 號，直接帶入灰底樣式類別 status-card-discussing
                 card.className = 'process-card status-card-discussing';
             } else {
                 card.className = 'process-card';
@@ -650,7 +648,6 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            // 彈窗內部的 Edit 按鈕灰綠切換邏輯
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
                 textEditBtn.className = "uniform-edit-btn status-discussing";
@@ -660,13 +657,18 @@
                 lucidLinkBtn.className = "uniform-edit-btn status-finalized";
             }
 
-            // 💡 保留 B2B 簡報按鈕機制：如果是 B2B_NO_TEXT，不隱藏最上層外殼，但隱藏文字內嵌區
-            if (step.contentFile === "B2B_NO_TEXT") {
-                textContainerWrapper.style.display = 'flex'; // 外殼留著
-                textHeaderBar.style.display = 'flex';         // ✏️ Edit 簡報按鈕完整保留
-                textContentArea.style.display = 'none';       // 只有內文不顯示
+            // 💡 邏輯：檢查如果是 B2B 簡報流程 (ID 21)，修改按鈕顯示名稱
+            if (step.id === 21) {
+                textEditBtn.innerText = "PWS B2B Forecast Process";
             } else {
-                // 一般流程邏輯
+                textEditBtn.innerText = "✏️ Edit";
+            }
+
+            if (step.contentFile === "B2B_NO_TEXT") {
+                textContainerWrapper.style.display = 'flex'; 
+                textHeaderBar.style.display = 'flex';         
+                textContentArea.style.display = 'none';       
+            } else {
                 if ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === "")) {
                     textContainerWrapper.style.display = 'none';
                 } else {
@@ -748,6 +750,7 @@
         closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
         overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
 
+        // Giscus 討論串
         function loadGithubDiscussions(processTitle) {
             const container = document.getElementById('giscusContainer');
             container.innerHTML = ''; 
