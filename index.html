@@ -222,6 +222,37 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* 💡 精準配置：標頭導覽列結構，將標題固定在左側，叉叉關閉按鈕完美固定在右側 */
+        .modal-header {
+            padding: 24px 35px;
+            border-bottom: 1px solid var(--border-soft);
+            display: flex;
+            justify-content: space-between; /* 標題靠左，叉叉靠右 */
+            align-items: center;
+            background-color: #F7F9F7;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* 💡 精準配置：叉叉按鈕樣式與定位調整 */
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2.2rem;
+            cursor: pointer;
+            color: #A0A5A0;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-green);
+        }
+
         .modal-body {
             padding: 35px;
             overflow-y: auto; 
@@ -242,7 +273,7 @@
             gap: 15px;
         }
 
-        /* 文字區塊的導覽列結構，將 Edit 按鈕推向最右邊 */
+        /* 文字區塊的導覽列結構 */
         .text-header-bar {
             display: flex;
             justify-content: flex-end;
@@ -272,7 +303,7 @@
             background-color: #FFFFFF;
         }
 
-        /* 全域統一後的 Edit 按鈕樣式 */
+        /* 格式大統一：全域 Edit 按鈕樣式 */
         .uniform-edit-btn {
             display: inline-flex;
             align-items: center;
@@ -596,7 +627,6 @@
                 textContentArea.style.display = 'block';
             }
 
-            // 💡 防呆容錯機制：如果目前欄位還沒有配對對應的 Lucidchart 流程圖，自動隱藏區塊
             if (step.imgSrc && step.imgSrc.trim() !== "") {
                 processImg.src = step.imgSrc;
                 imgOuterWrapper.style.display = 'flex';
