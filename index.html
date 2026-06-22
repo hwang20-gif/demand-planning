@@ -74,7 +74,6 @@
             text-transform: uppercase;
         }
 
-        /* 最外層（首頁）按鈕維持乾淨的高級白底風格 */
         .header-btn-container {
             display: flex;
             justify-content: center;
@@ -132,7 +131,7 @@
             margin: 0 auto;
         }
 
-        /* 最外層的所有卡片統一維持純白底色 */
+        /* 🟢 預設最外層卡片樣式（已定案：乾淨純白底色） */
         .process-card {
             border: 2px solid var(--border-soft);
             border-radius: 14px;
@@ -154,6 +153,23 @@
             border-color: var(--accent-green);
             box-shadow: 0 12px 24px rgba(46, 125, 50, 0.08);
             background-color: #F4FAF4 !important; 
+        }
+
+        /* 🔴 11~18 待討論卡片專屬樣式（首頁一眼辨識：工業灰底色與灰色邊框） */
+        .process-card.status-card-discussing {
+            background-color: #F5F5F5 !important;
+            border-color: #CCCCCC !important;
+        }
+        
+        .process-card.status-card-discussing:hover {
+            background-color: #EEEEEE !important;
+            border-color: #9E9E9E !important;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 11~18 標題顏色稍微收斂，與灰底更契合 */
+        .process-card.status-card-discussing .step-title {
+            color: #616161 !important;
         }
 
         .process-card .step-title {
@@ -204,7 +220,6 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* 標頭導覽列結構 */
         .modal-header {
             padding: 24px 35px;
             border-bottom: 1px solid var(--border-soft);
@@ -243,7 +258,6 @@
             gap: 30px; 
         }
 
-        /* 格式大對稱：內部方框維持高級灰底排版 */
         .text-container-wrapper, .image-outer-wrapper {
             background: #FAFAFA;
             border-radius: 12px;
@@ -254,7 +268,6 @@
             gap: 15px;
         }
 
-        /* 控制按鈕導覽列 */
         .text-header-bar, .zoom-bar {
             display: flex;
             justify-content: flex-end;
@@ -275,7 +288,6 @@
             border: 1px solid #EEEEEE;
         }
 
-        /* Google Doc 內嵌框架樣式 */
         .gdoc-iframe {
             width: 100%;
             height: 500px;
@@ -284,7 +296,6 @@
             background-color: #FFFFFF;
         }
 
-        /* 格式大對稱：全域 Edit 按鈕基礎樣式 */
         .uniform-edit-btn {
             display: inline-flex;
             align-items: center;
@@ -299,7 +310,7 @@
             transition: all 0.2s ease;
         }
 
-        /* 🟢 標準已定案流程：經典羅技綠 */
+        /* 🟢 彈窗內部定案流程按鈕：經典羅技綠 */
         .uniform-edit-btn.status-finalized {
             background-color: var(--primary-green) !important;
             box-shadow: 0 2px 6px rgba(46, 125, 50, 0.15) !important;
@@ -310,7 +321,7 @@
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25) !important;
         }
 
-        /* 🔴 11~18 待討論流程：工業灰底色 */
+        /* 🔴 彈窗內部待討論流程按鈕：工業灰底色 */
         .uniform-edit-btn.status-discussing {
             background-color: #9E9E9E !important;
             box-shadow: 0 2px 6px rgba(158, 158, 158, 0.15) !important;
@@ -378,7 +389,6 @@
             </div>
             <div class="modal-body">
 
-                <!-- SOP 文字外框區塊 -->
                 <div class="text-container-wrapper" id="textContainerWrapper">
                     <div class="text-header-bar" id="textHeaderBar">
                         <button class="uniform-edit-btn" id="textEditBtn" onclick="openGoogleDocEditor()">✏️ Edit</button>
@@ -386,7 +396,6 @@
                     <div class="text-content-area" id="textContentArea"></div>
                 </div>
                 
-                <!-- 流程圖大外框區塊 -->
                 <div class="image-outer-wrapper" id="imageOuterWrapper">
                     <div class="zoom-bar">
                         <div>
@@ -565,7 +574,7 @@
                 docId: "2PACX-1vRo8A1fctMUu8NWyS-5hBKskGFHccwt1hOYa7JeclwFXXNB1pZN0cTCutjaAbAfX_6pYkJBiIzYhtWY" 
             },
             { 
-                id: 10, // 💡 移動順序，與主畫面網格流暢排序保持絕對一致
+                id: 10, 
                 title: "Account Level Planning", 
                 editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/05860c7c-17f1-463c-bd8d-2f0c6a1409fe/edit?viewport_loc=-2806%2C-1100%2C4179%2C1919%2C0_0&invitationId=inv_7c9df0f9-f82e-4dac-9e53-6a29748cdf94", 
@@ -621,7 +630,16 @@
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
-            card.className = 'process-card no-image';  
+            
+            // 💡 核心邏輯：在生成首頁卡片時，判斷是否為 11~18 的流程
+            const isDiscussing = (step.id >= 11 && step.id <= 18);
+            if (isDiscussing) {
+                // 如果是 11~18 號，直接帶入灰底樣式類別 status-card-discussing
+                card.className = 'process-card status-card-discussing';
+            } else {
+                card.className = 'process-card';
+            }
+            
             card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
             container.appendChild(card);
@@ -632,7 +650,7 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            // 💡 判斷是否為 11~18 的待討論流程，自動切換按鈕底色
+            // 彈窗內部的 Edit 按鈕灰綠切換邏輯
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
                 textEditBtn.className = "uniform-edit-btn status-discussing";
@@ -642,33 +660,41 @@
                 lucidLinkBtn.className = "uniform-edit-btn status-finalized";
             }
 
-            if (step.contentFile === "B2B_NO_TEXT" || ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === ""))) {
-                textContainerWrapper.style.display = 'none';
+            // 💡 保留 B2B 簡報按鈕機制：如果是 B2B_NO_TEXT，不隱藏最上層外殼，但隱藏文字內嵌區
+            if (step.contentFile === "B2B_NO_TEXT") {
+                textContainerWrapper.style.display = 'flex'; // 外殼留著
+                textHeaderBar.style.display = 'flex';         // ✏️ Edit 簡報按鈕完整保留
+                textContentArea.style.display = 'none';       // 只有內文不顯示
             } else {
-                textContainerWrapper.style.display = 'flex';
-            }
-
-            if (step.editUrl && step.editUrl.trim() !== "" && step.contentFile !== "B2B_NO_TEXT") {
-                textHeaderBar.style.display = 'flex';
-            } else {
-                textHeaderBar.style.display = 'none';
-            }
-
-            if (step.contentFile && step.contentFile.trim() !== "" && step.contentFile !== "B2B_NO_TEXT") {
-                textContentArea.style.display = 'block';
-
-                if (step.contentFile === "GOOGLE_DOC") {
-                    if(!step.docId || step.docId.includes("填入")) {
-                        textContentArea.innerHTML = `<p style='color:#fb8c00;'>⚠️ Document link not assigned or published yet.<br><small>Please populate the published Google Doc ID inside stepsData block.</small></p>`;
-                    } else {
-                        const dynamicUrl = googleDocBaseUrl + step.docId + "/pub?embedded=true";
-                        textContentArea.innerHTML = `
-                            <iframe src="${dynamicUrl}" class="gdoc-iframe" loading="lazy"></iframe>
-                        `;
-                    }
+                // 一般流程邏輯
+                if ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === "")) {
+                    textContainerWrapper.style.display = 'none';
+                } else {
+                    textContainerWrapper.style.display = 'flex';
                 }
-            } else {
-                textContentArea.innerHTML = "";
+
+                if (step.editUrl && step.editUrl.trim() !== "") {
+                    textHeaderBar.style.display = 'flex';
+                } else {
+                    textHeaderBar.style.display = 'none';
+                }
+
+                if (step.contentFile && step.contentFile.trim() !== "") {
+                    textContentArea.style.display = 'block';
+
+                    if (step.contentFile === "GOOGLE_DOC") {
+                        if(!step.docId || step.docId.includes("填入")) {
+                            textContentArea.innerHTML = `<p style='color:#fb8c00;'>⚠️ Document link not assigned or published yet.<br><small>Please populate the published Google Doc ID inside stepsData block.</small></p>`;
+                        } else {
+                            const dynamicUrl = googleDocBaseUrl + step.docId + "/pub?embedded=true";
+                            textContentArea.innerHTML = `
+                                <iframe src="${dynamicUrl}" class="gdoc-iframe" loading="lazy"></iframe>
+                            `;
+                        }
+                    }
+                } else {
+                    textContentArea.innerHTML = "";
+                }
             }
 
             if (step.imgSrc && step.imgSrc.trim() !== "") {
