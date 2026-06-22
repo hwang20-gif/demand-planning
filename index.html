@@ -281,6 +281,7 @@
             margin: 15px 0 8px 0;
             font-size: 1.15rem;
             font-weight: 600;
+            margin-top: 20px;
         }
 
         .text-content-area h3:first-child {
@@ -321,6 +322,29 @@
             background-color: #E65100;
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(251, 140, 0, 0.3);
+        }
+
+        /* 💡 複製原本 .zoom-control-btn 的邏輯並套用 Lucidchart 藍色品牌色 */
+        .inline-lucid-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--lucid-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(41, 121, 255, 0.2);
+            transition: all 0.2s ease;
+            margin: 15px 0;
+        }
+        .inline-lucid-btn:hover {
+            background-color: #1565C0;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(41, 121, 255, 0.3);
         }
 
         .image-outer-wrapper {
@@ -451,6 +475,7 @@
 
     <script>
         const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/";
+        const googleDocPublishedUrl = "https://docs.google.com/document/d/e/2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw/pub";
 
         const stepsData = [
             { 
@@ -459,7 +484,7 @@
                 editUrl: "https://docs.google.com/document/d/1G3Soa58AG3H-IbX6xaDrlLJq1mg5dRRFubhCcTdRCTI/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/680b898a-5f3b-4c4b-9209-b582c8e9a1d1/edit?viewport_loc=105%2C-72%2C3517%2C1615%2Ct5f0BNooez5S3&invitationId=inv_269e195c-87ce-4f8a-9f89-c40413f9da37", 
                 imgSrc: "https://lucid.app/publicSegments/view/63a1ff22-66c1-403c-b1ca-149574a09f03/image.png", 
-                contentFile: "ASP management.md"
+                contentFile: "GOOGLE_DOC"
             },
             { 
                 id: 2, 
@@ -585,21 +610,56 @@
             currentActiveLucidUrl = step.lucidUrl; 
 
             if (step.contentFile && step.contentFile.trim() !== "") {
-                textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
+                textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details...</p>";
                 textContentArea.style.display = 'block';
 
-                const safeFileName = encodeURIComponent(step.contentFile);
-                const targetUrl = githubRawBaseUrl + safeFileName;
+                let targetUrl;
+                if (step.contentFile === "GOOGLE_DOC") {
+                    targetUrl = googleDocPublishedUrl;
+                } else {
+                    const safeFileName = encodeURIComponent(step.contentFile);
+                    targetUrl = githubRawBaseUrl + safeFileName;
+                }
                 
                 fetch(targetUrl)
                     .then(response => {
-                        if (!response.ok) throw new Error("GitHub file not found");
+                        if (!response.ok) throw new Error("File fetch failed");
                         return response.text();
                     })
-                    .then(markdownData => {
-                        let parsedHtml = marked.parse(markdownData);
+                    .then(rawData => {
+                        let finalHtml = "";
+
+                        if (step.contentFile === "GOOGLE_DOC") {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(rawData, 'text/html');
+                            const contents = doc.getElementById('contents');
+                            
+                            if (contents) {
+                                contents.querySelectorAll('*').forEach(el => {
+                                    el.style.backgroundColor = 'transparent';
+                                    el.style.fontFamily = 'inherit';
+                                });
+                                finalHtml = contents.innerHTML;
+                            } else {
+                                finalHtml = rawData;
+                            }
+
+                            // 💡 針對 "ASP management"，在載入的雲端文字上方插入藍色風格（LUCIDCHART 樣式）的導向大按鈕
+                            if (step.title === "ASP management" && step.editUrl && step.editUrl.trim() !== "") {
+                                const lucidStyleButtonHtml = `
+                                    <div style="margin-bottom: 20px;">
+                                        <button class="inline-lucid-btn" onclick="openGoogleDocEditor()">
+                                            📊 Open ASP Document / Editor
+                                        </button>
+                                    </div>
+                                    <hr style="border: 0; border-top: 1px solid #E0E4E0; margin-bottom: 20px;">
+                                `;
+                                finalHtml = lucidStyleButtonHtml + finalHtml;
+                            }
+                        } else {
+                            finalHtml = marked.parse(rawData);
+                        }
                         
-                        // 💡 只有當標題為 "B2B Forecast" 且有 editUrl 時，才在文字區塊上方插入橘色大按鈕
                         if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
                             const actionButtonHtml = `
                                 <div style="margin-bottom: 20px;">
@@ -609,17 +669,26 @@
                                 </div>
                                 <hr style="border: 0; border-top: 1px solid #E0E4E0; margin-bottom: 20px;">
                             `;
-                            parsedHtml = actionButtonHtml + parsedHtml;
+                            finalHtml = actionButtonHtml + finalHtml;
                         }
                         
-                        textContentArea.innerHTML = parsedHtml;
+                        textContentArea.innerHTML = finalHtml;
                     })
                     .catch(error => {
                         console.error(error);
+                        let fallbackHtml = `<p style='color:#cc0000;'>❌ Failed to load content.<br><small>Please verify the source link or file availability.</small></p>`;
                         
-                        let fallbackHtml = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>${step.contentFile}</strong> exists in your repository root.</small></p>`;
-                        
-                        // 💡 錯誤回包同樣限制只有 "B2B Forecast" 才顯示橘色大按鈕
+                        // 💡 容錯機制下也保持按鈕渲染
+                        if (step.title === "ASP management" && step.editUrl && step.editUrl.trim() !== "") {
+                            fallbackHtml = `
+                                <div style="margin-bottom: 20px;">
+                                    <button class="inline-lucid-btn" onclick="openGoogleDocEditor()">
+                                        📊 Open ASP Document / Editor
+                                    </button>
+                                </div>
+                            ` + fallbackHtml;
+                        }
+
                         if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
                             fallbackHtml = `
                                 <div style="margin-bottom: 20px;">
@@ -669,21 +738,11 @@
             }
         }
 
-        function openOpsGuide() {
-            window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank');
-        }
-
-        function toggleAIChat() {
-            window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank');
-        }
-
-        function openDpFolder() {
-            window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank');
-        }
-
-        function openMaintenanceGuide() {
-            window.open('https://docs.google.com/presentation/d/1lnbt6oyuPopsrd-RrgA-hKkFz_MrDgvenTAOk7rxets/edit?usp=sharing', '_blank');
-        }
+        // 上方其餘全域靜態配置保持原樣不作任何變更
+        function openOpsGuide() { window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank'); }
+        function toggleAIChat() { window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank'); }
+        function openDpFolder() { window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank'); }
+        function openMaintenanceGuide() { window.open('https://docs.google.com/presentation/d/1lnbt6oyuPopsrd-RrgA-hKkFz_MrDgvenTAOk7rxets/edit?usp=sharing', '_blank'); }
 
         function adjustZoom(amount) {
             zoomScale += amount;
