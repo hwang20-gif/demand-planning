@@ -309,6 +309,7 @@
             transition: all 0.2s ease;
         }
 
+        /* 🟢 彈窗內部定案流程按鈕：經典羅技綠 */
         .uniform-edit-btn.status-finalized {
             background-color: var(--primary-green) !important;
             box-shadow: 0 2px 6px rgba(46, 125, 50, 0.15) !important;
@@ -319,6 +320,7 @@
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25) !important;
         }
 
+        /* 🔴 彈窗內部待討論流程按鈕：工業灰底色 */
         .uniform-edit-btn.status-discussing {
             background-color: #9E9E9E !important;
             box-shadow: 0 2px 6px rgba(158, 158, 158, 0.15) !important;
@@ -601,10 +603,12 @@
             { 
                 id: 21, 
                 title: "B2B Forecast", 
+                // 💡 填入你指定的 Google Docs 編輯連結，點擊 Edit (Doc) 時去編輯
                 editUrl: "https://docs.google.com/document/d/17UfwF5q0-G0fPurgUSskBMkTUrf57mC_uKGzb9ZakXg/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/52383a36-7bbe-42c6-a795-4a72801fc0ec/edit?viewport_loc=-2467%2C-889%2C3964%2C1820%2C0_0&invitationId=inv_8b211fd7-0330-47bf-8107-3266773f2af9", 
                 imgSrc: "https://lucid.app/publicSegments/view/9f7d59b7-1f87-488e-8d87-ac40f21c037f/image.png", 
-                contentFile: "B2B_NO_TEXT", 
+                contentFile: "GOOGLE_DOC", 
+                // 💡 填入你指定的發布長 ID，讓彈窗內的 Iframe 直接動態同步讀取文字流程
                 docId: "2PACX-1vSsFAEfeaSTXA_Ph3hvTqOJy6dUHFwwajSMjhlo5fkaHfZ74tcwIj8hUg_nF2B8f6xd_9un4nXsSXCg" 
             }
         ];
@@ -654,45 +658,41 @@
                 lucidLinkBtn.className = "uniform-edit-btn status-finalized";
             }
 
+            // 💡 統一格式配置：文字編輯一律寫 ✏️ Edit；而 B2B Forecast 的簡報按鈕配置在下方區塊
+            textEditBtn.innerText = "✏️ Edit";
             if (step.id === 21) {
-                textEditBtn.innerText = "PWS B2B Forecast Process";
+                lucidLinkBtn.innerText = "PWS B2B Forecast Process";
             } else {
-                textEditBtn.innerText = "✏️ Edit";
+                lucidLinkBtn.innerText = "✏️ Edit";
             }
 
-            if (step.contentFile === "B2B_NO_TEXT") {
-                textContainerWrapper.style.display = 'flex'; 
-                textHeaderBar.style.display = 'flex';         
-                textContentArea.style.display = 'none';       
+            if ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === "")) {
+                textContainerWrapper.style.display = 'none';
             } else {
-                if ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === "")) {
-                    textContainerWrapper.style.display = 'none';
-                } else {
-                    textContainerWrapper.style.display = 'flex';
-                }
+                textContainerWrapper.style.display = 'flex';
+            }
 
-                if (step.editUrl && step.editUrl.trim() !== "") {
-                    textHeaderBar.style.display = 'flex';
-                } else {
-                    textHeaderBar.style.display = 'none';
-                }
+            if (step.editUrl && step.editUrl.trim() !== "") {
+                textHeaderBar.style.display = 'flex';
+            } else {
+                textHeaderBar.style.display = 'none';
+            }
 
-                if (step.contentFile && step.contentFile.trim() !== "") {
-                    textContentArea.style.display = 'block';
+            if (step.contentFile && step.contentFile.trim() !== "") {
+                textContentArea.style.display = 'block';
 
-                    if (step.contentFile === "GOOGLE_DOC") {
-                        if(!step.docId || step.docId.includes("填入")) {
-                            textContentArea.innerHTML = `<p style='color:#fb8c00;'>⚠️ Document link not assigned or published yet.<br><small>Please populate the published Google Doc ID inside stepsData block.</small></p>`;
-                        } else {
-                            const dynamicUrl = googleDocBaseUrl + step.docId + "/pub?embedded=true";
-                            textContentArea.innerHTML = `
-                                <iframe src="${dynamicUrl}" class="gdoc-iframe" loading="lazy"></iframe>
-                            `;
-                        }
+                if (step.contentFile === "GOOGLE_DOC") {
+                    if(!step.docId || step.docId.includes("填入")) {
+                        textContentArea.innerHTML = `<p style='color:#fb8c00;'>⚠️ Document link not assigned or published yet.<br><small>Please populate the published Google Doc ID inside stepsData block.</small></p>`;
+                    } else {
+                        const dynamicUrl = googleDocBaseUrl + step.docId + "/pub?embedded=true";
+                        textContentArea.innerHTML = `
+                            <iframe src="${dynamicUrl}" class="gdoc-iframe" loading="lazy"></iframe>
+                        `;
                     }
-                } else {
-                    textContentArea.innerHTML = "";
                 }
+            } else {
+                textContentArea.innerHTML = "";
             }
 
             if (step.imgSrc && step.imgSrc.trim() !== "") {
@@ -720,7 +720,7 @@
             if (currentActiveLucidUrl && currentActiveLucidUrl.trim() !== "") {
                 window.open(currentActiveLucidUrl, '_blank');
             } else {
-                alert("No Lucidchart link assigned to this process diagram.");
+                alert("No link assigned to this diagram.");
             }
         }
 
