@@ -301,6 +301,15 @@
             margin-bottom: 6px;
         }
 
+        /* 💡 Google Doc 專用內嵌框架樣式 */
+        .gdoc-iframe {
+            width: 100%;
+            height: 500px;
+            border: 1px solid var(--border-soft);
+            border-radius: 8px;
+            background-color: #FFFFFF;
+        }
+
         /* 替 B2B 設計的內嵌大按鈕樣式 */
         .inline-action-btn {
             display: inline-flex;
@@ -324,7 +333,7 @@
             box-shadow: 0 6px 16px rgba(251, 140, 0, 0.3);
         }
 
-        /* 💡 複製原本 .zoom-control-btn 的邏輯並套用 Lucidchart 藍色品牌色 */
+        /* 💡 樣式參考自 Lucidchart 藍色按鈕風格 */
         .inline-lucid-btn {
             display: inline-flex;
             align-items: center;
@@ -475,8 +484,8 @@
 
     <script>
         const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/";
-        // 💡 修正為能支援 JavaScript fetch 且不阻擋 CORS 的 Google Docs 純文字導出 API
-        const googleDocPublishedUrl = "https://docs.google.com/document/d/1G3Soa58AG3H-IbX6xaDrlLJq1mg5dRRFubhCcTdRCTI/export?format=txt";
+        // 💡 使用發布到網路的網頁型連結，完美嵌入 Iframe 且保證不受 CORS 安全阻擋
+        const googleDocPublishedUrl = "https://docs.google.com/document/d/e/2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw/pub?embedded=true";
 
         const stepsData = [
             { 
@@ -611,78 +620,69 @@
             currentActiveLucidUrl = step.lucidUrl; 
 
             if (step.contentFile && step.contentFile.trim() !== "") {
-                textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details...</p>";
                 textContentArea.style.display = 'block';
 
-                let targetUrl;
+                // 💡 判斷若是 ASP Management，直接利用安全內嵌 Iframe 機制，100% 免疫 CORS 阻擋
                 if (step.contentFile === "GOOGLE_DOC") {
-                    targetUrl = googleDocPublishedUrl;
+                    const lucidStyleButtonHtml = `
+                        <div style="margin-bottom: 20px;">
+                            <button class="inline-lucid-btn" onclick="openGoogleDocEditor()">
+                                📊 Open ASP Document / Editor
+                            </button>
+                        </div>
+                        <hr style="border: 0; border-top: 1px solid #E0E4E0; margin-bottom: 20px;">
+                    `;
+                    
+                    const iframeHtml = `
+                        <iframe src="${googleDocPublishedUrl}" class="gdoc-iframe" loading="lazy"></iframe>
+                    `;
+                    
+                    textContentArea.innerHTML = lucidStyleButtonHtml + iframeHtml;
+
                 } else {
+                    // 其他卡片節點繼續走穩定的 GitHub Markdown 串接管線
+                    textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
                     const safeFileName = encodeURIComponent(step.contentFile);
-                    targetUrl = githubRawBaseUrl + safeFileName;
+                    const targetUrl = githubRawBaseUrl + safeFileName;
+
+                    fetch(targetUrl)
+                        .then(response => {
+                            if (!response.ok) throw new Error("GitHub file not found");
+                            return response.text();
+                        })
+                        .then(markdownData => {
+                            let parsedHtml = marked.parse(markdownData);
+                            
+                            if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
+                                const actionButtonHtml = `
+                                    <div style="margin-bottom: 20px;">
+                                        <button class="inline-action-btn" onclick="openGoogleDocEditor()">
+                                            📊 Open B2B Forecast Presentation / Document
+                                        </button>
+                                    </div>
+                                    <hr style="border: 0; border-top: 1px solid #E0E4E0; margin-bottom: 20px;">
+                                `;
+                                parsedHtml = actionButtonHtml + parsedHtml;
+                            }
+                            
+                            textContentArea.innerHTML = parsedHtml;
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            let fallbackHtml = `<p style='color:#cc0000;'>❌ Failed to load content from GitHub.<br><small>Please verify that the file <strong>${step.contentFile}</strong> exists in your repository root.</small></p>`;
+                            
+                            if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
+                                fallbackHtml = `
+                                    <div style="margin-bottom: 20px;">
+                                        <button class="inline-action-btn" onclick="openGoogleDocEditor()">
+                                            📊 Open B2B Forecast Presentation / Document
+                                        </button>
+                                    </div>
+                                    ` + fallbackHtml;
+                            }
+                            textContentArea.innerHTML = fallbackHtml;
+                        });
                 }
-                
-                fetch(targetUrl)
-                    .then(response => {
-                        if (!response.ok) throw new Error("File fetch failed");
-                        return response.text();
-                    })
-                    .then(rawData => {
-                        // 💡 不管是 GitHub 的 .md 還是 Google Doc 的導出純文字，皆統一交由高質感的 marked 渲染引擎解析
-                        let finalHtml = marked.parse(rawData);
-
-                        // 💡 針對 "ASP management"，在文字上方插入藍色風格（LUCIDCHART 樣式）的導向大按鈕
-                        if (step.title === "ASP management" && step.editUrl && step.editUrl.trim() !== "") {
-                            const lucidStyleButtonHtml = `
-                                <div style="margin-bottom: 20px;">
-                                    <button class="inline-lucid-btn" onclick="openGoogleDocEditor()">
-                                        📊 Open ASP Document / Editor
-                                    </button>
-                                </div>
-                                <hr style="border: 0; border-top: 1px solid #E0E4E0; margin-bottom: 20px;">
-                            `;
-                            finalHtml = lucidStyleButtonHtml + finalHtml;
-                        }
-                        
-                        if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
-                            const actionButtonHtml = `
-                                <div style="margin-bottom: 20px;">
-                                    <button class="inline-action-btn" onclick="openGoogleDocEditor()">
-                                        📊 Open B2B Forecast Presentation / Document
-                                    </button>
-                                </div>
-                                <hr style="border: 0; border-top: 1px solid #E0E4E0; margin-bottom: 20px;">
-                            `;
-                            finalHtml = actionButtonHtml + finalHtml;
-                        }
-                        
-                        textContentArea.innerHTML = finalHtml;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        let fallbackHtml = `<p style='color:#cc0000;'>❌ Failed to load content.<br><small>Please verify the source link or file availability.</small></p>`;
-                        
-                        if (step.title === "ASP management" && step.editUrl && step.editUrl.trim() !== "") {
-                            fallbackHtml = `
-                                <div style="margin-bottom: 20px;">
-                                    <button class="inline-lucid-btn" onclick="openGoogleDocEditor()">
-                                        📊 Open ASP Document / Editor
-                                    </button>
-                                </div>
-                            ` + fallbackHtml;
-                        }
-
-                        if (step.title === "B2B Forecast" && step.editUrl && step.editUrl.trim() !== "") {
-                            fallbackHtml = `
-                                <div style="margin-bottom: 20px;">
-                                    <button class="inline-action-btn" onclick="openGoogleDocEditor()">
-                                        📊 Open B2B Forecast Presentation / Document
-                                    </button>
-                                </div>
-                                ` + fallbackHtml;
-                        }
-                        textContentArea.innerHTML = fallbackHtml;
-                    });
 
             } else if (step.htmlContent && step.htmlContent.trim() !== "") {
                 textContentArea.innerHTML = step.htmlContent;
