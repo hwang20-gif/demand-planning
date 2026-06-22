@@ -13,7 +13,7 @@
             --accent-green: #00C853;    
             --bg-warm-white: #FAF9F6;   
             --pure-white: #FFFFFF;      
-            --card-has-img: #E0E4E0;    /* Grey for cards WITH process maps */
+            --card-has-img: #E0E4E0;    
             --text-dark-green: #1B5E20; 
             --border-soft: #E0E4E0;     
             --lucid-blue: #2979FF; 
@@ -74,6 +74,7 @@
             text-transform: uppercase;
         }
 
+        /* 💡 最外層（首頁）按鈕維持乾淨的高級白底風格 */
         .header-btn-container {
             display: flex;
             justify-content: center;
@@ -98,6 +99,7 @@
             transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        /* 🤖 只有 AI 助手保持顯眼的亮綠底色 */
         .ai-chat-trigger {
             background-color: var(--primary-green);
             color: white;
@@ -110,27 +112,15 @@
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
         }
 
-        .ops-guide-btn {
+        /* 📊 OPS Guide 與 📂 DP Folder 完全遵照要求，維持白色底色樣式 */
+        .ops-guide-btn, .dp-folder-btn {
             background-color: var(--pure-white);
             color: var(--primary-green);
             border: 2px solid var(--primary-green);
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
         }
 
-        .ops-guide-btn:hover {
-            transform: translateY(-2px);
-            background-color: #E8F5E9;
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
-        }
-
-        .dp-folder-btn {
-            background-color: var(--pure-white);
-            color: var(--primary-green);
-            border: 2px solid var(--primary-green);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-        }
-
-        .dp-folder-btn:hover {
+        .ops-guide-btn:hover, .dp-folder-btn:hover {
             transform: translateY(-2px);
             background-color: #E8F5E9;
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
@@ -144,6 +134,7 @@
             margin: 0 auto;
         }
 
+        /* 💡 遵照指令：最外層的所有卡片統一維持乾淨奢華的「純白底色」，移除灰色混雜 */
         .process-card {
             border: 2px solid var(--border-soft);
             border-radius: 14px;
@@ -157,21 +148,14 @@
             align-items: center;
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.03);
             min-height: 140px;
-        }
-
-        .process-card.no-image {
-            background-color: var(--pure-white);
-        }
-
-        .process-card.has-image {
-            background-color: var(--card-has-img);
+            background-color: var(--pure-white) !important; 
         }
 
         .process-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent-green);
             box-shadow: 0 12px 24px rgba(46, 125, 50, 0.08);
-            background-color: #F4FAF4; 
+            background-color: #F4FAF4 !important; 
         }
 
         .process-card .step-title {
@@ -222,12 +206,12 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* 💡 精準配置：標頭導覽列結構，將標題固定在左側，叉叉關閉按鈕完美固定在右側 */
+        /* 標頭導覽列結構：標題固定在左側，叉叉關閉按鈕完美固定在右側 */
         .modal-header {
             padding: 24px 35px;
             border-bottom: 1px solid var(--border-soft);
             display: flex;
-            justify-content: space-between; /* 標題靠左，叉叉靠右 */
+            justify-content: space-between; 
             align-items: center;
             background-color: #F7F9F7;
         }
@@ -238,7 +222,6 @@
             font-weight: 700;
         }
 
-        /* 💡 精準配置：叉叉按鈕樣式與定位調整 */
         .close-btn {
             background: none;
             border: none;
@@ -262,8 +245,8 @@
             gap: 30px; 
         }
 
-        /* 文字外殼方框 */
-        .text-container-wrapper {
+        /* 格式大對稱：內部方框維持高級灰底排版 */
+        .text-container-wrapper, .image-outer-wrapper {
             background: #FAFAFA;
             border-radius: 12px;
             border: 1px solid var(--border-soft);
@@ -273,8 +256,8 @@
             gap: 15px;
         }
 
-        /* 文字區塊的導覽列結構 */
-        .text-header-bar {
+        /* 控制按鈕導覽列 */
+        .text-header-bar, .zoom-bar {
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -294,7 +277,7 @@
             border: 1px solid #EEEEEE;
         }
 
-        /* Google Doc 專用內嵌框架樣式 */
+        /* Google Doc 內嵌框架樣式 */
         .gdoc-iframe {
             width: 100%;
             height: 500px;
@@ -303,7 +286,7 @@
             background-color: #FFFFFF;
         }
 
-        /* 格式大統一：全域 Edit 按鈕樣式 */
+        /* 格式大對稱：全域 Edit 按鈕尺寸樣式完全一致 */
         .uniform-edit-btn {
             display: inline-flex;
             align-items: center;
@@ -324,27 +307,6 @@
             background-color: #1B5E20 !important; 
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25) !important;
-        }
-
-        /* 流程圖外殼方框 */
-        .image-outer-wrapper {
-            background: #FAFAFA;
-            border-radius: 12px;
-            border: 1px solid var(--border-soft);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .zoom-bar {
-            display: flex;
-            justify-content: flex-end; 
-            align-items: center;
-            background: var(--pure-white);
-            padding: 8px 15px;
-            border-radius: 6px;
-            border: 1px solid var(--border-soft);
         }
 
         .image-scroll-box {
@@ -516,15 +478,87 @@
                 contentFile: "GOOGLE_DOC",
                 docId: "2PACX-1vRg4Qff3Ofz2TaHir9zpSC6AxACDga4FSvfw_UUV900ER5eFvqlUUgHskX8-RYebXO0Fy-KXziZz8X_"
             },
-            { id: 10, title: "Account Level Planning", editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vQA5sS7omFN-x9A_0XeBWRFpRQxUP-DHfIJ0fd3CqMxztJd7_GC34OfQM-XWnZp6x_rOyzVORExCC42" },
-            { id: 11, title: "Monthly Planning", editUrl: "https://docs.google.com/document/d/1P8qYKKs-FYGwQmCDoNuLOPx5gzD30zxRFuzjwDRqwd8/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vQvuEppWi9oB2EFUEgJh8429_6hQg7jx3P4f41WJsZtYe76rNVRwZwg3w6moBO8wGfVr9FkdNp1EUNj" },
-            { id: 12, title: "Strategy and assumptions documentation", editUrl: "https://docs.google.com/document/d/1oAPLdeOFkFGw9uNfrtgruz9L5nRR3pSWxfh6ix5ZMxI/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vRhBVaWjQPW2y8Q3LwaRzME9ZQ9cYA7Cfhe13mfci7JtprvLd0p1v9R2wEa0aVBgx5tSnQz1dpac3w_" },
-            { id: 13, title: "Demand Plan Frozen Window", editUrl: "https://docs.google.com/document/d/1DAQUZehOHKKXG7iBl-SGQ27VEctCs3vhhMsIyns49HI/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vTcMRambVU7y9tiptOU0p_38ohyy_bzwrE3Om1WBhtmTY8WYYsfmTWJ9iyHKfrsUVUfAyoR-c-FBeAT" },
-            { id: 14, title: "One Page market data analysis", editUrl: "https://docs.google.com/document/d/1_gMO5069HV2SfAHCXhNkZg4Adpfzdo8rmehluN5DP7k/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vR7v3iGOb79Dr52je5YwWRh5Q6SWEWAWuO0-eCYn9-tj2jTEQMC98YBfLbgwkdJSIhmqqCYRu4NMx5m" },
-            { id: 15, title: "Forecast Accy deep dive", editUrl: "https://docs.google.com/document/d/17Z0j-C0OLJaUBuIm-xvRlE1k60cAGxuyECH-aL7Gstg/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vSRtRgg8_BDZU8fmKsyPFYx-8PKoztN27CBjjZkt9ugQWSZdYA9sOHd-0vxO6dzXherz6DQPpMvPnCp" },
-            { id: 16, title: "Direct Shipment Process", editUrl: "https://docs.google.com/document/d/1_3acYQWgguLah4Dx24etzD9jWAAIxfbaOt7PRf75GrI/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vTyd34d9TNfZVO07vflxaStqQqnesQJnzBtNnD0E9qrrebmMc4BLsldYncVhDNtaMcXNfz7LOQ_ohN5" },
-            { id: 17, title: "Plannable flag", editUrl: "https://docs.google.com/document/d/1hs8FDTMcyXDnEAP2CHYFvkA_XN9YLMSL9fRKYB4XJaU/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vQorhPQMVgSio8XxqwYN76K9jX9Ns77kTaujahrxD0_JA1T1eEu8y-zbxDcl_U7FS4xTdr48V4HSs_U" },
-            { id: 18, title: "Forecast Consumption management", editUrl: "https://docs.google.com/document/d/1bWkd0zOMyfzvEotvkgeYr676IZbEE1_2Q0m-H5zwzM4/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vRo8A1fctMUu8NWyS-5hBKskGFHccwt1hOYa7JeclwFXXNB1pZN0cTCutjaAbAfX_6pYkJBiIzYhtWY" },
+            { 
+                id: 10, 
+                title: "Account Level Planning", 
+                editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/05860c7c-17f1-463c-bd8d-2f0c6a1409fe/edit?viewport_loc=-2806%2C-1100%2C4179%2C1919%2C0_0&invitationId=inv_7c9df0f9-f82e-4dac-9e53-6a29748cdf94", 
+                imgSrc: "https://lucid.app/publicSegments/view/f8248f5a-ca6a-4a18-b399-1e50e0f9d8b7/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vQA5sS7omFN-x9A_0XeBWRFpRQxUP-DHfIJ0fd3CqMxztJd7_GC34OfQM-XWnZp6x_rOyzVORExCC42" 
+            },
+            { 
+                id: 11, 
+                title: "Monthly Planning", 
+                editUrl: "https://docs.google.com/document/d/1P8qYKKs-FYGwQmCDoNuLOPx5gzD30zxRFuzjwDRqwd8/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/89eef26d-30db-4056-b87f-85ab785e6bac/edit?view_items=s~T8TPMcVkb3%2Cs~T8QjGqJPdL%2Cs~T8~XA~HiXh%2Cs~T8.MM0Vc8f%2Cs~T8phCQNFc9%2Cs~T8iKxNk62Y%2Cs~T8fHbKwykC%2Cs~T8XcL8wY0D%2Cs~T8S9_K.iXr%2Cs~T8gR-KbKjz%2Cs~T8ENt614hd%2Cs~T81sOa5wTe%2Cs~T8YpZOTdXI%2Cs~T8HBMOd.3U%2Cs~T84A-EL1ld%2Cs~T8esWCKFDP%2Cs~T8tzIUmp4l%2Cs~T8NfsFn3gD%2Cs~T8Uv4R2GVO%2Cs~T8kz-eVOL-%2Cs~T8f5n~RaSN%2Cs~T8tUjC7NiL%2Cs~T8lBDMkhWY%2Cs~T8XV0v.oNK%2Cs~T8jSAEFs9O%2Cs~T8Nk.y2f7Y%2Cs~T8lGNs3Fcz%2Cs~T8jQmvh4Ly%2Cs~T8KI8deua1%2Cs~T8cka7VvvC%2Cs~T8HvHgot4F%2Cs~T8WMwO9Hju%2Cs~T8d5n3JVnO&page=0_0&invitationId=inv_d92cfd16-8c1a-472a-8246-45cac58b92e3", 
+                imgSrc: "https://lucid.app/publicSegments/view/282449b4-315d-4944-a6bb-8b855fb4c36a/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vQvuEppWi9oB2EFUEgJh8429_6hQg7jx3P4f41WJsZtYe76rNVRwZwg3w6moBO8wGfVr9FkdNp1EUNj" 
+            },
+            { 
+                id: 12, 
+                title: "Strategy and assumptions documentation", 
+                editUrl: "https://docs.google.com/document/d/1oAPLdeOFkFGw9uNfrtgruz9L5nRR3pSWxfh6ix5ZMxI/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/f6696b61-392f-43b7-b597-6abcd7d8ff46/edit?viewport_loc=-2367%2C-1100%2C3740%2C1919%2C0_0&invitationId=inv_9cc60d0d-65b7-4f64-8d1a-467b4e1be0f2", 
+                imgSrc: "https://lucid.app/publicSegments/view/17b9378c-7086-4301-9246-cbf71bf94915/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vRhBVaWjQPW2y8Q3LwaRzME9ZQ9cYA7Cfhe13mfci7JtprvLd0p1v9R2wEa0aVBgx5tSnQz1dpac3w_" 
+            },
+            { 
+                id: 13, 
+                title: "Demand Plan Frozen Window", 
+                editUrl: "https://docs.google.com/document/d/1DAQUZehOHKKXG7iBl-SGQ27VEctCs3vhhMsIyns49HI/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/bf4c2de5-93dd-4fca-83e4-e71be91cdc24/edit?viewport_loc=-2367%2C-1100%2C3740%2C1919%2C0_0&invitationId=inv_575d1fe0-d4a5-4e5b-8fcb-a325849ce280", 
+                imgSrc: "https://lucid.app/publicSegments/view/82966d59-9d4d-4d2c-8691-81f99b560ba7/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vTcMRambVU7y9tiptOU0p_38ohyy_bzwrE3Om1WBhtmTY8WYYsfmTWJ9iyHKfrsUVUfAyoR-c-FBeAT" 
+            },
+            { 
+                id: 14, 
+                title: "One Page market data analysis", 
+                editUrl: "https://docs.google.com/document/d/1_gMO5069HV2SfAHCXhNkZg4Adpfzdo8rmehluN5DP7k/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/441a8662-3d99-4222-a530-7a223f061b69/edit?view_items=yeU8i76LEqy3%2CyeU8xY_o~DTw%2CyeU8598MMfZV%2CyeU844tfrIU6%2CyeU8alSq06mj%2CyeU8Q72KHpeE%2CyeU8TKwjH4bF%2CyeU88SG2QqzU%2CyeU8Urtn76Pf%2CyeU8BCpjN0Ad%2CyeU8_t2sE._V%2CyeU8Y0cdPS.-%2CyeU82I-MMI1j%2CyeU82wIW0O2A%2CyeU8MUUun6nC%2CyeU8mhUvtMYS%2CyeU8H4AV3m1E%2CyeU8JI67V-pN%2CyeU8V3gJdek8%2CyeU8Ph3Lcvm-%2CyeU8bj3O.hRv%2CyeU8vIwVWEX-%2CyeU8qdLt~Vwg%2CyeU8OF3IC3Pp%2CyeU8rOmF0O6R%2CyeU8fzPy4nV3%2CyeU8LwraNq2n%2CyeU8kBF9ceWj%2CyeU8D5ebWPJQ%2CyeU8HRUjlvt7%2CyeU8nRjGVc4Y%2CyeU8hBXuUS6E%2CyeU8-lJEYXTe&page=0_0&invitationId=inv_730b44c9-c5ae-4ab1-8053-8c6fc701bcb3", 
+                imgSrc: "https://lucid.app/publicSegments/view/ca812009-7a18-45c4-8c29-f40798ca3fb2/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vR7v3iGOb79Dr52je5YwWRh5Q6SWEWAWuO0-eCYn9-tj2jTEQMC98YBfLbgwkdJSIhmqqCYRu4NMx5m" 
+            },
+            { 
+                id: 15, 
+                title: "Forecast Accy deep dive", 
+                editUrl: "https://docs.google.com/document/d/17Z0j-C0OLJaUBuIm-xvRlE1k60cAGxuyECH-aL7Gstg/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/56468721-f665-4bf1-ae02-698429fbf1e3/edit?view_items=wfU8aQdVZtdA%2CwfU8bc4c_q9H%2CwfU8Pf_yowQp%2CwfU81-_3frqV%2CwfU8YgcVB7sU%2CwfU8McnpIoEn%2CwfU8g~PL3qdB%2CwfU8g2gc_w47%2CwfU83T.Wxfuf%2CwfU8L2D033Ey%2CwfU8qNGbxozt%2CwfU8vlBfAjEA%2CwfU8mPALR0RE%2CwfU8rVPVlH7~%2CwfU8LGWB~oQc%2CwfU8fs9P3C~A%2CwfU8-GtPjqDF%2CwfU880ZwO~iI%2CwfU8aFV.KrRS%2CwfU8gfUNrauD%2CwfU8T5h2jrAm%2CwfU8mep32vf2%2CwfU8UYvAwHm~%2CwfU8svEYAEhJ%2CwfU8~~DUBxNk%2CwfU8xILZsfq~%2CwfU8Td34FUei%2CwfU8HoRbZWgo%2CwfU8gDTf19rA%2CwfU8XdMWvFlJ%2CwfU8lEUN.4ij%2CwfU8jBB~OCTw%2CwfU8YOu~~gVD&page=0_0&invitationId=inv_9bf7df09-e7a1-4a71-a9bd-6b916e32a2a6", 
+                imgSrc: "https://lucid.app/publicSegments/view/0ccac561-3f7d-44b4-9eb5-9cd3248f2ee6/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vSRtRgg8_BDZU8fmKsyPFYx-8PKoztN27CBjjZkt9ugQWSZdYA9sOHd-0vxO6dzXherz6DQPpMvPnCp" 
+            },
+            { 
+                id: 16, 
+                title: "Direct Shipment Process", 
+                editUrl: "https://docs.google.com/document/d/1_3acYQWgguLah4Dx24etzD9jWAAIxfbaOt7PRf75GrI/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/2370f444-f019-47de-99bd-7be7a9ac1ce2/edit?view_items=HgU8Rerh~GzF%2CHgU8APsewXsn%2CHgU8CDtzY_Il%2CHgU8frMKyVL8%2CHgU83y4Ff2nd%2CHgU83GbAwe-M%2CHgU8nxQqs~xL%2CHgU8cY1gYdSs%2CHgU8Xf0nZeVT%2CHgU8jrsQgMNM%2CHgU8uOnb5YFf%2CHgU8hCiuFpTC%2CHgU8mrVhGaZO%2CHgU8zrYfLKWD%2CHgU8OBm_CBqh%2CHgU8~0t-miNT%2CHgU87Zw776q-%2CHgU8DxWcm9iR%2CHgU81muUEtW2%2CHgU8IUduS5Pq%2CHgU8U5.sbxZ3%2CHgU8RJG-0-hi%2CHgU8mofzyu1l%2CHgU8j5QsM9qK%2CHgU88pJaAZUY%2CHgU8Log1TxhZ%2CHgU8rMov6uZn%2CHgU8~kxDnabu%2CHgU8lGR_cpJ8%2CHgU8N7BzoNv8%2CHgU8M1Cf86Ab%2CHgU8-FGPwk3S%2CHgU8dHq6fSk-&page=0_0&invitationId=inv_a9c799be-9704-4a66-abb0-14e18adb7787", 
+                imgSrc: "https://lucid.app/publicSegments/view/df498271-88ad-48d7-ab75-9532cd0b2e60/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vTyd34d9TNfZVO07vflxaStqQqnesQJnzBtNnD0E9qrrebmMc4BLsldYncVhDNtaMcXNfz7LOQ_ohN5" 
+            },
+            { 
+                id: 17, 
+                title: "Plannable flag", 
+                editUrl: "https://docs.google.com/document/d/1hs8FDTMcyXDnEAP2CHYFvkA_XN9YLMSL9fRKYB4XJaU/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/f2dc8c80-f48a-489c-89ac-41ab87e2508d/edit?view_items=ZhU8BJ-Y3Vk5%2CZhU8UbNJmWFJ%2CZhU8LzRZv90b%2CZhU841_1Phe7%2CZhU88sk87hK6%2CZhU8Jk0edtD3%2CZhU83ykd2ptK%2CZhU8SuF5ebQj%2CZhU8_cbyfatx%2CZhU8p6SS7dcv%2CZhU8j5jfeQ5i%2CZhU86wb79yG.%2CZhU81ziwftv_%2CZhU8u749iU8J%2CZhU8sWc8fmgx%2CZhU8.LcpM_F2%2CZhU83izd7rEJ%2CZhU8eSDWAkLF%2CZhU85VR1ZVch%2CZhU8k0hywYg0%2CZhU8Wbv.Pypj%2CZhU8FRLwiyw0%2CZhU8UgKMWoFB%2CZhU8wv_wfENO%2CZhU8RzzuWE2Q%2CZhU8fn_f3vV_%2CZhU8zPS67Yn~%2CZhU8Wrjm7ZKV%2CZhU81MdWxa7C%2CZhU8hfpzLzGj%2CZhU8Qwk9WlWi%2CZhU8he2Cunj8%2CZhU8SD2w96sf&page=0_0&invitationId=inv_87f34a40-cdea-43cf-9dea-d52b31bf0b7c", 
+                imgSrc: "https://lucid.app/publicSegments/view/c105f7a7-db8f-4e44-92a1-8443321d012f/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vQorhPQMVgSio8XxqwYN76K9jX9Ns77kTaujahrxD0_JA1T1eEu8y-zbxDcl_U7FS4xTdr48V4HSs_U" 
+            },
+            { 
+                id: 18, 
+                title: "Forecast Consumption management", 
+                editUrl: "https://docs.google.com/document/d/1bWkd0zOMyfzvEotvkgeYr676IZbEE1_2Q0m-H5zwzM4/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/2196ddba-b4a4-4b3f-b874-07da0e37fbed/edit?view_items=NiU85Fh5HRLv%2CNiU8AT0vHujz%2CNiU8jHIE3WMr%2CNiU8PMaXwj5j%2CNiU8~rdxUX7T%2CNiU8-yt9T6Iq%2CNiU8~Tu8cBD1%2CNiU87.6y1niz%2CNiU8OWLttVwx%2CNiU8peibfSvW%2CNiU8e9OLOtMe%2CNiU8HeumUxA8%2CNiU8zaaKsqDY%2CNiU8LN-Q-Uuz%2CNiU8L1tH1_qx%2CNiU8~GP97zA7%2CNiU8K06SNW5U%2CNiU85mnxJq3v%2CNiU8898soIb1%2CNiU8GB2koOwy%2CNiU8b2L-vOPB%2CNiU8cBc6HsvI%2CNiU8jjAaR~FZ%2CNiU8mBLoc0gy%2CNiU8WZnoWxSC%2CNiU8zMrUlJJk%2CNiU8v8lMMdqP%2CNiU8ldLOYEOU%2CNiU8apNHZnVL%2CNiU8gXpKEQDV%2CNiU84KyoeY_C%2CNiU8hIFdQfcs%2CNiU8sfX-kRz1&page=0_0&invitationId=inv_edbbb0d2-7bbd-4fd3-8c69-0341747b1167", 
+                imgSrc: "https://lucid.app/publicSegments/view/b6deef0c-2f07-4c0b-8cf3-b5034b723d53/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vRo8A1fctMUu8NWyS-5hBKskGFHccwt1hOYa7JeclwFXXNB1pZN0cTCutjaAbAfX_6pYkJBiIzYhtWY" 
+            },
             { 
                 id: 19, 
                 title: "DTX Accessory Planning", 
@@ -534,7 +568,16 @@
                 contentFile: "GOOGLE_DOC",
                 docId: "2PACX-1vQRr9ss96M0cD_WIkiYAB515Q-pzxYVQTEN3HXYK_3LUe23ltIRvsfmSS1SV84k4X5IrybjoLZsSliF"
             },
-            { id: 20, title: "Accessory Planning Criteria", editUrl: "https://docs.google.com/document/d/1P3PBN-86Taj0ql6HKza_Gu4IttjCHAT-boxiIYWisWY/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vRMzd5uMTKky-rsWly2QJG1FkEqV87Zq0kuAjRAQmIhzKImV6IuLQimZGNJja_wbEwRAbDpI5xfcIPi" },
+            { 
+                id: 100, // 💡 使用獨立 id 以免衝突
+                id_original: 20, 
+                title: "Accessory Planning Criteria", 
+                editUrl: "https://docs.google.com/document/d/1P3PBN-86Taj0ql6HKza_Gu4IttjCHAT-boxiIYWisWY/edit?usp=sharing", 
+                lucidUrl: "https://lucid.app/lucidchart/46b236f1-139d-4955-b9b4-15a9f18b08d0/edit?view_items=4jU8wx_MgFR_%2C4jU8lapiUkwS%2C4jU8eLPIFEP2%2C4jU84LzCYo1Y%2C4jU8wyJtnMb7%2C4jU8ucU1bsnc%2C4jU81sGcfYZD%2C4jU87z8zTxVi%2C4jU8gPoYXP.h%2C4jU88Svz69P3%2C4jU80HQkMp-D%2C4jU8gRUmOAwE%2C4jU8nCYMB7iZ%2C4jU8sVPDF7LS%2C4jU8ZYmqwZnl%2C4jU8gUogsYTH%2C4jU8NdNfXJWw%2C4jU8h2M5UM~A%2C4jU8FRQTbhDb%2C4jU8mBct79HZ%2C4jU8ywPZKdN~%2C4jU8Vjxp56Ck%2C4jU8w4uDI2sd%2C4jU8kV9cLOV.%2C4jU8z.18DSXT%2C4jU8memmEI4y%2C4jU8ajLMrizg%2C4jU8RiyxDSD2%2C4jU8WH79vxV2%2C4jU8ID4O6ncl%2C4jU8M.oUrvKh%2C4jU8fSoxZ8Ym%2C4jU8jAMh.Tv_&page=0_0&invitationId=inv_cd21555c-03de-4686-8565-eb57eeafe708", 
+                imgSrc: "https://lucid.app/publicSegments/view/a039f358-804d-4240-9071-633b57f9ef78/image.png", 
+                contentFile: "GOOGLE_DOC", 
+                docId: "2PACX-1vRMzd5uMTKky-rsWly2QJG1FkEqV87Zq0kuAjRAQmIhzKImV6IuLQimZGNJja_wbEwRAbDpI5xfcIPi" 
+            },
             { 
                 id: 21, 
                 title: "B2B Forecast", 
@@ -542,7 +585,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/52383a36-7bbe-42c6-a795-4a72801fc0ec/edit?viewport_loc=-2467%2C-889%2C3964%2C1820%2C0_0&invitationId=inv_8b211fd7-0330-47bf-8107-3266773f2af9", 
                 imgSrc: "https://lucid.app/publicSegments/view/9f7d59b7-1f87-488e-8d87-ac40f21c037f/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID" 
+                docId: "2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw" // 💡 暫時共用同一個發布驗證
             }
         ];
 
@@ -563,11 +606,8 @@
         stepsData.forEach(step => {
             const card = document.createElement('div');
             
-            if (step.imgSrc && step.imgSrc.trim() !== "") {
-                card.className = 'process-card has-image'; 
-            } else {
-                card.className = 'process-card no-image';  
-            }
+            // 💡 依照指令：最外層的所有卡片統一渲染為白底，移除視覺上的灰色雜質
+            card.className = 'process-card no-image';  
             
             card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
