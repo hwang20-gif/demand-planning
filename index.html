@@ -301,7 +301,7 @@
             margin-bottom: 6px;
         }
 
-        /* 💡 Google Doc 專用內嵌框架樣式 */
+        /* Google Doc 專用內嵌框架樣式 */
         .gdoc-iframe {
             width: 100%;
             height: 500px;
@@ -310,50 +310,28 @@
             background-color: #FFFFFF;
         }
 
-        /* 替 B2B 設計的內嵌大按鈕樣式 */
-        .inline-action-btn {
+        /* 💡 統一後的綠底白字核心功能大按鈕樣式 */
+        .inline-action-btn, .inline-lucid-btn {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background-color: #FB8C00;
-            color: white;
+            background-color: var(--primary-green); /* 網頁綠色底體 */
+            color: white; /* 白色字體 */
             border: none;
             border-radius: 8px;
             padding: 14px 28px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(251, 140, 0, 0.2);
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
             margin: 15px 0;
         }
-        .inline-action-btn:hover {
-            background-color: #E65100;
+        
+        .inline-action-btn:hover, .inline-lucid-btn:hover {
+            background-color: #1B5E20; /* 懸停時加深綠色 */
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(251, 140, 0, 0.3);
-        }
-
-        /* 💡 樣式參考自 Lucidchart 藍色按鈕風格 */
-        .inline-lucid-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background-color: var(--lucid-blue);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 14px 28px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(41, 121, 255, 0.2);
-            transition: all 0.2s ease;
-            margin: 15px 0;
-        }
-        .inline-lucid-btn:hover {
-            background-color: #1565C0;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(41, 121, 255, 0.3);
+            box-shadow: 0 6px 16px rgba(46, 125, 50, 0.25);
         }
 
         .image-outer-wrapper {
@@ -394,13 +372,16 @@
             color: var(--pure-white);
         }
 
+        /* 💡 頂層覆蓋，確保彈出視窗內的 Lucid 編輯按鈕與文字按鈕外觀完美同級、保持一致性 */
         .lucid-link-btn {
-            background-color: var(--lucid-blue) !important;
+            background-color: var(--primary-green) !important;
             color: white !important;
-            border: 1px solid var(--lucid-blue) !important;
+            border: none !important;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15) !important;
         }
         .lucid-link-btn:hover {
-            background-color: #1565C0 !important;
+            background-color: #1B5E20 !important;
+            box-shadow: 0 6px 16px rgba(46, 125, 50, 0.25) !important;
         }
 
         .image-scroll-box {
@@ -465,7 +446,7 @@
                 <div class="image-outer-wrapper" id="imageOuterWrapper">
                     <div class="zoom-bar">
                         <div>
-                            <button class="zoom-control-btn lucid-link-btn" id="lucidLinkBtn" onclick="openLucidchartLink()">📊 Open Lucidchart</button>
+                            <button class="zoom-control-btn inline-lucid-btn lucid-link-btn" id="lucidLinkBtn" onclick="openLucidchartLink()">✏️ edit lucidchart</button>
                         </div>
                     </div>
                     <div class="image-scroll-box">
@@ -484,7 +465,6 @@
 
     <script>
         const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/";
-        // 💡 使用發布到網路的網頁型連結，完美嵌入 Iframe 且保證不受 CORS 安全阻擋
         const googleDocPublishedUrl = "https://docs.google.com/document/d/e/2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw/pub?embedded=true";
 
         const stepsData = [
@@ -622,12 +602,12 @@
             if (step.contentFile && step.contentFile.trim() !== "") {
                 textContentArea.style.display = 'block';
 
-                // 💡 判斷若是 ASP Management，直接利用安全內嵌 Iframe 機制，100% 免疫 CORS 阻擋
                 if (step.contentFile === "GOOGLE_DOC") {
+                    // 💡 依照要求，按鈕加入小鉛筆圖案 ✏️，名稱改為 Edit GOOGLE DOCS，樣式統一為綠底白字
                     const lucidStyleButtonHtml = `
                         <div style="margin-bottom: 20px;">
                             <button class="inline-lucid-btn" onclick="openGoogleDocEditor()">
-                                📊 Open ASP Document / Editor
+                                ✏️ Edit GOOGLE DOCS
                             </button>
                         </div>
                         <hr style="border: 0; border-top: 1px solid #E0E4E0; margin-bottom: 20px;">
@@ -640,7 +620,6 @@
                     textContentArea.innerHTML = lucidStyleButtonHtml + iframeHtml;
 
                 } else {
-                    // 其他卡片節點繼續走穩定的 GitHub Markdown 串接管線
                     textContentArea.innerHTML = "<p style='color:#666;'>⏳ Loading process details from GitHub...</p>";
                     const safeFileName = encodeURIComponent(step.contentFile);
                     const targetUrl = githubRawBaseUrl + safeFileName;
