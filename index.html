@@ -222,35 +222,6 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .modal-header {
-            padding: 24px 35px;
-            border-bottom: 1px solid var(--border-soft);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #F7F9F7;
-        }
-
-        .modal-header h2 {
-            color: var(--primary-green);
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 2.2rem;
-            cursor: pointer;
-            color: #A0A5A0;
-            transition: color 0.2s;
-            line-height: 1;
-        }
-
-        .close-btn:hover {
-            color: var(--accent-green);
-        }
-
         .modal-body {
             padding: 35px;
             overflow-y: auto; 
@@ -260,7 +231,7 @@
             gap: 30px; 
         }
 
-        /* 文字外殼方框，與流程圖外殼完全相同的灰底與內邊距 */
+        /* 文字外殼方框 */
         .text-container-wrapper {
             background: #FAFAFA;
             border-radius: 12px;
@@ -292,39 +263,6 @@
             border: 1px solid #EEEEEE;
         }
 
-        .text-content-area h3 {
-            color: var(--primary-green);
-            margin: 25px 0 10px 0;
-            font-size: 1.3rem;
-            border-bottom: 1px solid #E8EBE8;
-            padding-bottom: 5px;
-        }
-
-        .text-content-area h4 {
-            color: var(--text-dark-green);
-            margin: 15px 0 8px 0;
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-top: 20px;
-        }
-
-        .text-content-area h3:first-child {
-            margin-top: 0;
-        }
-
-        .text-content-area p {
-            margin-bottom: 12px;
-        }
-
-        .text-content-area ul {
-            margin-left: 25px;
-            margin-bottom: 15px;
-        }
-
-        .text-content-area li {
-            margin-bottom: 6px;
-        }
-
         /* Google Doc 專用內嵌框架樣式 */
         .gdoc-iframe {
             width: 100%;
@@ -334,7 +272,7 @@
             background-color: #FFFFFF;
         }
 
-        /* 格式大統一：全域 Edit 按鈕樣式（綠底白字、含小鉛筆圖案） */
+        /* 全域統一後的 Edit 按鈕樣式 */
         .uniform-edit-btn {
             display: inline-flex;
             align-items: center;
@@ -357,7 +295,7 @@
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25) !important;
         }
 
-        /* 流程圖外殼方框，背景色與內距與文字外殼完全一致 */
+        /* 流程圖外殼方框 */
         .image-outer-wrapper {
             background: #FAFAFA;
             border-radius: 12px;
@@ -463,8 +401,6 @@
     </div>
 
     <script>
-        // 全域配置基礎 URL 欄位
-        const githubRawBaseUrl = "https://raw.githubusercontent.com/wlee5-design/demand-planning/main/";
         const googleDocBaseUrl = "https://docs.google.com/document/d/e/";
 
         const stepsData = [
@@ -475,7 +411,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/680b898a-5f3b-4c4b-9209-b582c8e9a1d1/edit?viewport_loc=105%2C-72%2C3517%2C1615%2Ct5f0BNooez5S3&invitationId=inv_269e195c-87ce-4f8a-9f89-c40413f9da37", 
                 imgSrc: "https://lucid.app/publicSegments/view/63a1ff22-66c1-403c-b1ca-149574a09f03/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw" // 💡 填入發布網路的專屬長 ID
+                docId: "2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw"
             },
             { 
                 id: 2, 
@@ -484,7 +420,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/14f54d95-586a-419f-a2d2-db04a7a3eab6/edit?viewport_loc=28%2C304%2C1781%2C818%2Ckfud8kSUKrbUF&invitationId=inv_3ccce988-a35f-41c3-8699-9ec60ee64d2e", 
                 imgSrc: "https://lucid.app/publicSegments/view/ffda6fe3-c449-400e-b1ef-a79d26b68ff6/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID" // 💡 稍後拿到發布連結後，直接貼在引號內即可！
+                docId: "2PACX-1vReD9WRva122miqzAN9wHvU-TuFaOdyJj4HaXmeOAUFAbt3B8PC5nPeSKL-Y3Bmp7dmawBU6CrtFYFq"
             },
             { 
                 id: 3, 
@@ -493,7 +429,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/e20529ab-eda4-483f-b733-7606bf152c6f/edit?viewport_loc=-111%2C139%2C2159%2C991%2C7pF14CYle6Yij&invitationId=inv_afb404d8-41b5-4b7a-9a58-def3c8263ee6", 
                 imgSrc: "https://lucid.app/publicSegments/view/dc020a0f-93ed-40c8-a7d4-19c0ff69329b/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vQeweI7uMaCN80ty502f1cKd1-9xAM1mtjbTwgqomLeWWDbUMYlsM7v7Z2L6JMdEpcYpSjvHmkGwDrk"
             },
             { 
                 id: 4, 
@@ -502,7 +438,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/773793f6-4abd-441c-bbf4-2d8cc1e5620c/edit?viewport_loc=240%2C305%2C3476%2C1596%2C5rtcIwgxVf2ml&invitationId=inv_304f2d92-3fc7-48f4-9b33-ab0e2a77fec1", 
                 imgSrc: "https://lucid.app/publicSegments/view/9e5a410b-e93b-4b2d-ad2a-e862bb36c599/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vQykPXV3JyhhhOIMEO1TJhltMCpOqbZ3kjdL8zhoFaaAld9DOE44aU6QBJRjUfLzR2GbOTD0JrSYSCI"
             },
             { 
                 id: 5, 
@@ -511,7 +447,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/7414911c-0d77-45e6-a1f7-123e049e2ea3/edit?viewport_loc=358%2C225%2C2682%2C1231%2CocMggXGJ3kdmr&invitationId=inv_2144b9a8-54c1-408e-9116-8905e7d2f61f", 
                 imgSrc: "https://lucid.app/publicSegments/view/f951b54f-66bd-4180-b63c-3e7f11e5efbb/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vS4jWNsGCkEuiuvQlygTEoHwHKXWttXkDvHNGVqrsBtfdWnQmjyYeKucwfuBXPb9C4as5mvjv3l6oQ-"
             },
             { 
                 id: 6, 
@@ -520,7 +456,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/9832cc5a-e8f6-4543-bb54-23ed982dcc88/edit?viewport_loc=222%2C223%2C2647%2C1215%2ChIdtkivSAJbAd&invitationId=inv_368f83ee-d5ca-41dc-bcf7-a61b9d251677", 
                 imgSrc: "https://lucid.app/publicSegments/view/ffda6fe3-c449-400e-b1ef-a79d26b68ff6/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vQpdcHmgVEt4CawIB5dcVA40Q_gu4Mz35S_BP2OT8TpIvFypvS9RgpIDN9FWAPl6pfKtRwEb5tDOm6n"
             },
             { 
                 id: 7, 
@@ -529,7 +465,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/bdba74dc-e553-420d-a4a3-46ae280101ab/edit?viewport_loc=64%2C-93%2C6115%2C2808%2C1eaPQgkh9kd2u&invitationId=inv_8b51bacc-dcd3-493d-bcd6-ac7675d4a852", 
                 imgSrc: "https://lucid.app/publicSegments/view/4b15f97f-89e1-4915-b940-1a771776a2ea/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vQ_JJ5xgSPpHE-M_EuGVejDmGi2egW8QikRIFOdWerRXkc4ZIY0x36OHxRh7tIhpFeDVVUP7RcCgYoo"
             },
             { 
                 id: 8, 
@@ -538,7 +474,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/eda2e3e8-20b5-4a9b-ad07-0baeff29bb1c/edit?viewport_loc=187%2C187%2C2972%2C1365%2C7oy5SD2QaNaMp&invitationId=inv_7c076807-f33c-4810-97da-e4f441c5b593", 
                 imgSrc: "https://lucid.app/publicSegments/view/93be584a-a68b-47d2-ab2a-42b765c34f59/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vShiw2YD7u0HEw4NeOh9-I-qGc7B-5VpUvXpIPme6Ez-LyqXbczFyTiHpH6VawW-DkXv-horJyax03Q"
             },
             { 
                 id: 9, 
@@ -547,17 +483,17 @@
                 lucidUrl: "https://lucid.app/lucidchart/b7653921-ee34-48b8-95ee-f9d74290562c/edit?viewport_loc=216%2C-509%2C6494%2C2982%2CWNXwqeS0xBqxg&invitationId=inv_8ec9dbbe-40be-466d-ae0d-ab541169c133", 
                 imgSrc: "https://lucid.app/publicSegments/view/31ae39f9-da08-4e53-ad9e-d48201c26c5b/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vRg4Qff3Ofz2TaHir9zpSC6AxACDga4FSvfw_UUV900ER5eFvqlUUgHskX8-RYebXO0Fy-KXziZz8X_"
             },
-            { id: 10, title: "Account Level Planning", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 11, title: "Monthly Planning", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 12, title: "Strategy and assumptions documentation", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 13, title: "Demand Plan Frozen Window", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 14, title: "One Page market data analysis", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 15, title: "Forecast Accy deep dive", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 16, title: "Direct Shipment Process", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 17, title: "Plannable flag", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
-            { id: 18, title: "Forecast Consumption management", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
+            { id: 10, title: "Account Level Planning", editUrl: "https://docs.google.com/document/d/1_319vS5eF84l83cvXJgoC7daPITHjYMy8R_rKqhDDxE/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vQA5sS7omFN-x9A_0XeBWRFpRQxUP-DHfIJ0fd3CqMxztJd7_GC34OfQM-XWnZp6x_rOyzVORExCC42" },
+            { id: 11, title: "Monthly Planning", editUrl: "https://docs.google.com/document/d/1P8qYKKs-FYGwQmCDoNuLOPx5gzD30zxRFuzjwDRqwd8/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vQvuEppWi9oB2EFUEgJh8429_6hQg7jx3P4f41WJsZtYe76rNVRwZwg3w6moBO8wGfVr9FkdNp1EUNj" },
+            { id: 12, title: "Strategy and assumptions documentation", editUrl: "https://docs.google.com/document/d/1oAPLdeOFkFGw9uNfrtgruz9L5nRR3pSWxfh6ix5ZMxI/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vRhBVaWjQPW2y8Q3LwaRzME9ZQ9cYA7Cfhe13mfci7JtprvLd0p1v9R2wEa0aVBgx5tSnQz1dpac3w_" },
+            { id: 13, title: "Demand Plan Frozen Window", editUrl: "https://docs.google.com/document/d/1DAQUZehOHKKXG7iBl-SGQ27VEctCs3vhhMsIyns49HI/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vTcMRambVU7y9tiptOU0p_38ohyy_bzwrE3Om1WBhtmTY8WYYsfmTWJ9iyHKfrsUVUfAyoR-c-FBeAT" },
+            { id: 14, title: "One Page market data analysis", editUrl: "https://docs.google.com/document/d/1_gMO5069HV2SfAHCXhNkZg4Adpfzdo8rmehluN5DP7k/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vR7v3iGOb79Dr52je5YwWRh5Q6SWEWAWuO0-eCYn9-tj2jTEQMC98YBfLbgwkdJSIhmqqCYRu4NMx5m" },
+            { id: 15, title: "Forecast Accy deep dive", editUrl: "https://docs.google.com/document/d/17Z0j-C0OLJaUBuIm-xvRlE1k60cAGxuyECH-aL7Gstg/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vSRtRgg8_BDZU8fmKsyPFYx-8PKoztN27CBjjZkt9ugQWSZdYA9sOHd-0vxO6dzXherz6DQPpMvPnCp" },
+            { id: 16, title: "Direct Shipment Process", editUrl: "https://docs.google.com/document/d/1_3acYQWgguLah4Dx24etzD9jWAAIxfbaOt7PRf75GrI/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vTyd34d9TNfZVO07vflxaStqQqnesQJnzBtNnD0E9qrrebmMc4BLsldYncVhDNtaMcXNfz7LOQ_ohN5" },
+            { id: 17, title: "Plannable flag", editUrl: "https://docs.google.com/document/d/1hs8FDTMcyXDnEAP2CHYFvkA_XN9YLMSL9fRKYB4XJaU/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vQorhPQMVgSio8XxqwYN76K9jX9Ns77kTaujahrxD0_JA1T1eEu8y-zbxDcl_U7FS4xTdr48V4HSs_U" },
+            { id: 18, title: "Forecast Consumption management", editUrl: "https://docs.google.com/document/d/1bWkd0zOMyfzvEotvkgeYr676IZbEE1_2Q0m-H5zwzM4/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vRo8A1fctMUu8NWyS-5hBKskGFHccwt1hOYa7JeclwFXXNB1pZN0cTCutjaAbAfX_6pYkJBiIzYhtWY" },
             { 
                 id: 19, 
                 title: "DTX Accessory Planning", 
@@ -565,9 +501,9 @@
                 lucidUrl: "https://lucid.app/lucidchart/de7e8bb2-6acc-4c5b-81d9-86156df4516f/edit?viewport_loc=240%2C131%2C3222%2C1479%2CsqRktaucYBbup&invitationId=inv_213e1178-775b-4572-a8f2-fd87e1ef9fab", 
                 imgSrc: "https://lucid.app/publicSegments/view/53211f07-b909-4301-82a4-a1b733ff0bf4/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "填入該文件的發布ID"
+                docId: "2PACX-1vQRr9ss96M0cD_WIkiYAB515Q-pzxYVQTEN3HXYK_3LUe23ltIRvsfmSS1SV84k4X5IrybjoLZsSliF"
             },
-            { id: 20, title: "Accessory Planning Criteria", editUrl: "", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "填入該文件的發布ID" },
+            { id: 20, title: "Accessory Planning Criteria", editUrl: "https://docs.google.com/document/d/1P3PBN-86Taj0ql6HKza_Gu4IttjCHAT-boxiIYWisWY/edit?usp=sharing", lucidUrl: "", imgSrc: "", contentFile: "GOOGLE_DOC", docId: "2PACX-1vRMzd5uMTKky-rsWly2QJG1FkEqV87Zq0kuAjRAQmIhzKImV6IuLQimZGNJja_wbEwRAbDpI5xfcIPi" },
             { 
                 id: 21, 
                 title: "B2B Forecast", 
@@ -612,14 +548,12 @@
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
 
-            // 判斷控制大外框的顯示狀態
             if ((!step.contentFile || step.contentFile.trim() === "") && (!step.editUrl || step.editUrl.trim() === "")) {
                 textContainerWrapper.style.display = 'none';
             } else {
                 textContainerWrapper.style.display = 'flex';
             }
 
-            // 右上角 ✏️ Edit 控制按鈕顯示狀態
             if (step.editUrl && step.editUrl.trim() !== "") {
                 textHeaderBar.style.display = 'flex';
             } else {
@@ -630,9 +564,8 @@
                 textContentArea.style.display = 'block';
 
                 if (step.contentFile === "GOOGLE_DOC") {
-                    // 💡 將發布連結參數化對應：如果資料庫裡沒有正確的 docId，則顯示未配置警示，防止破圖
                     if(!step.docId || step.docId.includes("填入")) {
-                        textContentArea.innerHTML = `<p style='color:#fb8c00;'>⚠️ Document not published yet.<br><small>Please assign a valid published Google Doc ID to this step data block.</small></p>`;
+                        textContentArea.innerHTML = `<p style='color:#fb8c00;'>⚠️ Document link not assigned or published yet.<br><small>Please populate the published Google Doc ID inside stepsData block.</small></p>`;
                     } else {
                         const dynamicUrl = googleDocBaseUrl + step.docId + "/pub?embedded=true";
                         textContentArea.innerHTML = `
@@ -663,6 +596,7 @@
                 textContentArea.style.display = 'block';
             }
 
+            // 💡 防呆容錯機制：如果目前欄位還沒有配對對應的 Lucidchart 流程圖，自動隱藏區塊
             if (step.imgSrc && step.imgSrc.trim() !== "") {
                 processImg.src = step.imgSrc;
                 imgOuterWrapper.style.display = 'flex';
