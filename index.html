@@ -131,7 +131,7 @@
             margin: 0 auto;
         }
 
-        /* 🟢 預設最外層卡片樣式（已定案：乾淨純白底色） */
+        /* 最外層卡片預設樣式 */
         .process-card {
             border: 2px solid var(--border-soft);
             border-radius: 14px;
@@ -155,7 +155,7 @@
             background-color: #F4FAF4 !important; 
         }
 
-        /* 🔴 11~18 待討論卡片專屬樣式（首頁一眼辨識：工業灰底色與灰色邊框） */
+        /* 11~18 待討論卡片專屬樣式 */
         .process-card.status-card-discussing {
             background-color: #F5F5F5 !important;
             border-color: #CCCCCC !important;
@@ -167,7 +167,6 @@
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
         }
 
-        /* 11~18 標題顏色稍微收斂，與灰底更契合 */
         .process-card.status-card-discussing .step-title {
             color: #616161 !important;
         }
@@ -310,7 +309,6 @@
             transition: all 0.2s ease;
         }
 
-        /* 🟢 彈窗內部定案流程按鈕：經典羅技綠 */
         .uniform-edit-btn.status-finalized {
             background-color: var(--primary-green) !important;
             box-shadow: 0 2px 6px rgba(46, 125, 50, 0.15) !important;
@@ -321,7 +319,6 @@
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25) !important;
         }
 
-        /* 🔴 彈窗內部待討論流程按鈕：工業灰底色 */
         .uniform-edit-btn.status-discussing {
             background-color: #9E9E9E !important;
             box-shadow: 0 2px 6px rgba(158, 158, 158, 0.15) !important;
@@ -604,11 +601,11 @@
             { 
                 id: 21, 
                 title: "B2B Forecast", 
-                editUrl: "https://docs.google.com/presentation/d/1he0yDqRn6HRhAFRvcjPq57xdoZBhILhvSm_KB4wBadQ/edit?usp=sharing", 
+                editUrl: "https://docs.google.com/document/d/17UfwF5q0-G0fPurgUSskBMkTUrf57mC_uKGzb9ZakXg/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/52383a36-7bbe-42c6-a795-4a72801fc0ec/edit?viewport_loc=-2467%2C-889%2C3964%2C1820%2C0_0&invitationId=inv_8b211fd7-0330-47bf-8107-3266773f2af9", 
                 imgSrc: "https://lucid.app/publicSegments/view/9f7d59b7-1f87-488e-8d87-ac40f21c037f/image.png", 
                 contentFile: "B2B_NO_TEXT", 
-                docId: "" 
+                docId: "2PACX-1vSsFAEfeaSTXA_Ph3hvTqOJy6dUHFwwajSMjhlo5fkaHfZ74tcwIj8hUg_nF2B8f6xd_9un4nXsSXCg" 
             }
         ];
 
@@ -657,7 +654,6 @@
                 lucidLinkBtn.className = "uniform-edit-btn status-finalized";
             }
 
-            // 💡 邏輯：檢查如果是 B2B 簡報流程 (ID 21)，修改按鈕顯示名稱
             if (step.id === 21) {
                 textEditBtn.innerText = "PWS B2B Forecast Process";
             } else {
@@ -750,7 +746,6 @@
         closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
         overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
 
-        // Giscus 討論串
         function loadGithubDiscussions(processTitle) {
             const container = document.getElementById('giscusContainer');
             container.innerHTML = ''; 
