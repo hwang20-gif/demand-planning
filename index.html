@@ -224,6 +224,7 @@
             box-shadow: 0 4px 12px rgba(46, 125, 50, 0.03);
             min-height: 140px;
             background-color: var(--pure-white) !important; 
+            position: relative; /* 確保內部的絕對定位元件參照此卡片基準 */
         }
 
         .process-card:hover {
@@ -255,12 +256,15 @@
             line-height: 1.4;
         }
 
-        /* 討論中卡片專用的副標題字體樣式 */
+        /* 討論中卡片專用的卡片上緣副標題樣式 */
         .process-card .step-subtitle-discussing {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #212121; /* 使用深黑色 */
-            margin-top: 6px; /* 與上方主標題推開一點距離 */
+            position: absolute;
+            top: 14px; /* 精準置於卡片上邊緣向下一點的位置 */
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #424242; /* 使用洗鍊的深灰黑色 */
+            text-transform: uppercase; /* 轉大寫更有科技大廠系統標籤的精緻感 */
+            letter-spacing: 0.8px; /* 稍微拉開字距增加高級感 */
         }
 
         .modal-overlay {
@@ -501,7 +505,6 @@
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Process Name</h2>
                 <button class="close-btn" id="closeBtn">&times;</button>
@@ -773,16 +776,11 @@
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
                 card.className = 'process-card status-card-discussing';
-                // 核心修改點：如果是灰色格子 (討論中)，除了塞標題外，自動加上黑色小字副標題
-                card.innerHTML = `
-                    <div class="step-title">${step.title}</div>
-                    <div class="step-subtitle-discussing">Under Discussion</div>
-                `;
             } else {
                 card.className = 'process-card';
-                card.innerHTML = `<div class="step-title">${step.title}</div>`;
             }
             
+            card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
             container.appendChild(card);
         });
