@@ -83,53 +83,83 @@
             text-transform: uppercase;
         }
 
+        /* 新增：細長型全域搜尋控制容器 */
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 680px; /* 與下方四個按鈕的預估排版寬度對齊 */
+            margin-top: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            border: 1px solid #CCCCCC;
+            border-radius: 24px;
+            background-color: var(--pure-white);
+            color: #333;
+            outline: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+        }
+
+        /* 新增：搜尋自動完成下拉選單 */
+        .search-results-dropdown {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            width: 100%;
+            background-color: var(--pure-white);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            max-height: 280px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            display: none; /* 預設打字時才展開 */
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .search-result-item {
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            color: #424242;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            border-bottom: 1px solid #F5F5F5;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background-color: #E8F5E9;
+            color: var(--text-dark-green);
+            font-weight: 500;
+        }
+
+        .no-result-item {
+            padding: 15px;
+            font-size: 0.9rem;
+            color: #9E9E9E;
+            text-align: center;
+        }
+
         .header-btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin-top: 25px;
+            margin-top: 20px; /* 優化與上方搜尋欄的視覺比例 */
             flex-wrap: wrap; 
-        }
-
-        .ai-chat-trigger, .ops-guide-btn, .dp-folder-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: none;
-            border-radius: 30px;
-            padding: 12px 28px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            min-width: 160px; 
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .ai-chat-trigger {
-            background-color: var(--primary-green);
-            color: white;
-            box-shadow: 0 4px 14px rgba(46, 125, 50, 0.2);
-        }
-        
-        .ai-chat-trigger:hover { 
-            transform: translateY(-2px); 
-            background-color: #1B5E20;
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
-        }
-
-        .ops-guide-btn, .dp-folder-btn {
-            background-color: var(--pure-white);
-            color: var(--primary-green);
-            border: 2px solid var(--primary-green);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-        }
-
-        .ops-guide-btn:hover, .dp-folder-btn:hover {
-            transform: translateY(-2px);
-            background-color: #E8F5E9;
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.1);
         }
 
         .grid-container {
@@ -406,6 +436,11 @@
         </div>
         
         <h1>Demand Planning Global Process Standardization</h1>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search standardized processes by keywords (e.g., ASP, NPI, Forecast)...">
+            <div id="searchResultsDropdown" class="search-results-dropdown"></div>
+        </div>
         
         <div class="header-btn-container">
             <button class="ops-guide-btn" onclick="openOpsGuide()">📊 Operations Onboarding Guidebook</button>
@@ -498,7 +533,7 @@
                 title: "DCS/SI carryover", 
                 editUrl: "https://docs.google.com/document/d/1V3RCdP_6TSkLc8WPpcx8EM1K7YEAZcO214qX9gRpTcA/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/773793f6-4abd-441c-bbf4-2d8cc1e5620c/edit?viewport_loc=240%2C305%2C3476%2C1596%2C5rtcIwgxVf2ml&invitationId=inv_304f2d92-3fc7-48f4-9b33-ab0e2a77fec1", 
-                imgSrc: "https://lucid.app/publicSegments/view/9e5a410b-e93b-4b2d-ad2a-e822bb36c599/image.png", 
+                imgSrc: "https://lucid.app/publicSegments/view/9e5a410b-e93b-4b2d-ad2a-e862bb36c599/image.png", 
                 contentFile: "GOOGLE_DOC",
                 docId: "2PACX-1vQykPXV3JyhhhOIMEO1TJhltMCpOqbZ3kjdL8zhoFaaAld9DOE44aU6QBJRjUfLzR2GbOTD0JrSYSCI"
             },
@@ -674,6 +709,8 @@
         const slideEditBtn = document.getElementById('slideEditBtn');
         const lucidLinkBtn = document.getElementById('lucidLinkBtn');
         const githubBtnRow = document.getElementById('githubBtnRow');
+        const searchInput = document.getElementById('searchInput');
+        const searchResultsDropdown = document.getElementById('searchResultsDropdown');
         
         let zoomScale = 1;
         let currentActiveEditUrl = ""; 
@@ -694,6 +731,51 @@
             card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
             container.appendChild(card);
+        });
+
+        // 監聽搜尋欄位的打字輸入事件 (Live Search)
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim().toLowerCase();
+            searchResultsDropdown.innerHTML = ''; // 清空上一輪結果
+
+            if (query === '') {
+                searchResultsDropdown.style.display = 'none';
+                return;
+            }
+
+            // 模糊篩選標題符合關鍵字的流程步驟
+            const filteredSteps = stepsData.filter(step => 
+                step.title.toLowerCase().includes(query)
+            );
+
+            if (filteredSteps.length > 0) {
+                filteredSteps.forEach(step => {
+                    const item = document.createElement('div');
+                    item.className = 'search-result-item';
+                    item.innerText = step.title;
+                    // 關鍵綁定：點擊搜尋結果，直接調用 openModal 打開內容
+                    item.addEventListener('click', () => {
+                        openModal(step);
+                        searchInput.value = ''; // 清空搜尋框
+                        searchResultsDropdown.style.display = 'none'; // 隱藏選單
+                    });
+                    searchResultsDropdown.appendChild(item);
+                });
+            } else {
+                const noResult = document.createElement('div');
+                noResult.className = 'no-result-item';
+                noResult.innerText = '❌ No matching processes found';
+                searchResultsDropdown.appendChild(noResult);
+            }
+
+            searchResultsDropdown.style.display = 'flex';
+        });
+
+        // 當點擊網頁外部空窗區，自動收合搜尋下拉選單
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResultsDropdown.contains(e.target)) {
+                searchResultsDropdown.style.display = 'none';
+            }
         });
 
         function openModal(step) {
