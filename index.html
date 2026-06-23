@@ -43,6 +43,10 @@
 
         .top-maintenance-container {
             margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* 控制兩個頂部按鈕之間的上下間距 */
         }
 
         .maintenance-btn {
@@ -362,6 +366,7 @@
 
     <header>
         <div class="top-maintenance-container">
+            <button class="maintenance-btn" onclick="openGithubEditor()">✏️ Edit GITHUB</button>
             <button class="maintenance-btn" onclick="openMaintenanceGuide()">Maintenance Guide</button>
         </div>
         
@@ -754,7 +759,12 @@
         function openOpsGuide() { window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank'); }
         function toggleAIChat() { window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank'); }
         function openDpFolder() { window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank'); }
-        function openMaintenanceGuide() { window.open('https://docs.google.com/presentation/d/1lnbt6oyuPopsrd-RrgA-hKkFz_MrDgvenTAOk7rxets/edit?usp=sharing', '_blank'); }
+        
+        // 1. 已修改：直接寫入你提供的已發布 Google 簡報網址
+        function openMaintenanceGuide() { window.open('https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pub?start=true&loop=true&delayms=3000', '_blank'); }
+        
+        // 2. 新增：Edit GITHUB 的連結點擊功能（導向底下的 wlee5-design/demand-planning 專案）
+        function openGithubEditor() { window.open('https://github.com/wlee5-design/demand-planning', '_blank'); }
 
         function adjustZoom(amount) {
             zoomScale += amount;
