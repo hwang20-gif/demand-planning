@@ -46,7 +46,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px; /* 控制兩個頂部按鈕之間的上下間距 */
+            gap: 10px; /* 控制頂部按鈕之間的上下間距 */
         }
 
         .maintenance-btn {
@@ -269,7 +269,18 @@
             gap: 15px;
         }
 
-        .slide-header-bar, .text-header-bar, .zoom-bar {
+        .slide-header-bar {
+            display: flex;
+            flex-direction: column; /* 改為縱向排列以符合上下配置 */
+            align-items: flex-end;
+            background: var(--pure-white);
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-soft);
+            gap: 8px; /* 兩個編輯按鈕之間的間距 */
+        }
+
+        .text-header-bar, .zoom-bar {
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -366,8 +377,7 @@
 
     <header>
         <div class="top-maintenance-container">
-            <button class="maintenance-btn" onclick="openGithubEditor()">✏️ Edit GITHUB</button>
-            <button class="maintenance-btn" onclick="openMaintenanceGuide()">Maintenance Guide</button>
+            <button class="maintenance-btn" onclick="openMaintenanceGuideModal()">Maintenance Guide</button>
         </div>
         
         <h1>Demand Planning Global Process Standardization</h1>
@@ -390,8 +400,8 @@
             <div class="modal-body">
 
                 <div class="slide-container-wrapper" id="slideContainerWrapper" style="display: none;">
-                    <div class="slide-header-bar">
-                        <button class="uniform-edit-btn status-finalized" id="slideEditBtn" onclick="openGoogleSlideEditor()">PWS B2B Forecast Process</button>
+                    <div class="slide-header-bar" id="slideHeaderBar">
+                        <button class="uniform-edit-btn status-finalized" id="slideEditBtn" onclick="openGoogleSlideEditor()">Edit Slide</button>
                     </div>
                     <div class="slide-content-area" id="slideContentArea"></div>
                 </div>
@@ -630,8 +640,10 @@
         const textHeaderBar = document.getElementById('textHeaderBar');
         const textContainerWrapper = document.getElementById('textContainerWrapper');
         const slideContainerWrapper = document.getElementById('slideContainerWrapper');
+        const slideHeaderBar = document.getElementById('slideHeaderBar');
         const slideContentArea = document.getElementById('slideContentArea');
         const textEditBtn = document.getElementById('textEditBtn');
+        const slideEditBtn = document.getElementById('slideEditBtn');
         const lucidLinkBtn = document.getElementById('lucidLinkBtn');
         
         let zoomScale = 1;
@@ -660,6 +672,10 @@
             currentActiveLucidUrl = step.lucidUrl; 
             currentActiveSlideUrl = step.slideUrl || ""; 
 
+            // 移除可能殘留的 EDIT ON GITHUB 按鈕，確保不干擾普通卡片
+            const existingGitBtn = document.getElementById('dynamicGitBtn');
+            if(existingGitBtn) existingGitBtn.remove();
+
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
                 textEditBtn.className = "uniform-edit-btn status-discussing";
@@ -674,6 +690,7 @@
 
             if (step.contentFile === "B2B_SPECIAL_THREE_STAGE") {
                 slideContainerWrapper.style.display = 'flex';
+                slideEditBtn.innerText = step.title + " Slide";
                 slideContentArea.innerHTML = `
                     <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSlyrNzhkfe93Nmda9kW_FC7NEJLmx1EYK2PIIREvleFpJsPgxHygr2Slswqnni9U2-b4QwCOS9-Srw/embed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="500" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
                 `;
@@ -732,6 +749,43 @@
             document.querySelector('.modal-body').scrollTop = 0; 
         }
 
+        // 直接在現有的 Modal 中渲染 Maintenance Guide 簡報
+        function openMaintenanceGuideModal() {
+            modalTitle.innerText = "Maintenance Guide";
+            currentActiveEditUrl = ""; 
+            currentActiveLucidUrl = ""; 
+            // 編輯簡報的後台原始連結
+            currentActiveSlideUrl = "https://docs.google.com/presentation/d/1lnbt6oyuPopsrd-RrgA-hKkFz_MrDgvenTAOk7rxets/edit?usp=sharing"; 
+
+            // 確保乾淨，先移除舊的動態按鈕
+            const existingGitBtn = document.getElementById('dynamicGitBtn');
+            if(existingGitBtn) existingGitBtn.remove();
+
+            // 隱藏非必要的區塊
+            textContainerWrapper.style.display = 'none';
+            imgOuterWrapper.style.display = 'none';
+
+            // 顯示 Slide 區塊並載入 Iframe
+            slideContainerWrapper.style.display = 'flex';
+            slideEditBtn.innerText = "✏️ Edit Maintenance Slide";
+            
+            // 改寫：在 slideEditBtn 之前（上方）動態插入 EDIT ON GITHUB 按鈕
+            const gitBtn = document.createElement('button');
+            gitBtn.id = 'dynamicGitBtn';
+            gitBtn.className = 'uniform-edit-btn status-finalized';
+            gitBtn.innerText = '✏️ EDIT ON GITHUB';
+            gitBtn.onclick = openGithubEditor;
+            slideHeaderBar.insertBefore(gitBtn, slideEditBtn);
+
+            slideContentArea.innerHTML = `
+                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pub?start=true&loop=true&delayms=3000" frameborder="0" width="100%" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            `;
+
+            loadGithubDiscussions("Maintenance Guide");
+            overlay.classList.add('active');
+            document.querySelector('.modal-body').scrollTop = 0; 
+        }
+
         function openGoogleDocEditor() {
             if (currentActiveEditUrl && currentActiveEditUrl.trim() !== "") {
                 window.open(currentActiveEditUrl, '_blank');
@@ -759,11 +813,6 @@
         function openOpsGuide() { window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank'); }
         function toggleAIChat() { window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank'); }
         function openDpFolder() { window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank'); }
-        
-        // 1. 已修改：直接寫入你提供的已發布 Google 簡報網址
-        function openMaintenanceGuide() { window.open('https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pub?start=true&loop=true&delayms=3000', '_blank'); }
-        
-        // 2. 新增：Edit GITHUB 的連結點擊功能（導向底下的 wlee5-design/demand-planning 專案）
         function openGithubEditor() { window.open('https://github.com/wlee5-design/demand-planning', '_blank'); }
 
         function adjustZoom(amount) {
