@@ -490,7 +490,7 @@
         <h1>Demand Planning Global Process Standardization</h1>
         
         <div class="header-btn-container">
-            <button class="ops-guide-btn" onclick="openOpsGuide()">📖 Operations Onboarding Guidebook</button>
+            <button class="ops-guide-btn" onclick="openPdfModal()">📖 Operations Onboarding Guidebook</button>
             <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖 Demand Planning SOP Assistant</button>
             <button class="dp-folder-btn" onclick="openDpFolder()">📂 Demand Planning Master Folder</button>
         </div>
@@ -549,6 +549,18 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="pdfModalOverlay">
+        <div class="modal-content" style="max-width: 1200px; height: 90vh;">
+            <div class="modal-header">
+                <h2>📖 Operations Onboarding Guidebook</h2>
+                <button class="close-btn" onclick="closePdfModal()">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 0; overflow: hidden;">
+                <iframe src="https://drive.google.com/file/d/14seVXemopO4IktdUHVaoFBoPyNZAHrpe/preview" width="100%" height="100%" style="border: none;" allow="autoplay"></iframe>
+            </div>
+        </div>
+    </div>
+
     <script>
         const googleDocBaseUrl = "https://docs.google.com/document/d/e/";
 
@@ -593,7 +605,7 @@
                 id: 5, 
                 title: "Channel Correction", 
                 editUrl: "https://docs.google.com/document/d/1hpaGN1-y2VfXsAxq63jd_QFNQorttk9afXzEY-JqzWo/edit?usp=sharing", 
-                lucidUrl: "https://lucid.app/lucidchart/7414911c-0d77-45e6-a1f7-123e049e2ea3/edit?viewport_loc=358%2C225%2C2682%2C1231%2CocMggXGJ3kdmr&invitationId=inv_2144b9a8-54c1-408e-9116-8905e7d2f61f", 
+                lucidUrl: "https://lucid.app/lucidchart/7414911c-0d77-45e6-a1f7-123e049e2ea3/edit?viewport_loc=358%2C225%2C2682%2C1231%2CocMggXGJ3kdmr&invitationId=inv_2144b9a8-5411-408e-9116-8905e7d2f61f", 
                 imgSrc: "https://lucid.app/publicSegments/view/f951b54f-66bd-4180-b63c-3e7f11e5efbb/image.png", 
                 contentFile: "GOOGLE_DOC",
                 docId: "2PACX-1vS4jWNsGCkEuiuvQlygTEoHwHKXWttXkDvHNGVqrsBtfdWnQmjyYeKucwfuBXPb9C4as5mvjv3l6oQ-"
@@ -763,6 +775,7 @@
         const githubBtnRow = document.getElementById('githubBtnRow');
         const searchInput = document.getElementById('searchInput');
         const searchResultsDropdown = document.getElementById('searchResultsDropdown');
+        const pdfOverlay = document.getElementById('pdfModalOverlay'); // PDF彈窗節點
         
         let zoomScale = 1;
         let currentActiveEditUrl = ""; 
@@ -770,13 +783,13 @@
         let currentActiveSlideUrl = ""; 
         let lastScrollY = 0; // 用於記憶與維持網頁原本的捲動高度
 
+        // 初始化渲染卡片與雙態（討論中和已定案）設定
         stepsData.forEach(step => {
             const card = document.createElement('div');
             
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
                 card.className = 'process-card status-card-discussing';
-                // 這裡幫你重新補上了！如果是灰色格子，就在內部塞入狀態標籤和標題
                 card.innerHTML = `
                     <div class="step-subtitle-discussing">Under Discussion</div>
                     <div class="step-title">${step.title}</div>
@@ -790,6 +803,23 @@
             container.appendChild(card);
         });
 
+        // 控制 Operations Guide PDF 專用彈窗的邏輯
+        function openPdfModal() {
+            lastScrollY = window.scrollY;
+            document.body.classList.add('modal-open');
+            pdfOverlay.classList.add('active');
+        }
+
+        function closePdfModal() {
+            pdfOverlay.classList.remove('active');
+            document.body.classList.remove('modal-open');
+            window.scrollTo(0, lastScrollY);
+        }
+
+        pdfOverlay.addEventListener('click', (e) => { 
+            if(e.target === pdfOverlay) closePdfModal(); 
+        });
+
         // 監聽搜尋欄位的打字輸入事件 (Live Search)
         searchInput.addEventListener('input', function() {
             const query = this.value.trim().toLowerCase();
@@ -800,7 +830,6 @@
                 return;
             }
 
-            // 模糊篩選標題符合關鍵字的流程步驟
             const filteredSteps = stepsData.filter(step => 
                 step.title.toLowerCase().includes(query)
             );
@@ -811,10 +840,9 @@
                     item.className = 'search-result-item';
                     item.innerText = step.title;
                     
-                    // 關鍵綁定：點擊搜尋結果，直接打開該按鈕的內容
                     item.addEventListener('click', () => {
                         openModal(step);
-                        searchInput.value = ''; // 清空搜尋框
+                        searchInput.value = ''; 
                         searchResultsDropdown.style.display = 'none'; 
                     });
                     searchResultsDropdown.appendChild(item);
@@ -829,7 +857,6 @@
             searchResultsDropdown.style.display = 'flex';
         });
 
-        // 當點擊網頁外部空窗區，自動收合搜尋下拉選單
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !searchResultsDropdown.contains(e.target)) {
                 searchResultsDropdown.style.display = 'none';
@@ -837,7 +864,6 @@
         });
 
         function openModal(step) {
-            // 打開視窗前，記錄當前網頁的 Y 軸滾動高度
             lastScrollY = window.scrollY;
             document.body.classList.add('modal-open');
 
@@ -921,7 +947,6 @@
             document.querySelector('.modal-body').scrollTop = 0; 
         }
 
-        // 在現有的 Modal 中渲染 Maintenance Guide 簡報
         function openMaintenanceGuideModal() {
             lastScrollY = window.scrollY;
             document.body.classList.add('modal-open');
@@ -976,7 +1001,6 @@
             }
         }
 
-        function openOpsGuide() { window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank'); }
         function openDpFolder() { window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank'); }
         function openGithubEditor() { window.open('https://github.com/wlee5-design/demand-planning', '_blank'); }
 
