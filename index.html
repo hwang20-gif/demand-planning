@@ -259,6 +259,37 @@
             gap: 30px; 
         }
 
+        /* 專門供黑白 GitHub 按鈕置中使用的獨立外層容器 */
+        .github-btn-row {
+            display: none; /* 預設隱藏，只有打開 Maintenance Guide 時會變 flex */
+            justify-content: center;
+            width: 100%;
+            margin-bottom: -15px; /* 優化與下方簡報的視覺排版間距 */
+        }
+
+        /* 黑白外觀的 GitHub 專用按鈕樣式 */
+        .github-black-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #1A1A1A !important;
+            color: #FFFFFF !important;
+            border: 1px solid #444444 !important;
+            border-radius: 6px;
+            padding: 8px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .github-black-btn:hover {
+            background-color: #333333 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
         .slide-container-wrapper, .text-container-wrapper, .image-outer-wrapper {
             background: #FAFAFA;
             border-radius: 12px;
@@ -269,18 +300,7 @@
             gap: 15px;
         }
 
-        .slide-header-bar {
-            display: flex;
-            flex-direction: column; /* 改為縱向排列以符合上下配置 */
-            align-items: flex-end;
-            background: var(--pure-white);
-            padding: 8px 15px;
-            border-radius: 6px;
-            border: 1px solid var(--border-soft);
-            gap: 8px; /* 兩個編輯按鈕之間的間距 */
-        }
-
-        .text-header-bar, .zoom-bar {
+        .slide-header-bar, .text-header-bar, .zoom-bar {
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -377,6 +397,7 @@
 
     <header>
         <div class="top-maintenance-container">
+            <!-- 首頁頂部只保留維護簡報按鈕 -->
             <button class="maintenance-btn" onclick="openMaintenanceGuideModal()">Maintenance Guide</button>
         </div>
         
@@ -398,6 +419,11 @@
                 <button class="close-btn" id="closeBtn">&times;</button>
             </div>
             <div class="modal-body">
+
+                <!-- 新增：獨立一列、水平置中、黑白色調的 GitHub 按鈕（位於 Modal 最上方） -->
+                <div class="github-btn-row" id="githubBtnRow">
+                    <button class="github-black-btn" onclick="openGithubEditor()">✏️ EDIT ON GITHUB</button>
+                </div>
 
                 <div class="slide-container-wrapper" id="slideContainerWrapper" style="display: none;">
                     <div class="slide-header-bar" id="slideHeaderBar">
@@ -640,11 +666,11 @@
         const textHeaderBar = document.getElementById('textHeaderBar');
         const textContainerWrapper = document.getElementById('textContainerWrapper');
         const slideContainerWrapper = document.getElementById('slideContainerWrapper');
-        const slideHeaderBar = document.getElementById('slideHeaderBar');
         const slideContentArea = document.getElementById('slideContentArea');
         const textEditBtn = document.getElementById('textEditBtn');
         const slideEditBtn = document.getElementById('slideEditBtn');
         const lucidLinkBtn = document.getElementById('lucidLinkBtn');
+        const githubBtnRow = document.getElementById('githubBtnRow');
         
         let zoomScale = 1;
         let currentActiveEditUrl = ""; 
@@ -672,9 +698,8 @@
             currentActiveLucidUrl = step.lucidUrl; 
             currentActiveSlideUrl = step.slideUrl || ""; 
 
-            // 移除可能殘留的 EDIT ON GITHUB 按鈕，確保不干擾普通卡片
-            const existingGitBtn = document.getElementById('dynamicGitBtn');
-            if(existingGitBtn) existingGitBtn.remove();
+            // 普通卡片不需要顯示黑白 GitHub 編輯按鈕
+            githubBtnRow.style.display = 'none';
 
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
@@ -757,9 +782,8 @@
             // 編輯簡報的後台原始連結
             currentActiveSlideUrl = "https://docs.google.com/presentation/d/1lnbt6oyuPopsrd-RrgA-hKkFz_MrDgvenTAOk7rxets/edit?usp=sharing"; 
 
-            // 確保乾淨，先移除舊的動態按鈕
-            const existingGitBtn = document.getElementById('dynamicGitBtn');
-            if(existingGitBtn) existingGitBtn.remove();
+            // 唯有打開 Maintenance Guide 時，才在最上方正中間顯示黑白版本的 GitHub 編輯按鈕
+            githubBtnRow.style.display = 'flex';
 
             // 隱藏非必要的區塊
             textContainerWrapper.style.display = 'none';
@@ -769,16 +793,9 @@
             slideContainerWrapper.style.display = 'flex';
             slideEditBtn.innerText = "✏️ Edit Maintenance Slide";
             
-            // 改寫：在 slideEditBtn 之前（上方）動態插入 EDIT ON GITHUB 按鈕
-            const gitBtn = document.createElement('button');
-            gitBtn.id = 'dynamicGitBtn';
-            gitBtn.className = 'uniform-edit-btn status-finalized';
-            gitBtn.innerText = '✏️ EDIT ON GITHUB';
-            gitBtn.onclick = openGithubEditor;
-            slideHeaderBar.insertBefore(gitBtn, slideEditBtn);
-
+            // 已完全更新為安全性高、結尾非 start=true 的已發布 Google 簡報嵌入網址
             slideContentArea.innerHTML = `
-                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pub?start=true&loop=true&delayms=3000" frameborder="0" width="100%" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pub?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             `;
 
             loadGithubDiscussions("Maintenance Guide");
@@ -810,6 +827,7 @@
             }
         }
 
+        // 普通網頁外部跳窗連結
         function openOpsGuide() { window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank'); }
         function toggleAIChat() { window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank'); }
         function openDpFolder() { window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank'); }
