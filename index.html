@@ -264,7 +264,7 @@
             display: none; 
             justify-content: center;
             width: 100%;
-            margin-bottom: -15px; /* 優化與下方簡報的視覺排版間距 */
+            margin-bottom: -15px; 
         }
 
         /* 黑白外觀的 GitHub 專用按鈕樣式 */
@@ -609,7 +609,7 @@
                 id: 17, 
                 title: "Plannable flag", 
                 editUrl: "https://docs.google.com/document/d/1hs8FDTMcyXDnEAP2CHYFvkA_XN9YLMSL9fRKYB4XJaU/edit?usp=sharing", 
-                lucidUrl: "https://lucid.app/lucidchart/f2dc8c80-f48a-489c-89ac-41ab87e2508d/edit?view_items=ZhU8BJ-Y3Vk5%2CZhU8UbNJmWFJ%2CZhU8LzRZv90b%2CZhU841_1Phe7%2CZhU88sk87hK6%2CZhU8Jk0edtD3%2CZhU83ykd2ptK%2CZhU8SuF5ebQj%2CZhU8_cbyfatx%2CZhU8p6SS7dcv%2CZhU8j5jfeQ5i%2CZhU86wb79yG.%2CZhU81ziwftv_%2CZhU8u749iU8J%2CZhU8sWc8fmgx%2CZhU8.LcpM_F2%2CZhU83izd7rEJ%2CZhU8eSDWAkLF%2CZhU85VR1ZVch%2CZhU8k0hywYg0%2CZhU8Wbv.Pypj%2CZhU8FRLwiyw0%2CZhU8UgKMWoFB%2CZhU8wv_wfENO%2CZhU8RzzuWE2Q%2CZhU8fn_f3vV_%2CZhU8zPS67Yn~%2CZhU8Wrjm7ZKV%2CZhU81MdWxa7C%2CZhU8hfpzLzGj%2CZhU8Qwk9WlWi%2CZhU8he2Cunj8%2CZhU8SD2w96sf&page=0_0&invitationId=inv_87f34a40-cdea-43cf-9dea-d52b31bf0b7c", 
+                lucidUrl: "https://lucid.app/lucidchart/f2dc8c80-f48a-489c-89ac-41ab87e2508d/edit?view_items=ZhU8BJ-Y3Vk5%2CZhU8UbNJmWFJ%2CZhU8LzRZv90b%2CZhU841_1Phe7%2CZhU88sk87hK6%2CZhU8Jk0edtD3%2CZhU83ykd2ptK%2CZhU8SuF5ebQj%2CZhU8_cbyfatx%2CZhU8p6SS7dcv%2CZhU8j5jfeQ5i%2CZhU86wb79yG.%2CZhU81ziwftv_%2CZhU8u749iU8J%2CZhU8sWc8fmgx%2CZhU8.LcpM_F2%2CZhU83izd7rEJ%2CZhU8eSDWAkLF%2CZhU85VR1ZVch%2CZhU8k0hywYg0%2CZhU8Wbv.Pypj%2CZhU8FRLwiyw0%2CZhU8UgKMWoFB%2Cwv_wfENO%2CZhU8RzzuWE2Q%2CZhU8fn_f3vV_%2CZhU8zPS67Yn~%2CZhU8Wrjm7ZKV%2CZhU81MdWxa7C%2CZhU8hfpzLzGj%2CZhU8Qwk9WlWi%2CZhU8he2Cunj8%2CZhU8SD2w96sf&page=0_0&invitationId=inv_87f34a40-cdea-43cf-9dea-d52b31bf0b7c", 
                 imgSrc: "https://lucid.app/publicSegments/view/c105f7a7-db8f-4e44-92a1-8443321d012f/image.png", 
                 contentFile: "GOOGLE_DOC", 
                 docId: "2PACX-1vQorhPQMVgSio8XxqwYN76K9jX9Ns77kTaujahrxD0_JA1T1eEu8y-zbxDcl_U7FS4xTdr48V4HSs_U" 
@@ -696,7 +696,6 @@
             currentActiveLucidUrl = step.lucidUrl; 
             currentActiveSlideUrl = step.slideUrl || ""; 
 
-            // 普通卡片隱藏黑白 GitHub 編輯按鈕
             githubBtnRow.style.display = 'none';
 
             const isDiscussing = (step.id >= 11 && step.id <= 18);
@@ -779,23 +778,46 @@
             currentActiveLucidUrl = ""; 
             currentActiveSlideUrl = "https://docs.google.com/presentation/d/1lnbt6oyuPopsrd-RrgA-hKkFz_MrDgvenTAOk7rxets/edit?usp=sharing"; 
 
-            // 唯有打開 Maintenance Guide 時，才在最上方正中間顯示黑白版本的 GitHub 編輯按鈕
             githubBtnRow.style.display = 'flex';
 
-            // 隱藏非必要的區塊
             textContainerWrapper.style.display = 'none';
             imgOuterWrapper.style.display = 'none';
 
-            // 顯示 Slide 區塊並載入 Iframe
             slideContainerWrapper.style.display = 'flex';
             slideEditBtn.innerText = "✏️ Edit Maintenance Slide";
             
-            // 已更新為安全性最佳、能防阻 refused 封鎖的內嵌專用發布網址（pubembed）
             slideContentArea.innerHTML = `
                 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             `;
 
             loadGithubDiscussions("Maintenance Guide");
+            overlay.classList.add('active');
+            document.querySelector('.modal-body').scrollTop = 0; 
+        }
+
+        // 新改寫功能：點擊 LOGI Q 按鈕時，不跳轉頁面，直接在內嵌 Modal 中展開
+        function toggleAIChat() {
+            modalTitle.innerText = "SOP AI Assistant";
+            currentActiveEditUrl = ""; 
+            currentActiveLucidUrl = ""; 
+            // 如果使用者想點擊「編輯/另開」按鈕，可以留著這個外部跳轉作備用路徑
+            currentActiveSlideUrl = "https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054"; 
+
+            // 關閉 GitHub 按鈕與其他無關區塊
+            githubBtnRow.style.display = 'none';
+            textContainerWrapper.style.display = 'none';
+            imgOuterWrapper.style.display = 'none';
+
+            // 借用 Slide 框架容器來渲染 AI 對話框
+            slideContainerWrapper.style.display = 'flex';
+            slideEditBtn.innerText = "🔗 Open Chat in New Tab";
+            
+            // 內嵌 LOGI Q 連結網址
+            slideContentArea.innerHTML = `
+                <iframe src="https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054" frameborder="0" width="100%" height="540" allowfullscreen="true"></iframe>
+            `;
+
+            loadGithubDiscussions("SOP Assistant");
             overlay.classList.add('active');
             document.querySelector('.modal-body').scrollTop = 0; 
         }
@@ -825,7 +847,6 @@
         }
 
         function openOpsGuide() { window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank'); }
-        function toggleAIChat() { window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank'); }
         function openDpFolder() { window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank'); }
         function openGithubEditor() { window.open('https://github.com/wlee5-design/demand-planning', '_blank'); }
 
