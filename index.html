@@ -261,7 +261,7 @@
 
         /* 專門供黑白 GitHub 按鈕置中使用的獨立外層容器 */
         .github-btn-row {
-            display: none; /* 預設隱藏，只有打開 Maintenance Guide 時會變 flex */
+            display: none; 
             justify-content: center;
             width: 100%;
             margin-bottom: -15px; /* 優化與下方簡報的視覺排版間距 */
@@ -397,7 +397,6 @@
 
     <header>
         <div class="top-maintenance-container">
-            <!-- 首頁頂部只保留維護簡報按鈕 -->
             <button class="maintenance-btn" onclick="openMaintenanceGuideModal()">Maintenance Guide</button>
         </div>
         
@@ -420,7 +419,6 @@
             </div>
             <div class="modal-body">
 
-                <!-- 新增：獨立一列、水平置中、黑白色調的 GitHub 按鈕（位於 Modal 最上方） -->
                 <div class="github-btn-row" id="githubBtnRow">
                     <button class="github-black-btn" onclick="openGithubEditor()">✏️ EDIT ON GITHUB</button>
                 </div>
@@ -698,7 +696,7 @@
             currentActiveLucidUrl = step.lucidUrl; 
             currentActiveSlideUrl = step.slideUrl || ""; 
 
-            // 普通卡片不需要顯示黑白 GitHub 編輯按鈕
+            // 普通卡片隱藏黑白 GitHub 編輯按鈕
             githubBtnRow.style.display = 'none';
 
             const isDiscussing = (step.id >= 11 && step.id <= 18);
@@ -774,12 +772,11 @@
             document.querySelector('.modal-body').scrollTop = 0; 
         }
 
-        // 直接在現有的 Modal 中渲染 Maintenance Guide 簡報
+        // 在現有的 Modal 中渲染 Maintenance Guide 簡報
         function openMaintenanceGuideModal() {
             modalTitle.innerText = "Maintenance Guide";
             currentActiveEditUrl = ""; 
             currentActiveLucidUrl = ""; 
-            // 編輯簡報的後台原始連結
             currentActiveSlideUrl = "https://docs.google.com/presentation/d/1lnbt6oyuPopsrd-RrgA-hKkFz_MrDgvenTAOk7rxets/edit?usp=sharing"; 
 
             // 唯有打開 Maintenance Guide 時，才在最上方正中間顯示黑白版本的 GitHub 編輯按鈕
@@ -793,9 +790,9 @@
             slideContainerWrapper.style.display = 'flex';
             slideEditBtn.innerText = "✏️ Edit Maintenance Slide";
             
-            // 已完全更新為安全性高、結尾非 start=true 的已發布 Google 簡報嵌入網址
+            // 已更新為安全性最佳、能防阻 refused 封鎖的內嵌專用發布網址（pubembed）
             slideContentArea.innerHTML = `
-                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pub?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             `;
 
             loadGithubDiscussions("Maintenance Guide");
@@ -827,7 +824,6 @@
             }
         }
 
-        // 普通網頁外部跳窗連結
         function openOpsGuide() { window.open('https://docs.google.com/presentation/d/1cbAnvojSkH5teuSn1MF7fbXorp2Lx4_uwiNqKWgAp5k/edit?usp=sharing', '_blank'); }
         function toggleAIChat() { window.open('https://logiq.logitech.io/share/assistant/b32d00bf-a51d-45c2-a730-93dbd3946054', '_blank'); }
         function openDpFolder() { window.open('https://docs.google.com/spreadsheets/d/1rvUhIqK7iLisidxdY26Dl7LKgrN1RcgLAObDiteX-Kw/edit?usp=sharing', '_blank'); }
