@@ -255,6 +255,14 @@
             line-height: 1.4;
         }
 
+        /* 討論中卡片專用的副標題字體樣式 */
+        .process-card .step-subtitle-discussing {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #212121; /* 使用深黑色 */
+            margin-top: 6px; /* 與上方主標題推開一點距離 */
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -477,15 +485,12 @@
         
         <h1>Demand Planning Global Process Standardization</h1>
         
-        <!-- 三個核心按鈕維持原樣與原排版位置 -->
         <div class="header-btn-container">
-            <!-- 已經將原本的 📊 換成更貼切新人指南手冊、營運培訓的 📖 圖示 -->
             <button class="ops-guide-btn" onclick="openOpsGuide()">📖 Operations Onboarding Guidebook</button>
             <button class="ai-chat-trigger" onclick="toggleAIChat()">🤖 Demand Planning SOP Assistant</button>
             <button class="dp-folder-btn" onclick="openDpFolder()">📂 Demand Planning Master Folder</button>
         </div>
 
-        <!-- 搜尋欄位已成功調至按鈕正下方，外觀細長且寬度與按鈕列自適應對齊 -->
         <div class="search-wrapper">
             <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search standardized processes by keywords (e.g., ASP, PIPO, Forecast)...">
             <div id="searchResultsDropdown" class="search-results-dropdown"></div>
@@ -496,13 +501,13 @@
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
+            <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Process Name</h2>
                 <button class="close-btn" id="closeBtn">&times;</button>
             </div>
             <div class="modal-body">
 
-                <!-- 獨立一列、水平置中、黑白色調的 GitHub 編輯按鈕（僅在打開 Maintenance Guide 時顯示） -->
                 <div class="github-btn-row" id="githubBtnRow">
                     <button class="github-black-btn" onclick="openGithubEditor()">✏️ EDIT ON GITHUB</button>
                 </div>
@@ -768,11 +773,16 @@
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
                 card.className = 'process-card status-card-discussing';
+                // 核心修改點：如果是灰色格子 (討論中)，除了塞標題外，自動加上黑色小字副標題
+                card.innerHTML = `
+                    <div class="step-title">${step.title}</div>
+                    <div class="step-subtitle-discussing">Under Discussion</div>
+                `;
             } else {
                 card.className = 'process-card';
+                card.innerHTML = `<div class="step-title">${step.title}</div>`;
             }
             
-            card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
             container.appendChild(card);
         });
