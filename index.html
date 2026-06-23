@@ -262,7 +262,7 @@
             top: 14px; /* 精準置於卡片上邊緣向下一點的位置 */
             font-size: 0.78rem;
             font-weight: 600;
-            color: #424242; /* 使用洗鍊的深灰黑色 */
+            color: #212121; /* 使用全黑色 */
             text-transform: uppercase; /* 轉大寫更有科技大廠系統標籤的精緻感 */
             letter-spacing: 0.8px; /* 稍微拉開字距增加高級感 */
         }
@@ -776,11 +776,16 @@
             const isDiscussing = (step.id >= 11 && step.id <= 18);
             if (isDiscussing) {
                 card.className = 'process-card status-card-discussing';
+                // 這裡幫你重新補上了！如果是灰色格子，就在內部塞入狀態標籤和標題
+                card.innerHTML = `
+                    <div class="step-subtitle-discussing">Under Discussion</div>
+                    <div class="step-title">${step.title}</div>
+                `;
             } else {
                 card.className = 'process-card';
+                card.innerHTML = `<div class="step-title">${step.title}</div>`;
             }
             
-            card.innerHTML = `<div class="step-title">${step.title}</div>`;
             card.addEventListener('click', () => openModal(step));
             container.appendChild(card);
         });
