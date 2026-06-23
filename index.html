@@ -33,6 +33,11 @@
             min-height: 100vh;
         }
 
+        /* 修正防跳點 Bug：當彈出視窗啟用時，鎖定 body 避免被 Iframe 的錨點劫持捲動 */
+        body.modal-open {
+            overflow: hidden !important;
+        }
+
         header {
             text-align: center;
             margin-bottom: 60px;
@@ -493,7 +498,7 @@
                 title: "DCS/SI carryover", 
                 editUrl: "https://docs.google.com/document/d/1V3RCdP_6TSkLc8WPpcx8EM1K7YEAZcO214qX9gRpTcA/edit?usp=sharing", 
                 lucidUrl: "https://lucid.app/lucidchart/773793f6-4abd-441c-bbf4-2d8cc1e5620c/edit?viewport_loc=240%2C305%2C3476%2C1596%2C5rtcIwgxVf2ml&invitationId=inv_304f2d92-3fc7-48f4-9b33-ab0e2a77fec1", 
-                imgSrc: "https://lucid.app/publicSegments/view/9e5a410b-e93b-4b2d-ad2a-e862bb36c599/image.png", 
+                imgSrc: "https://lucid.app/publicSegments/view/9e5a410b-e93b-4b2d-ad2a-e822bb36c599/image.png", 
                 contentFile: "GOOGLE_DOC",
                 docId: "2PACX-1vQykPXV3JyhhhOIMEO1TJhltMCpOqbZ3kjdL8zhoFaaAld9DOE44aU6QBJRjUfLzR2GbOTD0JrSYSCI"
             },
@@ -674,6 +679,7 @@
         let currentActiveEditUrl = ""; 
         let currentActiveLucidUrl = ""; 
         let currentActiveSlideUrl = ""; 
+        let lastScrollY = 0; // 用於記憶與維持網頁原本的捲動高度
 
         stepsData.forEach(step => {
             const card = document.createElement('div');
@@ -691,6 +697,10 @@
         });
 
         function openModal(step) {
+            // 打開視窗前，記錄當前網頁的 Y 軸滾動高度
+            lastScrollY = window.scrollY;
+            document.body.classList.add('modal-open');
+
             modalTitle.innerText = step.title;
             currentActiveEditUrl = step.editUrl; 
             currentActiveLucidUrl = step.lucidUrl; 
@@ -773,6 +783,10 @@
 
         // 在現有的 Modal 中渲染 Maintenance Guide 簡報
         function openMaintenanceGuideModal() {
+            // 打開視窗前，記錄當前網頁的 Y 軸滾動高度
+            lastScrollY = window.scrollY;
+            document.body.classList.add('modal-open');
+
             modalTitle.innerText = "Maintenance Guide";
             currentActiveEditUrl = ""; 
             currentActiveLucidUrl = ""; 
@@ -842,8 +856,25 @@
             processImg.style.width = '100%';
         }
 
-        closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
-        overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('active'); });
+        // 關閉視窗功能：解除滾動鎖定，並強制復原 Y 軸高度防跑版
+        function closeModal() {
+            overlay.classList.remove('active');
+            document.body.classList.remove('modal-open');
+            window.scrollTo(0, lastScrollY);
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => { if(e.target === overlay) closeModal(); });
+
+        // 關鍵核心 Bug 修正：監聽整個網頁的滾動事件
+        // 當使用者點擊內嵌 Google 簡報的「下一頁」並觸發隱性錨點上移時，強制將視窗高度鎖定在最後紀錄的位置
+        window.addEventListener('scroll', function() {
+            if (document.body.classList.contains('modal-open')) {
+                if (window.scrollY !== lastScrollY) {
+                    window.scrollTo(0, lastScrollY);
+                }
+            }
+        }, { passive: true });
 
         function loadGithubDiscussions(processTitle) {
             const container = document.getElementById('giscusContainer');
