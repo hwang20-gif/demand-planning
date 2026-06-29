@@ -232,7 +232,7 @@
             border-color: var(--accent-green);
             box-shadow: 0 12px 24px rgba(46, 125, 50, 0.08);
             background-color: #F4FAF4 !important; 
-            }
+        }
 
         .process-card.status-card-discussing {
             background-color: #F5F5F5 !important;
@@ -467,17 +467,6 @@
             transition: transform 0.2s ease; 
             transform-origin: top center;    
         }
-
-        .discussion-box {
-            margin-top: 20px;
-            padding-top: 25px;
-            border-top: 2px solid var(--border-soft);
-        }
-        .discussion-box h3 {
-            font-size: 1.3rem;
-            color: var(--primary-green);
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
@@ -540,11 +529,6 @@
                     </div>
                 </div>
 
-                <div class="discussion-box">
-                    <h3>💬 Process Q&A & Threaded Discussions</h3>
-                    <div id="giscusContainer"></div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -590,7 +574,7 @@
                 lucidUrl: "https://lucid.app/lucidchart/e20529ab-eda4-483f-b733-7606bf152c6f/edit?viewport_loc=-111%2C139%2C2159%2C991%2C7pF14CYle6Yij&invitationId=inv_afb404d8-41b5-4b7a-9a58-def3c8263ee6", 
                 imgSrc: "https://lucid.app/publicSegments/view/dc020a0f-93ed-40c8-a7d4-19c0ff69329b/image.png", 
                 contentFile: "GOOGLE_DOC",
-                docId: "2PACX-1vQeweI7uMaCN80ty502f1cKd1-9xAM1mtjbTwgqomLeWWDbUMYlsM7v7Z2L6JMdEpcYpSjvHmkGwDrk"
+                docId: "2PACX-1vQeweI7uMaCN80ty502f1cKd1-9xAM1mtjbTwgqomLeWWDbUMYls7v7Z2L6JMdEpcYpSjvHmkGwDrk"
             },
             { 
                 id: 4, 
@@ -941,7 +925,6 @@
                 imgOuterWrapper.style.display = 'none'; 
             }
 
-            loadGithubDiscussions(step.title);
             resetZoom(); 
             overlay.classList.add('active');
             document.querySelector('.modal-body').scrollTop = 0; 
@@ -968,7 +951,6 @@
                 <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT24sX9ObIG2BhbQi_Eo3Lxk1RXWOflN3LYb5JDzbyzTNAefgIUgXJOV0y-UadQZnH5jevBKjYRkIT4/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="100%" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             `;
 
-            loadGithubDiscussions("Maintenance Guide");
             overlay.classList.add('active');
             document.querySelector('.modal-body').scrollTop = 0; 
         }
@@ -1034,34 +1016,6 @@
                 }
             }
         }, { passive: true });
-
-        function loadGithubDiscussions(processTitle) {
-            const container = document.getElementById('giscusContainer');
-            container.innerHTML = ''; 
-
-            const script = document.createElement('script');
-            script.src = "https://giscus.app/client.js";
-            
-            // Configured for your new repository context
-            script.setAttribute("data-repo", "hwang20-gif/demand-planning"); 
-            script.setAttribute("data-repo-id", "R_kgDOOxvDmw");
-            script.setAttribute("data-category", "Q&A");
-            script.setAttribute("data-category-id", "DIC_kwDOOxvDm84Cnsc6");
-            
-            script.setAttribute("data-mapping", "specific");
-            script.setAttribute("data-term", processTitle);
-            
-            script.setAttribute("data-strict", "1");
-            script.setAttribute("data-reactions-enabled", "1");
-            script.setAttribute("data-emit-metadata", "0");
-            script.setAttribute("data-input-position", "bottom");
-            script.setAttribute("data-theme", "light");
-            script.setAttribute("data-lang", "en");
-            script.crossOrigin = "anonymous";
-            script.async = true;
-
-            container.appendChild(script);
-        }
     </script>
 </body>
 </html>
